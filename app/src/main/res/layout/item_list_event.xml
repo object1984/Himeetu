@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_marginRight="12dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+            <com.github.siyamed.shapeimageview.RoundedImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/image1"
+                app:siRadius="90dp"
+                app:siSquare="true"/>
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_country_china"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+        </RelativeLayout>
+        
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp">
+                <TextView
+                    android:textColor="@color/text_user_name"
+                    android:textSize="@dimen/font_normal"
+                    android:text="艾玛Swift"
+                    android:maxLines="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/text_grey"
+                android:textSize="@dimen/font_mini"
+                android:text="5小时"
+                android:maxLines="1"
+                android:gravity="bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <TextView
+            android:gravity="center_vertical"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/text_grey"
+            android:text="已关注"
+            android:maxLines="1"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/image1"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_margin="15dp"
+        android:lineSpacingExtra="3dp"
+        android:textSize="@dimen/font_normal"
+        android:textColor="@color/text_user_name"
+        android:text="今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 "
+      android:id="@+id/text_event_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textColor="@color/text_grey"
+        android:drawablePadding="5dp"
+        android:textSize="@dimen/font_mini"
+        android:layout_marginLeft="15dp"
+        android:text="434,334,344赞"
+        android:drawableLeft="@drawable/ic_home_zan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <include layout="@layout/layout_text_reply" />
+    <include layout="@layout/layout_text_reply" />
+    <include layout="@layout/layout_text_reply" />
+    <include layout="@layout/layout_text_reply_more" />
+
+    <RelativeLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <ImageButton
+            android:background="@color/transparent"
+            android:id="@+id/btn_event_zan"
+            android:src="@drawable/selector_home_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <ImageButton
+            android:layout_toRightOf="@+id/btn_event_zan"
+            android:id="@+id/btn_event_comment"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_comment_n"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <ImageButton
+            android:id="@+id/btn_event_share"
+            android:layout_toRightOf="@+id/btn_event_comment"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_share_n"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/btn_event_report"
+            android:layout_alignParentRight="true"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_report_n"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (C) 2008 ZXing authors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<resources>
+
+    <item name="decode" type="id"/>
+    <item name="decode_failed" type="id"/>
+    <item name="decode_succeeded" type="id"/>
+    <item name="quit" type="id"/>
+    <item name="restart_preview" type="id"/>
+    <item name="return_scan_result" type="id"/>
+    
+    
+    <item name="setting_location" type="id" />
+    <item name="setting_subject_library" type="id" />
+    <item name="setting_subject_upload" type="id" />
+    <item name="setting_app_share" type="id" />
+    <item name="setting_login_exit" type="id" />
+
+
+    <!--bottom bar id-->
+
+    <item name="bottom_bar_home" type="id" />
+    <item name="bottom_bar_favorite" type="id" />
+    <item name="bottom_bar_camera" type="id" />
+    <item name="bottom_bar_message" type="id" />
+    <item name="bottom_bar_me" type="id" />
+
+    <item name="bottom_bar_home_icon" type="id" />
+    <item name="bottom_bar_favorite_icon" type="id" />
+    <item name="bottom_bar_camera_icon" type="id" />
+    <item name="bottom_bar_message_icon" type="id" />
+    <item name="bottom_bar_me_icon" type="id" />
+
+
+    <!-- toolbar id-->
+    <item name="toolbar" type="id" />
+    <item name="toolbar_back" type="id" />
+    <item name="toolbar_title" type="id" />
+    <item name="toolbar_share" type="id" />
+
+
+</resources>

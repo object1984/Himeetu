@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="@drawable/bg_bottom_bar"
+    android:layout_height="@dimen/main_bottom_bar_height">
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:id="@id/bottom_bar_home"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@id/bottom_bar_home_icon"
+            android:clickable="false"
+            android:layout_centerInParent="true"
+            android:src="@drawable/selector_bottom_bar_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/bottom_bar_favorite"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@id/bottom_bar_favorite_icon"
+            android:clickable="false"
+            android:layout_centerInParent="true"
+            android:src="@drawable/selector_bottom_bar_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/bottom_bar_camera"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <ImageView
+            android:clickable="false"
+            android:layout_centerInParent="true"
+            android:id="@id/bottom_bar_camera_icon"
+            android:src="@drawable/selector_bottom_bar_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/bottom_bar_message"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@id/bottom_bar_message_icon"
+            android:clickable="false"
+            android:layout_centerInParent="true"
+            android:src="@drawable/selector_bottom_bar_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/bottom_bar_me"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <ImageView
+            android:clickable="false"
+            android:id="@id/bottom_bar_me_icon"
+            android:layout_centerInParent="true"
+            android:src="@drawable/selector_bottom_bar_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,72 @@
+package com.himeetu.app;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+
+import com.himeetu.R;
+import com.himeetu.network.dic.Argument;
+import com.himeetu.ui.main.MainActivity;
+
+
+public class NavHelper {
+
+    public static void toMainPage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, MainActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+//    public static void toLoginPage(Activity activity) {
+//        Intent intent = new Intent();
+//        intent.setClass(activity, LoginActivity.class);
+//        activity.startActivity(intent);
+//        forwardBottomInAnim(activity);
+//    }
+
+    public static void backMainPage(Activity activity, String target) {
+        Intent intent = new Intent();
+        intent.putExtra(Argument.TARGET, target);
+        intent.setClass(activity, MainActivity.class);
+        activity.startActivity(intent);
+        backAnim(activity);
+    }
+
+    public static void forwardAnim(Activity activity, int animInId, int animOutId) {
+        activity.overridePendingTransition(animInId, animOutId);
+    }
+
+    public static void forwardAnim(Activity activity) {
+        forwardAnim(activity, R.anim.inktv_mysonglist_anim_show_in, R.anim.inktv_mysonglist_anim_show_out);
+    }
+
+    public static void backAnim(Activity activity){
+        activity.overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
+    }
+
+    public static void finish(Context context, int result, Intent intent) {
+        ((Activity) context).setResult(result, intent);
+        ((Activity) context).finish();
+        ((Activity) context).overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
+    }
+
+    public static void finish(Context context) {
+        ((Activity) context).finish();
+        ((Activity) context).overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
+    }
+
+    public static void forwardBottomInAnim(Activity activity) {
+        forwardAnim(activity, R.anim.slide_in_bottom, 0);
+    }
+    public static void forwardBottomOutAnim(Activity activity) {
+        forwardAnim(activity, 0, R.anim.inktv_remote_control_anim_hide_out);
+    }
+
+    public static void finishWithBottomOutAnim(Context context, int result, Intent intent) {
+        ((Activity) context).setResult(result, intent);
+        ((Activity) context).finish();
+        forwardBottomOutAnim((Activity) context);
+    }
+
+}

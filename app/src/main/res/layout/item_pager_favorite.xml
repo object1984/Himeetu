@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/img_favorite"
+        android:src="@drawable/image1"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    
+    <TextView
+        android:id="@+id/text_favorite"
+        android:gravity="center"
+        android:text="#精彩话题"
+        android:textColor="@color/text_user_name"
+        android:textSize="@dimen/font_normal"
+        android:layout_marginTop="7dp"
+        android:layout_below="@+id/img_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

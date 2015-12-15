@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar_white_common" />
+
+    <LinearLayout
+
+        android:paddingTop="50dp"
+        android:paddingLeft="26dp"
+        android:paddingRight="26dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <LinearLayout
+            style="@style/Hi.Input.Container"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="13dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_register_username"
+                android:gravity="center_vertical"
+                android:background="@color/transparent"
+                android:layout_width="0dp"
+                android:textSize="@dimen/font_normal"
+                android:layout_weight="1"
+                android:hint="@string/register_username_hint"
+                android:textColorHint="@color/text_grey"
+                android:layout_height="match_parent" />
+            <ImageButton
+                android:background="@color/transparent"
+                android:src="@drawable/selector_input_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/font_small"
+            android:layout_marginBottom="10dp"
+            android:text="@string/register_username_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            style="@style/Hi.Input.Container"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="13dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_register_password"
+                android:gravity="center_vertical"
+                android:background="@color/transparent"
+                android:layout_width="0dp"
+                android:textSize="@dimen/font_normal"
+                android:layout_weight="1"
+                android:hint="@string/register_password_hint"
+                android:textColorHint="@color/text_grey"
+                android:layout_height="match_parent" />
+            <ImageButton
+                android:background="@color/transparent"
+                android:src="@drawable/selector_input_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/font_small"
+            android:layout_marginBottom="10dp"
+            android:text="@string/register_password_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+               android:layout_centerInParent="true"
+                android:id="@+id/btn_login"
+                android:text="下一步"
+                android:enabled="false"
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_btn_purple"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/text_login"
+        android:textColor="@color/text_black"
+        android:layout_centerHorizontal="true"
+        android:text="@string/login_has_account"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

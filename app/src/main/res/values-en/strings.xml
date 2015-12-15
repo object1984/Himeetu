@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 登陆 -->
+    <string name="login_register"><u>register Hi Meet</u></string>
+    <string name="login_forget_password"><u>forget password</u></string>
+    <string name="register_username_hint">请输入您的邮箱或者手机号</string>
+    <string name="register_username_notice">一经填写不可修改</string>
+    <string name="register_password_hint">请设置你的登录密码</string>
+    <string name="register_password_notice"><![CDATA[请至少输入6个数字、字母和符号（如！和&）组合的密码。]]></string>
+    <string name="login_has_account">已有账号了吗？</string>
+</resources>

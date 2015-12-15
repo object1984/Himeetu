@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.himeetu.view.AutoScaleImageView
+        android:layout_width="match_parent"
+        android:src="@drawable/image1"
+        android:scaleType="centerCrop"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textColor="@color/text_user_name"
+        android:layout_margin="15dp"
+        android:text="精彩推荐"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        tools:listitem="@layout/item_recommend"
+        android:id="@+id/recycler_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
