@@ -2,7 +2,6 @@ package com.himeetu.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,9 +9,7 @@ import android.view.WindowManager;
 import com.himeetu.R;
 import com.himeetu.app.NavHelper;
 import com.himeetu.ui.base.BaseActivity;
-import com.himeetu.ui.register.CountyChooseActivity;
 import com.himeetu.ui.register.InvitationCodeActivity;
-import com.himeetu.ui.register.RegisterActivity;
 
 /**
  * Created by object1984 on 15/12/2.
@@ -22,11 +19,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         if (android.os.Build.VERSION.SDK_INT > 18) {
-             Window window = getWindow();
-             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-         }
-
+        setThemeTranslucent();
         setContentView(R.layout.activity_login);
 
         init();

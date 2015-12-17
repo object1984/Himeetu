@@ -7,6 +7,10 @@ import android.content.Intent;
 import com.himeetu.R;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.main.MainActivity;
+import com.himeetu.ui.photo.PhotoMainActivity;
+import com.himeetu.ui.register.CountryChooseActivity;
+import com.himeetu.ui.register.IdentityActivity;
+import com.himeetu.ui.register.RegisterActivity;
 
 
 public class NavHelper {
@@ -18,12 +22,28 @@ public class NavHelper {
         forwardAnim(activity);
     }
 
-//    public static void toLoginPage(Activity activity) {
-//        Intent intent = new Intent();
-//        intent.setClass(activity, LoginActivity.class);
-//        activity.startActivity(intent);
-//        forwardBottomInAnim(activity);
-//    }
+    public static void toRegisterPage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, RegisterActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void toCountryChoosePage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, CountryChooseActivity.class);
+        activity.startActivity(intent);
+    }
+    public static void toIdentityPage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, IdentityActivity.class);
+        activity.startActivity(intent);
+    }
+    public static void toPhotoMainPage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, PhotoMainActivity.class);
+        activity.startActivity(intent);
+        forwardFadeInAnim(activity);
+    }
 
     public static void backMainPage(Activity activity, String target) {
         Intent intent = new Intent();
@@ -45,15 +65,23 @@ public class NavHelper {
         activity.overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
     }
 
-    public static void finish(Context context, int result, Intent intent) {
+    public static void finishWithAnim(Context context, int result, Intent intent) {
         ((Activity) context).setResult(result, intent);
+        ((Activity) context).finish();
+        ((Activity) context).overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
+    }
+
+    public static void finishWithAnim(Context context) {
         ((Activity) context).finish();
         ((Activity) context).overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
     }
 
     public static void finish(Context context) {
         ((Activity) context).finish();
-        ((Activity) context).overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
+    }
+
+    public static void forwardFadeInAnim(Activity activity) {
+        forwardAnim(activity, R.anim.fade_in, 0);
     }
 
     public static void forwardBottomInAnim(Activity activity) {

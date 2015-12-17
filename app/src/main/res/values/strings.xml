@@ -11,4 +11,34 @@
     <string name="register_password_hint">请设置你的登录密码</string>
     <string name="register_password_notice"><![CDATA[请至少输入6个数字、字母和符号（如！和&）组合的密码。]]></string>
     <string name="login_has_account">已有账号了吗？</string>
+
+    <!-- 注册 -->
+    <string name="register">注册</string>
+    <string name="your_country">你的国家</string>
+    <string name="your_identity">你的身份</string>
+
+    <string name="register_invitation_text_1"><u><font fgcolor="#5252FF">Hi Meet 条款</font></u>，</string>
+    <string name="register_invitation_text_2"><u><font fgcolor="#5252FF">隐私政策</font></u>，</string>
+    <string name="register_invitation_text_3"><u><font fgcolor="#5252FF">Cookie 使用政策</font></u>。</string>
+
+    <string name="register_input_invitation">输入邀请码</string>
+    <string name="register_next">下一步</string>
+    <string name="register_start">马上开始</string>
+    <string name="register_has_account">已有账户了吗？</string>
+
+    <string name="notice_name_blank">用户名不能为空</string>
+    <string name="notice_name_format">用户名不能为空</string>
+
+    <string name="notice_password_blank">密码不能为空</string>
+
+    <string name="notice_password_length">密码长度需为8~12位</string>
+    <string name="notice_password_rule">密码必须包括数字和字母</string>
+    <string name="notice_password_confirm_error">两次输入的密码不同</string>
+
+    <string name="notice_validate_code_blank">请输入验证码</string>
+    <string name="notice_validate_code_error">验证码不正确</string>
+    
+    <string name="no_more">已无更多</string>
+    <string name="login_username_hint">请输入你的邮箱或手机号</string>
+    <string name="login_password_hint">请输入密码</string>
 </resources>

@@ -15,7 +15,7 @@
         android:id="@+id/text_recommend"
         android:gravity="center"
         android:text="#精彩话题"
-        android:textColor="@color/text_user_name"
+        android:textColor="@color/text_dark_black"
         android:textSize="@dimen/font_small"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/img_recommend"

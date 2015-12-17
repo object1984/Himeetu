@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:layout_height="40dp">
                 <TextView
-                    android:textColor="@color/text_user_name"
+                    android:textColor="@color/text_dark_black"
                     android:textSize="@dimen/font_normal"
                     android:text="艾玛Swift"
                     android:maxLines="1"
@@ -74,7 +74,7 @@
         android:layout_margin="15dp"
         android:lineSpacingExtra="3dp"
         android:textSize="@dimen/font_normal"
-        android:textColor="@color/text_user_name"
+        android:textColor="@color/text_dark_black"
         android:text="今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 "
       android:id="@+id/text_event_content"
         android:layout_width="match_parent"

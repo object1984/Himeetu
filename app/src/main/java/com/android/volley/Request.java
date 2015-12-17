@@ -218,7 +218,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         if (MarkerLog.ENABLED) {
             final long threadId = Thread.currentThread().getId();
             if (Looper.myLooper() != Looper.getMainLooper()) {
-                // If we finish marking off of the main thread, we need to
+                // If we finishWithAnim marking off of the main thread, we need to
                 // actually do it on the main thread to ensure correct ordering.
                 Handler mainThread = new Handler(Looper.getMainLooper());
                 mainThread.post(new Runnable() {
