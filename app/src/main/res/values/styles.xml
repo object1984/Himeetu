@@ -40,15 +40,34 @@
     <style name="Hi.Input" />
 
     <style name="Hi.Input.Container">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
         <item name="android:background" >@drawable/bg_input_purple</item>
     </style>
 
-    <style name="Hi.Text" />
+    <style name="Hi.Text" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        </style>
 
     <style name="Hi.Text.Big" />
 
-    <style name="Hi.Text.Normal" />
+    <style name="Hi.Text.Small" >
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
 
-    <style name="Hi.Text.Small" />
+    <style name="Hi.Text.Small.Dark"  parent="Hi.Text.Small">
+
+        <item name="android:textColor">@color/text_dark_black</item>
+    </style>
+    <style name="Hi.Text.Normal" >
+        <item name="android:textSize">@dimen/font_normal</item>
+        </style>
+
+    <style name="Hi.Text.Normal.Dark"  parent="Hi.Text.Normal">
+
+        <item name="android:textColor">@color/text_dark_black</item>
+    </style>
 
 </resources>
