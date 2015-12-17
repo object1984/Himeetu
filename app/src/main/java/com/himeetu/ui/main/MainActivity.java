@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.himeetu.R;
+import com.himeetu.app.NavHelper;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.view.MainBottomBar;
 
@@ -18,6 +19,7 @@ public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSel
     private static final int TAB_PAGE_FAVORITE = R.id.bottom_bar_favorite;
     private static final int TAB_PAGE_MESSAGE = R.id.bottom_bar_message;
     private static final int TAB_PAGE_ME = R.id.bottom_bar_me;
+    private static final int TAB_PAGE_PHOTO = R.id.bottom_bar_camera;
     private int mCurrentTag = -1;
     private MainBottomBar mMainBottomBar;
     @Override
@@ -157,7 +159,11 @@ public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSel
 
     @Override
     public void onTabSelected(int tag) {
-        showFragment(tag);
+        if(tag == TAB_PAGE_PHOTO){
+            NavHelper.toPhotoMainPage(this);
+        }else {
+            showFragment(tag);
+        }
     }
 
 

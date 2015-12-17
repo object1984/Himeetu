@@ -133,7 +133,7 @@ public class GzipUtil {
                 gos.write(data, 0, count);
             }
 
-//            gos.finish();
+//            gos.finishWithAnim();
 //            gos.flush();
         } catch (IOException e) {
             LogUtil.loge(TAG, "gzip error", e);

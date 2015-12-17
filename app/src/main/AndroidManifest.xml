@@ -72,9 +72,11 @@
         </activity>
 
         <activity  android:theme="@style/AppTheme" android:name=".ui.guide.GuideActivity" />
-        <activity  android:theme="@style/AppTheme" android:name=".ui.register.InvitationCodeActivity" />
-        <activity  android:theme="@style/AppTheme" android:name=".ui.register.RegisterActivity" />
-        <activity  android:theme="@style/AppTheme" android:name=".ui.register.CountyChooseActivity" />
+        <activity  android:theme="@style/AppTheme" android:name=".ui.register.InvitationCodeActivity"  android:windowSoftInputMode="adjustUnspecified"/>
+        <activity  android:theme="@style/AppTheme.Transparent" android:name=".ui.register.RegisterActivity" />
+        <activity  android:theme="@style/AppTheme.Transparent" android:name=".ui.register.CountryChooseActivity" />
+        <activity  android:theme="@style/AppTheme.Transparent" android:name=".ui.register.IdentityActivity" />
+        <activity  android:theme="@style/AppTheme.Transparent" android:name=".ui.photo.PhotoMainActivity" />
 
 
         <activity

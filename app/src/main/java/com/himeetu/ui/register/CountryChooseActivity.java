@@ -1,14 +1,18 @@
 package com.himeetu.ui.register;
 
 import android.os.Bundle;
+import android.test.ServiceTestCase;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.himeetu.R;
 import com.himeetu.adapter.SortAdapter;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.Country;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.util.CountryComparator;
@@ -21,16 +25,18 @@ import java.util.List;
 /**
  * Created by object1984 on 15/12/2.
  */
-public class CountyChooseActivity extends BaseActivity{
+public class CountryChooseActivity extends BaseActivity implements View.OnClickListener {
     private ListView sortListView;
     private SideBar sideBar;
     private TextView dialog;
     private SortAdapter adapter;
     private List<Country> SourceDateList;
+
+    private Button nextButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setThemeTranslucent();
         setContentView(R.layout.activity_country_choose);
 
         init();
@@ -39,6 +45,7 @@ public class CountyChooseActivity extends BaseActivity{
     @Override
     protected void loadViews() {
         super.loadViews();
+        nextButton = (Button)findViewById(R.id.btn_next);
         sideBar = (SideBar) findViewById(R.id.sidrbar);
         dialog = (TextView) findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
@@ -56,6 +63,10 @@ public class CountyChooseActivity extends BaseActivity{
         });
 
         sortListView = (ListView) findViewById(R.id.list_country);
+
+        View footerView = LayoutInflater.from(this).inflate(R.layout.item_list_footer_country, sortListView, false);
+        sortListView.addFooterView(footerView);
+
         sortListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -66,6 +77,8 @@ public class CountyChooseActivity extends BaseActivity{
 
                 Country country = (Country)parent.getAdapter().getItem(position);
                 adapter.setSelected(country);
+
+                nextButton.setEnabled(true);
             }
         });
 
@@ -86,6 +99,33 @@ public class CountyChooseActivity extends BaseActivity{
         SourceDateList.add(new Country("Lao", "老挝"));
         Collections.sort(SourceDateList, new CountryComparator());
         adapter = new SortAdapter(this, SourceDateList);
+
+
         sortListView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void setupListeners() {
+        super.setupListeners();
+        nextButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+        setTitleText(R.string.your_country);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_next:
+                goNext();
+                break;
+        }
+    }
+
+    private void goNext(){
+        NavHelper.toIdentityPage(this);
     }
 }
