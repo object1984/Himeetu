@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.himeetu.R;
 import com.himeetu.app.NavHelper;
-
+//测试
 public abstract class BaseActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ClipboardManager clipboardManager;
