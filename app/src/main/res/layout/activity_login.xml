@@ -12,9 +12,9 @@
             android:paddingTop="-30dp"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="@dimen/login_main_margin"
             android:orientation="vertical"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="@dimen/login_main_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -22,48 +22,51 @@
                 android:text="Hi Meet"
                 android:drawablePadding="15dp"
                 android:textColor="@color/white"
+                android:textSize="@dimen/font_big"
                 android:drawableTop="@drawable/ic_login_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <LinearLayout
+                android:paddingLeft="10dp"
                 android:layout_marginTop="41dp"
                 android:layout_marginBottom="50dp"
                 android:background="@drawable/bg_login_input"
                 android:orientation="vertical"
-                android:padding="10dp"
-
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="45dp">
                     <EditText
                         android:drawablePadding="8dp"
+                        android:textColorHint="@color/white"
                         android:drawableLeft="@drawable/ic_login_username"
                         android:background="@color/transparent"
                         android:gravity="center_vertical"
-                        android:text="Hi Meet"
                         android:includeFontPadding="false"
+                        android:maxLength="20"
+                        android:hint="@string/login_username_hint"
                         android:textSize="@dimen/font_normal"
+                        android:singleLine="true"
                         android:textColor="@color/white"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_marginRight="3dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
                     <ImageButton
                         android:visibility="invisible"
+                        android:paddingRight="10dp"
                         android:background="@color/transparent"
                         android:src="@drawable/selector_input_right"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <View
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="1px" />
@@ -71,25 +74,29 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="45dp">
                     <EditText
+                        android:maxLength="12"
                         android:layout_marginRight="3dp"
                         android:drawablePadding="8dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/white"
                         android:drawableLeft="@drawable/ic_login_password"
                         android:background="@color/transparent"
                         android:includeFontPadding="false"
                         android:textSize="@dimen/font_normal"
-                        android:text="Hi Meet"
+                        android:hint="@string/login_password_hint"
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
                     <ImageButton
                         android:visibility="invisible"
+                        android:paddingRight="10dp"
                         android:background="@color/transparent"
                         android:src="@drawable/selector_input_right"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
                     </LinearLayout>
 
 
@@ -123,6 +130,7 @@
 
 
     <TextView
+        android:padding="10dp"
         android:id="@+id/text_register"
         android:textColor="@color/white"
         android:layout_centerHorizontal="true"

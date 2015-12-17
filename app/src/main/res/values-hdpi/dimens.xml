@@ -15,14 +15,14 @@
     <dimen name="main_search_bar_padding_top" >0dp</dimen>
 
     <!-- font size -->
-    <dimen name="font_mico">10dp</dimen>
-    <dimen name="font_mini">12dp</dimen>
-    <dimen name="font_small">14dp</dimen>
-    <dimen name="font_normal">16dp</dimen>
-    <dimen name="font_big">18dp</dimen>
-    <dimen name="font_large">20dp</dimen>
-    <dimen name="font_huge">22dp</dimen>
+    <dimen name="font_mico">8dp</dimen>
+    <dimen name="font_mini">10dp</dimen>
+    <dimen name="font_small">12dp</dimen>
+    <dimen name="font_normal">14dp</dimen>
+    <dimen name="font_big">16dp</dimen>
+    <dimen name="font_large">18dp</dimen>
+    <dimen name="font_huge">20dp</dimen>
 
 
-
+    <dimen name="login_main_margin">40dp</dimen>
 </resources>

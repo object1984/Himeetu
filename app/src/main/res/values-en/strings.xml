@@ -9,4 +9,6 @@
     <string name="register_password_hint">请设置你的登录密码</string>
     <string name="register_password_notice"><![CDATA[请至少输入6个数字、字母和符号（如！和&）组合的密码。]]></string>
     <string name="login_has_account">已有账号了吗？</string>
+    <string name="login_username_hint">请输入你的邮箱或手机号</string>
+    <string name="login_password_hint">请输入密码</string>
 </resources>

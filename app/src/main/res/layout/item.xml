@@ -13,7 +13,7 @@
         android:textSize="@dimen/font_normal"
         android:gravity="center_vertical"
         android:background="#F2F2F2"
-        android:textColor="@color/text_user_name"
+        android:textColor="@color/text_dark_black"
         android:text="A"/>
 
     <CheckedTextView
@@ -25,7 +25,7 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_weight="1.0"
-        android:textColor="@color/text_user_name"
+        android:textColor="@color/text_dark_black"
         android:paddingLeft="15dip"
         android:text="hhhh"/>
 
