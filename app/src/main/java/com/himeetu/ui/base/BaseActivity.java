@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.himeetu.R;
@@ -28,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        NavHelper.finish(this);
+        NavHelper.finishWithAnim(this);
     }
 
     protected void copyToClipboardManager(String text){
@@ -81,7 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 leftView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        NavHelper.finish(BaseActivity.this);
+                        NavHelper.finishWithAnim(BaseActivity.this);
                         onBackPressed();
                     }
                 });
@@ -152,4 +154,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
+    protected void setTitleText(int resId){
+        TextView titleTextView = (TextView)findViewById(R.id.text_title);
+
+        if(titleTextView != null){
+            titleTextView.setText(resId);
+        }
+    }
+
+    protected void setThemeTranslucent(){
+        if (android.os.Build.VERSION.SDK_INT > 18) {
+            Window window = getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
 }
