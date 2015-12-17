@@ -12,7 +12,8 @@
     <color name="colorAccent">@color/app_default</color>
 
     <color name="text_grey">#646464</color>
-    <color name="text_user_name">#1E1E1E</color>
+    <color name="text_hint_grey">#646464</color>
+    <color name="text_dark_black">#1E1E1E</color>
     <color name="text_write">@color/white</color>
     <color name="text_black">@color/black</color>
     <color name="app_default">#5252FF</color>
