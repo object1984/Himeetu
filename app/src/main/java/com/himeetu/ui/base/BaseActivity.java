@@ -62,7 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextView toolbarTitle;
     private View backView;
 
-    public void setupToolbar(@NonNull int titleResId) {
+    public void setupToolbar(boolean showBackbtn, @NonNull int titleResId) {
         View v = findViewById(R.id.toolbar);
         if (v != null) {
             toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
@@ -72,13 +72,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             backView = v.findViewById(R.id.toolbar_back);
             if (backView != null) {
-                backView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NavHelper.finishWithAnim(BaseActivity.this);
-                        onBackPressed();
-                    }
-                });
+                if(showBackbtn){
+                    backView.setVisibility(View.VISIBLE);
+                    backView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavHelper.finishWithAnim(BaseActivity.this);
+                            onBackPressed();
+                        }
+                    });
+                }else {
+                    backView.setVisibility(View.GONE);
+                    backView.setOnClickListener(null);
+                }
+
             }
 
         }
@@ -135,15 +142,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-
-    protected void setTitleText(int resId){
-        TextView titleTextView = (TextView)findViewById(R.id.text_title);
-
-        if(titleTextView != null){
-            titleTextView.setText(resId);
-        }
     }
 
     protected void setThemeTranslucent(){
