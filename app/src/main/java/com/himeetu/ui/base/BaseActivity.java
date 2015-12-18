@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -58,29 +59,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     ;
 
-    private Toolbar toolbar;
     private TextView toolbarTitle;
-    private View leftView;
-    public static final int IMAGE_REQUEST_CODE = 0;
-    public static final int RESULT_OK = 10;
-    public static final int CAMERA_REQUEST_CODE = 1;
-    public static final int RESIZE_REQUEST_CODE = 2;
+    private View backView;
 
-    public void setupToolbar() {
+    public void setupToolbar(@NonNull int titleResId) {
         View v = findViewById(R.id.toolbar);
         if (v != null) {
-            setTitle("");
-            toolbar = (Toolbar) v;
-            setSupportActionBar(toolbar);
             toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
             if (toolbarTitle != null) {
-                getSupportActionBar().setDisplayShowTitleEnabled(false);
+                toolbarTitle.setText(titleResId);
             }
 
-            leftView = v.findViewById(R.id.toolbar_back);
-
-            if (leftView != null) {
-                leftView.setOnClickListener(new View.OnClickListener() {
+            backView = v.findViewById(R.id.toolbar_back);
+            if (backView != null) {
+                backView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         NavHelper.finishWithAnim(BaseActivity.this);
@@ -89,14 +81,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 });
             }
 
-        }
-    }
-
-    @Override
-    protected void onTitleChanged(CharSequence title, int color) {
-        super.onTitleChanged(title, color);
-        if (toolbarTitle != null) {
-            toolbarTitle.setText(title);
         }
     }
 
