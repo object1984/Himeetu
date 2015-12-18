@@ -11,66 +11,6 @@
     <string name="register_password_hint">请设置你的登录密码</string>
     <string name="register_password_notice"><![CDATA[请至少输入6个数字、字母和符号（如！和&）组合的密码。]]></string>
     <string name="login_has_account">已有账号了吗？</string>
-    <string name="title_activity_settings">Settings</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
-    <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
-    <string name="setting">账户设置</string>
 
     <!-- 注册 -->
     <string name="register">注册</string>
@@ -97,7 +37,7 @@
 
     <string name="notice_validate_code_blank">请输入验证码</string>
     <string name="notice_validate_code_error">验证码不正确</string>
-
+    
     <string name="no_more">已无更多</string>
     <string name="login_username_hint">请输入你的邮箱或手机号</string>
     <string name="login_password_hint">请输入密码</string>
@@ -113,4 +53,9 @@
     <string name="me_consider">我关注的</string>
     <string name="from_the_album_to_choose">从相册选择</string>
     <string name="take_photos">拍照</string>
+
+    <!--详情-->
+    <string name="home_detail_praise">345,678,900赞</string>
+    <string name="home_detail_send_hint">发表</string>
+    <string name="home_detail_edit_hint">添加评论...</string>
 </resources>
