@@ -46,6 +46,7 @@
     <string name="edit_user_data">编辑资料</string>
     <string name="complete">完成</string>
     <string name="set_password">设置密码</string>
+    <string name="setting">账户设置</string>
     <string name="commit">提交</string>
     <string name="invitation">邀请码</string>
     <string name="share">分享</string>
