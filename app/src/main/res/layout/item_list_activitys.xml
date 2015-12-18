@@ -1,0 +1,26 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/store_house_ptr_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_refresh"
+        android:layout_below="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
+            tools:listitem="@layout/item_list_person_state"
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

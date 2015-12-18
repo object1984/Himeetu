@@ -111,7 +111,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         super.initViews();
 
-        setTitleText(R.string.register);
+//        setTitleText(R.string.register);
 
         usernameLoadingAnimationDrawable = (AnimationDrawable) usernameLoadingImageView.getDrawable();
         usernameLoadingAnimationDrawable.start();

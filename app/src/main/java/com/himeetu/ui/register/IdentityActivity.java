@@ -54,7 +54,7 @@ public class IdentityActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         super.initViews();
-        setTitleText(R.string.your_identity);
+//        setTitleText(R.string.your_identity);
     }
 
     @Override

@@ -12,18 +12,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.himeetu.R;
 import com.himeetu.app.NavHelper;
+
 //测试
 public abstract class BaseActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ClipboardManager clipboardManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
     }
 
@@ -34,10 +37,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         NavHelper.finishWithAnim(this);
     }
 
-    protected void copyToClipboardManager(String text){
+    protected void copyToClipboardManager(String text) {
         ClipData clipData = ClipData.newPlainText("msg", text);
         clipboardManager.setPrimaryClip(clipData);
     }
+
     protected void init() {
         loadViews();
         initViews();
@@ -62,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextView toolbarTitle;
     private View backView;
 
+
     public void setupToolbar(boolean showBackbtn, @NonNull int titleResId) {
         View v = findViewById(R.id.toolbar);
         if (v != null) {
@@ -72,7 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             backView = v.findViewById(R.id.toolbar_back);
             if (backView != null) {
-                if(showBackbtn){
+                if (showBackbtn) {
                     backView.setVisibility(View.VISIBLE);
                     backView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -81,7 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                             onBackPressed();
                         }
                     });
-                }else {
+                } else {
                     backView.setVisibility(View.GONE);
                     backView.setOnClickListener(null);
                 }
@@ -131,7 +136,60 @@ public abstract class BaseActivity extends AppCompatActivity {
         return null;
     }
 
+    protected void setToolBarTitleColor(int resId) {
+        TextView rightTextView = (TextView) findViewById(R.id.toolbar_title);
 
+        if (rightTextView != null) {
+            rightTextView.setTextColor(resId);
+        }
+    }
+
+    protected void setRightTextColor(int resId) {
+        TextView rightTextView = (TextView) findViewById(R.id.toolbar_right_text);
+
+        if (rightTextView != null) {
+            rightTextView.setTextColor(resId);
+        }
+    }
+
+
+//    protected enum BackColorType {
+//        WHITE, BLACK
+//    }
+//
+//    protected void setBackColorType(BackColorType type) {
+//        ImageButton btn_bark = (ImageButton) findViewById(R.id.toolbar_back);
+//
+//        if (btn_bark != null) {
+//            btn_bark.setImageResource(type == BackColorType.BLACK ? R.drawable.ic_toobar_back_black : R.drawable.ic_toobar_back_white);
+//        }
+//    }
+
+
+    protected void setRightTextAndVisible(int resId, int visible) {
+        TextView rightTextView = (TextView) findViewById(R.id.toolbar_right_text);
+
+        if (rightTextView != null) {
+            rightTextView.setText(resId);
+        }
+        rightTextView.setVisibility(visible);
+    }
+
+    protected void setRightOnClickListener(View.OnClickListener onClickListener) {
+        TextView rightTextView = (TextView) findViewById(R.id.toolbar_right_text);
+
+        if (rightTextView != null) {
+            rightTextView.setOnClickListener(onClickListener);
+        }
+    }
+
+    protected void setToolBarColor(int resId) {
+        View toolbar = findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            toolbar.setBackgroundColor(resId);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -144,7 +202,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    protected void setThemeTranslucent(){
+    protected void setThemeTranslucent() {
         if (android.os.Build.VERSION.SDK_INT > 18) {
             Window window = getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

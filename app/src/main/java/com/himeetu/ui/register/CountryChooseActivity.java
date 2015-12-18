@@ -113,7 +113,7 @@ public class CountryChooseActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         super.initViews();
-        setTitleText(R.string.your_country);
+//        setTitleText(R.string.your_country);
     }
 
     @Override
