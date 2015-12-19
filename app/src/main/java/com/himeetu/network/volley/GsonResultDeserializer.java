@@ -26,6 +26,7 @@ public class GsonResultDeserializer implements JsonDeserializer<GsonResult> {
 
         JSONObject jsonObject = JsonUtil.getJSONObject(json.toString());
         gsonResult.setCode(JsonUtil.getInt(jsonObject, "result"));
+        gsonResult.setJsonStr(json.toString());
 
         return gsonResult;
     }

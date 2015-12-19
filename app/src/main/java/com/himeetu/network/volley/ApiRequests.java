@@ -35,11 +35,30 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
-    public static GsonGetRequest<GsonResult> userLogin(@NonNull final String username,
+    public static GsonGetRequest<GsonResult> userLoginStep_1(@NonNull final String username,
                                                           @NonNull final String password,
                                                           @NonNull final Response.Listener<GsonResult> listener,
                                                           @NonNull final Response.ErrorListener errorListener) {
-        final String url = String.format(UrlPatten.URL_USER_LOGIN, username, password);
+        final String url = String.format(UrlPatten.URL_USER_LOGIN_STEP_1, username, password);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> userLoginStep_2(@NonNull final String key,
+                                                             @NonNull final int uid,
+                                                             @NonNull final int time,
+                                                             @NonNull final int type,
+                                                             @NonNull final Response.Listener<GsonResult> listener,
+                                                             @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_USER_LOGIN_STEP_2, key, uid, time, type);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> getSelfInfo(
+                                                             @NonNull final Response.Listener<GsonResult> listener,
+                                                             @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_USER_SELF_INFO);
 
         return doGet(url, listener, errorListener);
     }

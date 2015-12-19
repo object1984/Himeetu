@@ -11,11 +11,18 @@ import android.util.DisplayMetrics;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.himeetu.network.dic.UrlPatten;
 import com.himeetu.network.http.OkHttpStack;
 import com.himeetu.util.FileUtil;
+import com.himeetu.util.LogUtil;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
+import java.net.CookieManager;
+import java.net.CookieStore;
+import java.net.HttpCookie;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 /**
@@ -130,6 +137,15 @@ public class MEETApplication extends Application {
         if (mRequestQueue == null)
         {
             OkHttpClient okHttpClient = new OkHttpClient();
+            CookieManager cookieManager = new CookieManager();
+
+            CookieStore cookieStore = cookieManager.getCookieStore();
+                for(HttpCookie cookie :  cookieStore.getCookies()){
+                    LogUtil.d("cookie", String.format("name=%s, value=%s", cookie.getName(), cookie.getValue()));
+                }
+
+            okHttpClient.setCookieHandler(cookieManager);
+
             mRequestQueue = Volley.newRequestQueue(this, new OkHttpStack(okHttpClient));
         }
         return mRequestQueue;

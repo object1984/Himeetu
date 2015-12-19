@@ -3,7 +3,8 @@ package com.himeetu.app;
 ;
 
 public class Constants {
-    public static final String WEB_SERVER_DOMAIN = "www.himeetu.com:8888";
+    public static final String WEB_SERVER_ACCOUNT_DOMAIN = "www.himeetu.com:8888";
+    public static final String WEB_SERVER_DOMAIN = "123.57.167.135";
 
     public static final String CONFIG_FILE_NAME = "config";
     public static final String CONFIG_TEMPLATE_INIT = "config_template_init";

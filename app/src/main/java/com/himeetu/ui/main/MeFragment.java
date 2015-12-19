@@ -16,11 +16,16 @@ import android.widget.TextView;
 
 import com.himeetu.R;
 import com.himeetu.adapter.MePagerAdapter;
+import com.himeetu.event.UserInfoRefreshEvent;
+import com.himeetu.model.User;
 import com.himeetu.ui.base.BaseFragment;
 import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.setup.SettingsActivity;
+import com.himeetu.util.ToastUtil;
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
@@ -64,6 +69,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -72,9 +79,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rootView = inflater.inflate(R.layout.fragment_me, container, false);
 
         init();
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        setTitle("养车钱包");
         return rootView;
     }
 
@@ -201,5 +205,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
+    public void onEvent(UserInfoRefreshEvent event){
+        User user = event.user;
+        ToastUtil.show(user.getNickname());
+    }
 }

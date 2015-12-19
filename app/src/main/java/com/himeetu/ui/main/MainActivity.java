@@ -5,18 +5,33 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.android.volley.VolleyError;
+import com.google.gson.JsonObject;
 import com.himeetu.R;
+import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
+import com.himeetu.event.UserInfoRefreshEvent;
+import com.himeetu.model.GsonResult;
+import com.himeetu.model.User;
+import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseActivity;
+import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.my.ActivitysFragment;
 import com.himeetu.ui.my.ActivitysFragment.OnListFragmentInteractionListener;
 import com.himeetu.ui.my.dummy.DummyContent;
+import com.himeetu.util.JsonUtil;
+import com.himeetu.util.ToastUtil;
 import com.himeetu.view.MainBottomBar;
 
-public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSelectedListener,OnListFragmentInteractionListener {
+import org.json.JSONObject;
+
+import de.greenrobot.event.EventBus;
+
+public class MainActivity extends BaseVolleyActivity implements MainBottomBar.OnTabSelectedListener,OnListFragmentInteractionListener {
     private static final String TAG = "MainActivity";
 
     private static final String SAVE_INSTANCE_CURRENT_TAG = "currentTag";
+    private static final String TAG_API_GET_SELF_INFO = "TAG_API_GET_SELF_INFO";
 
     private static final int TAB_PAGE_HOME = R.id.bottom_bar_home;
     private static final int TAB_PAGE_FAVORITE = R.id.bottom_bar_favorite;
@@ -41,6 +56,10 @@ public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSel
             defaultTag = savedInstanceState.getInt(SAVE_INSTANCE_CURRENT_TAG, defaultTag);
         }
         showFragment(defaultTag);
+
+        EventBus.getDefault().register(this);
+
+        getSelfInfo();
     }
 
     @Override
@@ -178,6 +197,38 @@ public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSel
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
+
+
+    private void getSelfInfo(){
+        Api.getSelfInfo(TAG_API_GET_SELF_INFO, this, this);
+    }
+
+    @Override
+    public void onResponse(GsonResult response, String tag) {
+        super.onResponse(response, tag);
+        if(TAG_API_GET_SELF_INFO.equals(tag)){
+            User user = UserService.save(response.getJsonStr());
+
+            if(user != null){
+                EventBus.getDefault().post(new UserInfoRefreshEvent(user));
+            }
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEvent(UserInfoRefreshEvent event){
 
     }
 }

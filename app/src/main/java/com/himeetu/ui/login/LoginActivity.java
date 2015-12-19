@@ -18,16 +18,20 @@ import com.himeetu.model.GsonResult;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.register.InvitationCodeActivity;
+import com.himeetu.util.JsonUtil;
 import com.himeetu.util.LogUtil;
 import com.himeetu.util.ToastUtil;
 import com.himeetu.util.ValidateUtil;
+
+import org.json.JSONObject;
 
 /**
  * Created by object1984 on 15/12/2.
  */
 public class LoginActivity extends BaseVolleyActivity implements View.OnClickListener {
     private final String TAG = LoginActivity.class.getSimpleName();
-    private final String TAG_API_USER_LOGIN = "TAG_API_USER_LOGIN";
+    private final String TAG_API_USER_LOGIN_STEP_1 = "TAG_API_USER_LOGIN_STEP_1";
+    private final String TAG_API_USER_LOGIN_STEP_2 = "TAG_API_USER_LOGIN_STEP_2";
 
     private EditText userNameEditText;
     private EditText passwordEditText;
@@ -76,7 +80,7 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
         String password = passwordEditText.getText().toString().trim();
 
         if(ValidateUtil.checkUserName(username) && ValidateUtil.checkPassword(password)){
-            Api.userLogin(TAG_API_USER_LOGIN, username, password, this, this);
+            Api.userLoginStep1(TAG_API_USER_LOGIN_STEP_1, username, password, this, this);
         }
     }
 
@@ -96,12 +100,19 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
 
-        if(TAG_API_USER_LOGIN.equals(tag)){
+        if(TAG_API_USER_LOGIN_STEP_1.equals(tag)){
             int code = response.getCode();
             //  0 为登陆成功，1 为密码错误，2 为账号被禁用，不可用状态，3 为账号不存在
             switch (code){
                 case 0:
-                    onLoginSuccess();
+                    JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+                    if(jsonObject != null){
+                        String key = JsonUtil.getString(jsonObject, "key");
+                        int uid = JsonUtil.getInt(jsonObject, "id");
+                        int time = JsonUtil.getInt(jsonObject, "time");
+                        int type = 0; //default = 0, 预留参数
+                        Api.userLoginStep2(TAG_API_USER_LOGIN_STEP_2, key, uid, time, type, this, this);
+                    }
                     break;
                 case 1:
                     ToastUtil.show("密码错误");
@@ -114,13 +125,32 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
                     break;
             }
         }
+
+        if(TAG_API_USER_LOGIN_STEP_2.equals(tag)){
+            int code = response.getCode();
+            //result: 0 表示成功，1 表示参数错误失败，2 未登录，3 权限不足；
+            switch (code){
+                case 0:
+                    onLoginSuccess();
+                    break;
+                case 1:
+                    ToastUtil.show("参数错误");
+                    break;
+                case 2:
+                    ToastUtil.show("未登录");
+                    break;
+                case 3:
+                    ToastUtil.show("权限不足");
+                    break;
+            }
+        }
     }
 
     @Override
     public void onErrorResponse(VolleyError error, String tag) {
         super.onErrorResponse(error, tag);
 
-        if(TAG_API_USER_LOGIN.equals(tag)){
+        if(TAG_API_USER_LOGIN_STEP_1.equals(tag)){
 
         }
     }
