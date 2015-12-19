@@ -1,6 +1,7 @@
 package com.himeetu.ui.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.himeetu.R;
+import com.himeetu.app.NavHelper;
 
 
 public class BaseFragment extends Fragment implements View.OnClickListener {
@@ -138,6 +142,37 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         if (android.os.Build.VERSION.SDK_INT > 18) {
             Window window = getActivity().getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
+    public void setupToolbar(boolean showBackbtn, @NonNull int titleResId) {
+        if(rootView == null) return;
+
+        View v = rootView.findViewById(R.id.toolbar);
+        if (v != null) {
+           TextView  toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
+            if (toolbarTitle != null) {
+                toolbarTitle.setText(titleResId);
+            }
+
+            backView = v.findViewById(R.id.toolbar_back);
+            if (backView != null) {
+                if (showBackbtn) {
+                    backView.setVisibility(View.VISIBLE);
+                    backView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavHelper.finishWithAnim(getActivity());
+                           getActivity(). onBackPressed();
+                        }
+                    });
+                } else {
+                    backView.setVisibility(View.GONE);
+                    backView.setOnClickListener(null);
+                }
+
+            }
+
         }
     }
 }

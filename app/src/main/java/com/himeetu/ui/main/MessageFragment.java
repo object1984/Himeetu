@@ -1,13 +1,17 @@
 package com.himeetu.ui.main;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.himeetu.R;
 import com.himeetu.ui.base.BaseFragment;
+import com.himeetu.ui.base.StatusBarCompat;
 
 import java.util.List;
 
@@ -20,6 +24,20 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private List<Integer> imageIdList;
     public MessageFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            if (Build.VERSION.SDK_INT >= 21) {
+                Window window = getActivity().getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.setStatusBarColor(getResources().getColor(R.color.transparent));
+            }
+            StatusBarCompat.compat(getActivity(), getResources().getColor(R.color.transparent));
+        }
     }
 
     public static MessageFragment newInstance(String param1, String param2) {
@@ -38,17 +56,21 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.black));
+        }
+        StatusBarCompat.compat(getActivity(), getResources().getColor(R.color.black));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        rootView = inflater.inflate(R.layout.fragment_message, container, false);
-
+        setupToolbar(false, R.string.message);
         init();
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        setTitle("养车钱包");
         return rootView;
     }
 
