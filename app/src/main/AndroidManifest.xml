@@ -77,16 +77,12 @@
         <activity  android:theme="@style/AppTheme" android:name=".ui.register.CountryChooseActivity" />
         <activity  android:theme="@style/AppTheme" android:name=".ui.register.IdentityActivity" />
         <activity  android:theme="@style/AppTheme" android:name=".ui.photo.PhotoMainActivity" />
-        <activity  android:theme="@style/AppTheme" android:name=".ui.register.RegisterActivity" />
-        <activity  android:theme="@style/AppTheme" android:name=".ui.register.CountryChooseActivity" />
-        <activity  android:theme="@style/AppTheme" android:name=".ui.register.IdentityActivity" />
-        <activity  android:theme="@style/AppTheme" android:name=".ui.photo.PhotoMainActivity" />
+        <activity  android:theme="@style/AppTheme" android:name=".ui.login.FindPasswordActivity" />
         <activity android:name=".ui.setup.SettingsActivity"/>
         <activity android:name=".ui.my.AttentionActivity"/>
         <activity android:name=".ui.setup.EditPassWordActivity"/>
         <activity android:name=".ui.setup.EditUserDetailActivity"/>
         <activity android:name=".ui.setup.InviteFriendsActivity"/>
-        <activity  android:theme="@style/AppTheme"  android:name=".ui.main.DetailsActivity"/>
 
 
         <activity

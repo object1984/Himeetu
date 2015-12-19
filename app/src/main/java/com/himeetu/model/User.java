@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     private int uid;
+    private String username;
     @SerializedName("rolename")
     private String nickname;
     @SerializedName("nation")
@@ -54,5 +55,13 @@ public class User implements Serializable {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

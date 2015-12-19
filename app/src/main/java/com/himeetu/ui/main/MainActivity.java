@@ -14,6 +14,7 @@ import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
 import com.himeetu.model.service.UserService;
+import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.my.ActivitysFragment;
@@ -210,8 +211,8 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
         super.onResponse(response, tag);
         if(TAG_API_GET_SELF_INFO.equals(tag)){
             User user = UserService.save(response.getJsonStr());
-
             if(user != null){
+                user.setUsername(getIntent().getStringExtra(Argument.USERNAME));
                 EventBus.getDefault().post(new UserInfoRefreshEvent(user));
             }
         }
