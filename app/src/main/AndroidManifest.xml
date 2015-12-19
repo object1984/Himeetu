@@ -86,7 +86,8 @@
         <activity android:name=".ui.setup.EditPassWordActivity"/>
         <activity android:name=".ui.setup.EditUserDetailActivity"/>
         <activity android:name=".ui.setup.InviteFriendsActivity"/>
-        <activity  android:theme="@style/AppTheme"  android:name=".ui.main.DetailsActivity"/>
+        <activity  android:theme="@style/AppTheme"  android:name=".ui.main.TopicDetailsActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
 
 
         <activity

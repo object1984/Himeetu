@@ -60,6 +60,7 @@
     <string name="take_photos">拍照</string>
 
     <!--详情-->
+    <string name="home_detail_title">状态照片</string>
     <string name="home_detail_praise">345,678,900赞</string>
     <string name="home_detail_send_hint">发表</string>
     <string name="home_detail_edit_hint">添加评论...</string>

@@ -3,10 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--标题栏-->
+    <include
+        android:id="@+id/toolbar_details"
+        layout="@layout/toolbar_favorite" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_details"
         android:orientation="vertical">
         <!--个人信息-->
         <LinearLayout
@@ -26,6 +31,7 @@
                 android:layout_marginRight="12dp">
 
                 <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:id="@+id/img_head_portrait"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/image1"
@@ -48,6 +54,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_details_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
@@ -56,6 +63,7 @@
                     android:textSize="@dimen/font_normal" />
 
                 <TextView
+                    android:id="@+id/tv_details_publication_time"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="bottom"
@@ -66,22 +74,24 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_details_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/bg_blue_border"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:paddingBottom="8dp"
+                android:paddingBottom="6dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingTop="8dp"
+                android:paddingTop="6dp"
                 android:text="关注"
                 android:textColor="@color/text_grey"
                 android:textSize="@dimen/font_small" />
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/img_details_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
@@ -89,7 +99,7 @@
 
 
         <TextView
-            android:id="@+id/text_event_content"
+            android:id="@+id/text_details_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -99,6 +109,7 @@
             android:textSize="@dimen/font_normal" />
 
         <TextView
+            android:id="@+id/tv_details_praise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -150,7 +161,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:background="@android:color/darker_gray" />
 
         <ListView
@@ -177,9 +188,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:hint="@string/home_detail_edit_hint"
             android:background="@drawable/bg_edit_rounded_frame"
-            android:padding="10dp" />
+            android:hint="@string/home_detail_edit_hint"
+            android:padding="10dp"
+            android:textSize="@dimen/font_normal" />
 
         <Button
             android:id="@+id/bnt_send_comments"
