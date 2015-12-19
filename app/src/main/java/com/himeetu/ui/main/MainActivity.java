@@ -8,9 +8,12 @@ import android.view.View;
 import com.himeetu.R;
 import com.himeetu.app.NavHelper;
 import com.himeetu.ui.base.BaseActivity;
+import com.himeetu.ui.my.ActivitysFragment;
+import com.himeetu.ui.my.ActivitysFragment.OnListFragmentInteractionListener;
+import com.himeetu.ui.my.dummy.DummyContent;
 import com.himeetu.view.MainBottomBar;
 
-public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSelectedListener {
+public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSelectedListener,OnListFragmentInteractionListener {
     private static final String TAG = "MainActivity";
 
     private static final String SAVE_INSTANCE_CURRENT_TAG = "currentTag";
@@ -171,5 +174,10 @@ public class MainActivity extends BaseActivity implements MainBottomBar.OnTabSel
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVE_INSTANCE_CURRENT_TAG, mCurrentTag);
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
     }
 }

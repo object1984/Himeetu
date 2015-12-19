@@ -14,7 +14,6 @@ import com.himeetu.R;
 import com.himeetu.adapter.SortAdapter;
 import com.himeetu.app.NavHelper;
 import com.himeetu.model.Country;
-import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.util.CountryComparator;
 import com.himeetu.view.SideBar;
@@ -32,14 +31,14 @@ public class CountryChooseActivity extends BaseActivity implements View.OnClickL
     private TextView dialog;
     private SortAdapter adapter;
     private List<Country> SourceDateList;
-    private Button nextButton;
 
+    private Button nextButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setThemeTranslucent();
         setContentView(R.layout.activity_country_choose);
-        setupToolbar(false, R.string.your_country);
+
         init();
     }
 
@@ -114,6 +113,7 @@ public class CountryChooseActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         super.initViews();
+//        setTitleText(R.string.your_country);
     }
 
     @Override
@@ -126,9 +126,6 @@ public class CountryChooseActivity extends BaseActivity implements View.OnClickL
     }
 
     private void goNext(){
-        int countryCode = sortListView.getSelectedItemPosition();
-        String username = getIntent().getStringExtra(Argument.USERNAME);
-        String password = getIntent().getStringExtra(Argument.PASSWORD);
-        NavHelper.toIdentityPage(this, username, password, countryCode);
+        NavHelper.toIdentityPage(this);
     }
 }

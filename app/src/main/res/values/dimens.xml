@@ -22,7 +22,5 @@
     <dimen name="font_big">18dp</dimen>
     <dimen name="font_large">20dp</dimen>
     <dimen name="font_huge">22dp</dimen>
-
-
-
+    <dimen name="text_margin">16dp</dimen>
 </resources>
