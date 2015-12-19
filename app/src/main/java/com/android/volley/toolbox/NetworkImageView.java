@@ -150,7 +150,7 @@ public class NetworkImageView extends ImageView {
         ImageContainer newContainer = mImageLoader.get(mUrl,
                 new ImageListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(VolleyError error, String tag) {
                         if (mErrorImageId != 0) {
                             setImageResource(mErrorImageId);
                         }

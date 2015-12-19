@@ -3,14 +3,7 @@ package com.himeetu.app;
 ;
 
 public class Constants {
-    public static final String WEB_SERVER_DOMAIN = "http://mechanic.ebaoyang.com/";
-//    public static final String WEB_SERVER_DOMAIN_DEBUG = "http://123.57.6.119:15641/";
-
-    public static final String WEB_TOOLBOX_DOMAIN_DEBUG = "http://123.56.162.135:25641/";
-    public static final String WEB_TOOLBOX_DOMAIN_RELEASE = "http://c.ebaoyang.cn/";
-
-//    public static final String WEB_SERVER_DOMAIN = BuildConfig.BUILD_TYPE.equals("debug") ? WEB_SERVER_DOMAIN_DEBUG : WEB_SERVER_DOMAIN_RELEASE;
-//    public static final String WEB_TOOLBOX_DOMAIN = BuildConfig.BUILD_TYPE.equals("debug") ? WEB_TOOLBOX_DOMAIN_DEBUG : WEB_TOOLBOX_DOMAIN_RELEASE;
+    public static final String WEB_SERVER_DOMAIN = "www.himeetu.com:8888";
 
     public static final String CONFIG_FILE_NAME = "config";
     public static final String CONFIG_TEMPLATE_INIT = "config_template_init";

@@ -26,7 +26,7 @@ public class Response<T> {
     /** Callback interface for delivering parsed responses. */
     public interface Listener<T> {
         /** Called when a response is received. */
-        public void onResponse(T response);
+        public void onResponse(T response, String tag);
     }
 
     /** Callback interface for delivering error responses. */
@@ -35,20 +35,20 @@ public class Response<T> {
          * Callback method that an error has been occurred with the
          * provided error code and optional user-readable message.
          */
-        public void onErrorResponse(VolleyError error);
+        public void onErrorResponse(VolleyError error, String tag);
     }
 
     /** Returns a successful response containing the parsed result. */
-    public static <T> Response<T> success(T result, Cache.Entry cacheEntry) {
-        return new Response<T>(result, cacheEntry);
+    public static <T> Response<T> success(T result, Cache.Entry cacheEntry, String tag) {
+        return new Response<T>(result, cacheEntry, tag);
     }
 
     /**
      * Returns a failed response containing the given error code and an optional
      * localized message displayed to the user.
      */
-    public static <T> Response<T> error(VolleyError error) {
-        return new Response<T>(error);
+    public static <T> Response<T> error(VolleyError error, String tag) {
+        return new Response<T>(error, tag);
     }
 
     /** Parsed response, or null in the case of error. */
@@ -63,6 +63,8 @@ public class Response<T> {
     /** True if this response was a soft-expired one and a second one MAY be coming. */
     public boolean intermediate = false;
 
+
+    public final String tag;
     /**
      * Returns whether this response is considered successful.
      */
@@ -71,15 +73,17 @@ public class Response<T> {
     }
 
 
-    private Response(T result, Cache.Entry cacheEntry) {
+    private Response(T result, Cache.Entry cacheEntry, String tag) {
         this.result = result;
         this.cacheEntry = cacheEntry;
         this.error = null;
+        this.tag = tag;
     }
 
-    private Response(VolleyError error) {
+    private Response(VolleyError error, String tag) {
         this.result = null;
         this.cacheEntry = null;
         this.error = error;
+        this.tag =  tag;
     }
 }

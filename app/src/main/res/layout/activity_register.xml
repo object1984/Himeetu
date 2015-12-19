@@ -4,7 +4,7 @@
     android:gravity="center_horizontal"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent">
-    <include layout="@layout/toolbar_white_common" />
+    <include layout="@layout/toolbar_white_common_back" />
 
     <LinearLayout
 
@@ -27,11 +27,13 @@
                 android:drawablePadding="8dp"
                 android:drawableLeft="@drawable/ic_register_username"
                 android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:background="@color/transparent"
                 android:layout_width="0dp"
                 android:imeOptions="actionNext"
                 android:textSize="@dimen/font_normal"
                 android:layout_weight="1"
+                android:cursorVisible="true"
                 android:singleLine="true"
                 android:nextFocusDown="@+id/edit_password"
                 android:maxLength="14"
@@ -53,6 +55,15 @@
                 android:visibility="gone"
                 android:background="@color/transparent"
                 android:src="@drawable/anim_input_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/btn_username_right"
+                android:paddingRight="13dp"
+                android:visibility="gone"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_input_right_purple"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -77,8 +88,10 @@
                 android:gravity="center_vertical"
                 android:background="@color/transparent"
                 android:layout_width="0dp"
+                android:includeFontPadding="false"
                 android:textSize="@dimen/font_normal"
                 android:maxLines="1"
+                android:cursorVisible="true"
                 android:maxLength="14"
                 android:nextFocusDown="@+id/btn_login"
                 android:inputType="textPassword"

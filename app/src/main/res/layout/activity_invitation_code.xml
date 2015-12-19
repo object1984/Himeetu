@@ -117,10 +117,11 @@
                     android:includeFontPadding="false"
                     android:maxLength="4"
                     android:textSize="@dimen/font_normal"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:digits="1234567890qwertyuiopasdfghjklzxcvbnm"
                     android:layout_centerInParent="true"
                     android:hint="@string/register_input_invitation"
+                    android:nextFocusDown="@+id/btn_start"
                     android:textColorHint="@color/text_hint_grey"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"
@@ -155,6 +156,8 @@
         android:gravity="center"
         android:layout_height="50dp">
             <TextView
+                android:id="@+id/text_has_account"
+                android:padding="10dp"
                 android:text="@string/register_has_account"
                 style="@style/Hi.Text.Small.Dark" />
     </LinearLayout>

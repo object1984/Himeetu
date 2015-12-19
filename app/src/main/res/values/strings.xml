@@ -27,11 +27,11 @@
     <string name="register_has_account">已有账户了吗？</string>
 
     <string name="notice_name_blank">用户名不能为空</string>
-    <string name="notice_name_format">用户名不能为空</string>
+    <string name="notice_name_format">用户名错误</string>
 
     <string name="notice_password_blank">密码不能为空</string>
 
-    <string name="notice_password_length">密码长度需为8~12位</string>
+    <string name="notice_password_length">密码长度需为6~20位</string>
     <string name="notice_password_rule">密码必须包括数字和字母</string>
     <string name="notice_password_confirm_error">两次输入的密码不同</string>
 
@@ -41,4 +41,8 @@
     <string name="no_more">已无更多</string>
     <string name="login_username_hint">请输入你的邮箱或手机号</string>
     <string name="login_password_hint">请输入密码</string>
+    <string name="register_notice_nickname">使用名字可以让朋友更轻松找到你</string>
+    <string name="register_hint_nickname" >请输入你的名字，限20个字符</string>
+    <string name="register_notice_birthday">你稍后可以在设置中更改</string>
+    <string name="register_notice_safe" >填写安全问题可以帮助您找回密码</string>
 </resources>

@@ -6,14 +6,23 @@ import android.content.Intent;
 
 import com.himeetu.R;
 import com.himeetu.network.dic.Argument;
+import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.main.MainActivity;
 import com.himeetu.ui.photo.PhotoMainActivity;
 import com.himeetu.ui.register.CountryChooseActivity;
 import com.himeetu.ui.register.IdentityActivity;
 import com.himeetu.ui.register.RegisterActivity;
+import com.himeetu.util.LogUtil;
 
 
 public class NavHelper {
+
+    public static void toLoginPage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, LoginActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
 
     public static void toMainPage(Activity activity) {
         Intent intent = new Intent();
@@ -28,13 +37,18 @@ public class NavHelper {
         activity.startActivity(intent);
     }
 
-    public static void toCountryChoosePage(Activity activity) {
+    public static void toCountryChoosePage(Activity activity, String username, String password) {
         Intent intent = new Intent();
+        intent.putExtra(Argument.USERNAME, username);
+        intent.putExtra(Argument.PASSWORD, password);
         intent.setClass(activity, CountryChooseActivity.class);
         activity.startActivity(intent);
     }
-    public static void toIdentityPage(Activity activity) {
+    public static void toIdentityPage(Activity activity, String username, String password, int countryCode) {
         Intent intent = new Intent();
+        intent.putExtra(Argument.USERNAME, username);
+        intent.putExtra(Argument.PASSWORD, password);
+        intent.putExtra(Argument.COUNTRY_CODE, countryCode);
         intent.setClass(activity, IdentityActivity.class);
         activity.startActivity(intent);
     }

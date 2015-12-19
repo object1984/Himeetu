@@ -71,7 +71,7 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     @Override
     protected void deliverResponse(T response)
     {
-        listener.onResponse(response);
+        listener.onResponse(response, (String)getTag());
     }
 
     @Override
@@ -84,16 +84,17 @@ public class GsonPostRequest<T> extends JsonRequest<T>
             return (Response<T>) Response.success
                     (
                             gson.fromJson(json, type),
-                            HttpHeaderParser.parseCacheHeaders(response)
+                            HttpHeaderParser.parseCacheHeaders(response),
+                            (String) getTag()
                     );
         }
         catch (UnsupportedEncodingException e)
         {
-            return Response.error(new ParseError(e));
+            return Response.error(new ParseError(e), (String)getTag());
         }
         catch (JsonSyntaxException e)
         {
-            return Response.error(new ParseError(e));
+            return Response.error(new ParseError(e), (String)getTag());
         }
     }
 }

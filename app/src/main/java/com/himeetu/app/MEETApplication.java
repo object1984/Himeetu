@@ -5,9 +5,15 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.himeetu.network.http.OkHttpStack;
 import com.himeetu.util.FileUtil;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
 
@@ -119,5 +125,29 @@ public class MEETApplication extends Application {
         return this.getFilesDir().getAbsolutePath();
     }
 
+    private RequestQueue mRequestQueue;
+    public RequestQueue getVolleyRequestQueue() {
+        if (mRequestQueue == null)
+        {
+            OkHttpClient okHttpClient = new OkHttpClient();
+            mRequestQueue = Volley.newRequestQueue(this, new OkHttpStack(okHttpClient));
+        }
+        return mRequestQueue;
+    }
 
+
+    public static void addRequest(@NonNull final Request<?> request){
+        getInstance().getVolleyRequestQueue().add(request);
+    }
+
+    public static void addRequest(@NonNull final Request<?> request,@NonNull final String tag){
+        request.setTag(tag);
+        getInstance().getVolleyRequestQueue().add(request);
+    }
+
+    public static void cancelAllRequests(@NonNull final String tag){
+        if(getInstance().getVolleyRequestQueue() != null){
+            getInstance().getVolleyRequestQueue().cancelAll(tag);
+        }
+    }
 }

@@ -12,15 +12,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.himeetu.R;
+import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
-import com.himeetu.ui.base.BaseActivity;
+import com.himeetu.model.GsonResult;
+import com.himeetu.ui.base.BaseVolleyActivity;
+import com.himeetu.util.LogUtil;
 import com.himeetu.util.ToastUtil;
 
 /**
  * Created by object1984 on 15/12/14.
  */
-public class InvitationCodeActivity extends BaseActivity implements TextWatcher, View.OnClickListener {
+public class InvitationCodeActivity extends BaseVolleyActivity implements TextWatcher, View.OnClickListener{
+    private static final String TAG = InvitationCodeActivity.class.getSimpleName();
     private EditText invitationEditText;
     private ImageButton clearImageButton;
     private Button startButton;
@@ -32,7 +38,6 @@ public class InvitationCodeActivity extends BaseActivity implements TextWatcher,
 
         setThemeTranslucent();
         setContentView(R.layout.activity_invitation_code);
-
         init();
     }
 
@@ -51,6 +56,7 @@ public class InvitationCodeActivity extends BaseActivity implements TextWatcher,
         invitationEditText.addTextChangedListener(this);
         startButton.setOnClickListener(this);
         clearImageButton.setOnClickListener(this);
+        findViewById(R.id.text_has_account).setOnClickListener(this);
     }
 
     @Override
@@ -88,6 +94,9 @@ public class InvitationCodeActivity extends BaseActivity implements TextWatcher,
             case R.id.btn_code_clear:
                 clearCode();
                 break;
+            case R.id.text_has_account:
+                toLoginPage();
+                break;
         }
     }
 
@@ -101,6 +110,40 @@ public class InvitationCodeActivity extends BaseActivity implements TextWatcher,
 
 
     private void start(){
-        NavHelper.toRegisterPage(this);
+        startButton.setText("正在验证...");
+        String code = invitationEditText.getText().toString();
+        checkInvitationCode(code);
+    }
+
+    private void toLoginPage(){
+        NavHelper.toLoginPage(this);
+        finish();
+    }
+
+
+    private void checkInvitationCode(String code) {
+        Api.checkInvitationCode( "checkInvitationCode", code, this, this);
+    }
+
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
+
+        LogUtil.d(TAG, "onErrorResponse.TAG=" + tag);
+        startButton.setText(R.string.register_start);
+    }
+
+
+    @Override
+    public void onResponse(GsonResult gsonResult, String tag) {
+        LogUtil.d(TAG, "onResponse.TAG=" + tag);
+
+        if(gsonResult.getCode() == 1){
+            ToastUtil.show("邀请码无效");
+            startButton.setText(R.string.register_start);
+        }else if(gsonResult.getCode() == 0){
+            NavHelper.toRegisterPage(this);
+        }
     }
 }

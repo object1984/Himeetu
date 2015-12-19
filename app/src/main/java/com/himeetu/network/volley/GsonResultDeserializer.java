@@ -8,6 +8,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.himeetu.model.GsonResult;
+import com.himeetu.util.JsonUtil;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 
@@ -16,26 +19,14 @@ import java.lang.reflect.Type;
  *
  * Convert a JsonObject into a Dummy object.
  */
-public class GsonResultDeserializer implements JsonDeserializer<GsonResult>
-{
+public class GsonResultDeserializer implements JsonDeserializer<GsonResult> {
     @Override
-    public GsonResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-            throws JsonParseException
-    {
+    public GsonResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        GsonResult gsonResult = new GsonResult();
 
+        JSONObject jsonObject = JsonUtil.getJSONObject(json.toString());
+        gsonResult.setCode(JsonUtil.getInt(jsonObject, "result"));
 
-        final GsonResult gsonResult = new GsonResult();
-        final JsonObject jsonObject = json.getAsJsonObject();
-
-//        gsonResult.setCode(jsonObject.get("code").getAsInt());
-//        gsonResult.setMsg(jsonObject.get("msg").getAsString());
-//
-//
-        Gson gson = new GsonBuilder().create();
-        gsonResult.setSuccess(jsonObject.get("success").getAsBoolean());
-
-        JsonElement questionJsonObj = jsonObject.get("questionDetail");
-//        gsonResult.setData(gson.fromJson(questionJsonObj, Question.class));
         return gsonResult;
     }
 }

@@ -17,31 +17,42 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.android.volley.VolleyError;
 import com.himeetu.R;
+import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
+import com.himeetu.model.GsonResult;
 import com.himeetu.ui.base.BaseActivity;
+import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.base.StatusBarCompat;
+import com.himeetu.util.LogUtil;
 import com.himeetu.util.ValidateUtil;
 
 /**
  * Created by object1984 on 15/12/2.
  */
-public class RegisterActivity extends BaseActivity implements View.OnClickListener {
+public class RegisterActivity extends BaseVolleyActivity implements View.OnClickListener {
+    private static final String TAG = RegisterActivity.class.getSimpleName();
+
     private ImageButton passwordInputEyeButton;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private ImageView usernameLoadingImageView;
     private AnimationDrawable usernameLoadingAnimationDrawable;
     private ImageButton usernameClearImageButton;
+    private ImageButton usernameRightImageButton;
 
     private Button nextButton;
+    private boolean usernameUsed = true;
+
+    private static final String TAG_API_CHECK_USERNAME = "TAG_API_CHECK_USERNAME";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setThemeTranslucent();
 
         setContentView(R.layout.activity_register);
-
+        setupToolbar(false, R.string.register);
         init();
     }
 
@@ -53,6 +64,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         passwordEditText = (EditText)findViewById(R.id.edit_password);
         usernameLoadingImageView = (ImageView)findViewById(R.id.img_username_loading);
         usernameClearImageButton = (ImageButton)findViewById(R.id.btn_username_clear);
+        usernameRightImageButton = (ImageButton)findViewById(R.id.btn_username_right);
         nextButton = (Button)findViewById(R.id.btn_next);
     }
 
@@ -83,25 +95,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     usernameClearImageButton.setVisibility(View.VISIBLE);
                 }
                 nextButton.setEnabled(false);
+                usernameRightImageButton.setVisibility(View.GONE);
             }
         });
 
         usernameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                usernameRightImageButton.setVisibility(View.GONE);
                 if(!hasFocus){
+                    usernameLoadingImageView.setVisibility(View.VISIBLE);
+                    usernameClearImageButton.setVisibility(View.GONE);
+                    usernameLoadingAnimationDrawable = (AnimationDrawable) usernameLoadingImageView.getDrawable();
+                    usernameLoadingAnimationDrawable.start();
+
                     String username = usernameEditText.getText().toString().trim();
 
-                    if(ValidateUtil.checkUserName(username)){
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                nextButton.setEnabled(true);
-                            }
-                        }, 2000);
-                    }else {
-                        nextButton.setEnabled(false);
-                    }
+                    checkUsername(username);
+                }
+            }
+        });
+
+        passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    String password = passwordEditText.getText().toString().trim();
+
                 }
             }
         });
@@ -111,16 +131,34 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         super.initViews();
 
-        setTitleText(R.string.register);
 
-        usernameLoadingAnimationDrawable = (AnimationDrawable) usernameLoadingImageView.getDrawable();
-        usernameLoadingAnimationDrawable.start();
     }
 
-    private void toRegister(){
-        //Calls a new Activity
-        startActivity(new Intent(this, CountryChooseActivity.class));
+    private void checkUsername(String username){
+        if(ValidateUtil.checkUserName(username)){
+            Api.checkUsername(TAG_API_CHECK_USERNAME, username, this, this);
+        }else {
+            nextButton.setEnabled(false);
+            usernameClearImageButton.setVisibility(View.VISIBLE);
+            usernameLoadingAnimationDrawable.stop();
+            usernameLoadingImageView.setVisibility(View.GONE);
+        }
+    }
 
+    private void checkPassword(String password){
+        if(ValidateUtil.checkPassword(password) && !usernameUsed){
+            nextButton.setEnabled(true);
+        }else {
+            nextButton.setEnabled(false);
+        }
+    }
+
+    private void toCountryChoose(){
+        String username = usernameEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+        checkPassword(password);
+
+        NavHelper.toCountryChoosePage(this, username, password);
     }
 
     @Override
@@ -133,10 +171,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 clearUserName();
                 break;
             case R.id.btn_next:
-                toNext();
+                toCountryChoose();
                 break;
         }
-//        toRegister();
     }
 
     private void clearUserName() {
@@ -159,7 +196,34 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private void toNext(){
-        NavHelper.toCountryChoosePage(this);
+
+    @Override
+    public void onResponse(GsonResult response, String tag) {
+        super.onResponse(response, tag);
+        LogUtil.d(TAG, "onResponse, TAG=" + tag);
+        usernameLoadingAnimationDrawable.stop();
+        usernameLoadingImageView.setVisibility(View.GONE);
+        if(TAG_API_CHECK_USERNAME.equals(tag)){
+            int code = response.getCode();
+            if(code == 1){//不存在
+                usernameClearImageButton.setVisibility(View.GONE);
+                usernameRightImageButton.setVisibility(View.VISIBLE);
+                usernameUsed = false;
+                nextButton.setEnabled(true);
+            }else {
+                usernameClearImageButton.setVisibility(View.VISIBLE);
+                usernameRightImageButton.setVisibility(View.GONE);
+                usernameUsed = true;
+            }
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
+        LogUtil.d(TAG, "onErrorResponse, TAG=" + tag);
+        usernameLoadingAnimationDrawable.stop();
+        usernameRightImageButton.setVisibility(View.GONE);
+        usernameUsed = true;
     }
 }

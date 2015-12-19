@@ -11,4 +11,7 @@
     <string name="login_has_account">已有账号了吗？</string>
     <string name="login_username_hint">请输入你的邮箱或手机号</string>
     <string name="login_password_hint">请输入密码</string>
+    <string name="hint_register_nickname">使用名字可以让朋友更轻松找到你</string>
+    <string name="register_hint_nickname" />
+    <string name="register_notice_birthday">你稍后可以在设置中更改</string>
 </resources>

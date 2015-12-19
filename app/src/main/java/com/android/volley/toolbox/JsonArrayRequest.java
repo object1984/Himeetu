@@ -63,11 +63,12 @@ public class JsonArrayRequest extends JsonRequest<JSONArray> {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
             return Response.success(new JSONArray(jsonString),
-                    HttpHeaderParser.parseCacheHeaders(response));
+                    HttpHeaderParser.parseCacheHeaders(response),
+                    (String)getTag());
         } catch (UnsupportedEncodingException e) {
-            return Response.error(new ParseError(e));
+            return Response.error(new ParseError(e), (String)getTag());
         } catch (JSONException je) {
-            return Response.error(new ParseError(je));
+            return Response.error(new ParseError(je), (String)getTag());
         }
     }
 }

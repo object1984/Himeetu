@@ -51,29 +51,33 @@ public class GsonGetRequest<T> extends Request<T>
     @Override
     protected void deliverResponse(T response)
     {
-        listener.onResponse(response);
+        listener.onResponse(response, (String)getTag());
     }
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response)
     {
+        String tag = (String)getTag();
         try
         {
+
             String json = new String(response.data, "utf-8");
+
             LogUtil.d("GsonGetRequest json", json);
             return (Response<T>) Response.success
                     (
                             gson.fromJson(json, type),
-                            HttpHeaderParser.parseCacheHeaders(response)
+                            HttpHeaderParser.parseCacheHeaders(response),
+                            tag
                     );
         }
         catch (UnsupportedEncodingException e)
         {
-            return Response.error(new ParseError(e));
+            return Response.error(new ParseError(e), tag);
         }
         catch (JsonSyntaxException e)
         {
-            return Response.error(new ParseError(e));
+            return Response.error(new ParseError(e), tag);
         }
     }
 }

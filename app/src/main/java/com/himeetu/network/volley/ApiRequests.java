@@ -14,24 +14,55 @@ import com.himeetu.util.LogUtil;
 /**
  * Requests to the API
  */
-public class ApiRequests
-{
-    /**
-     * Returns a dummy object
-     *
-     * @param listener is the listener for the correct answer
-     * @param errorListener is the listener for the error response
-     *
-     * @return {@link GsonGetRequest}
-     */
-    public static GsonGetRequest<GsonResult> getAllMessage
-    (
-            @NonNull final Response.Listener<GsonResult> listener,
-            @NonNull final Response.ErrorListener errorListener
-    )
-    {
-        final String url = String.format(UrlPatten.URL_GET_COURSE_ALL);
+public class ApiRequests {
+
+
+    public static GsonGetRequest<GsonResult> checkInvitationCode(@NonNull final String code, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_CHECK_INVITATION_CODE, code);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> checkUsername(@NonNull final String username, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_CHECK_USERNAME, username);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> checkNickname(@NonNull final String nickname, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_CHECK_NICKNAME, nickname);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> userLogin(@NonNull final String username,
+                                                          @NonNull final String password,
+                                                          @NonNull final Response.Listener<GsonResult> listener,
+                                                          @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_USER_LOGIN, username, password);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> userRegister(@NonNull final String username,
+                                                          @NonNull final String password,
+                                                          @NonNull final String safeCode,
+                                                          @NonNull final String birthday,
+                                                          @NonNull final String nickname,
+                                                          @NonNull final String email,
+                                                          @NonNull final int sex,
+                                                          @NonNull final int countryCode,
+                                                          @NonNull final Response.Listener<GsonResult> listener,
+                                                                                                    @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_USER_REGISTER, username, password, email, safeCode, nickname, countryCode, birthday, sex);
+
+        return doGet(url, listener, errorListener);
+    }
+
+
+    public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
         LogUtil.d("url", url);
+
         final Gson gson = new GsonBuilder()
                 .registerTypeAdapter(GsonResult.class, new GsonResultDeserializer())
                 .create();
@@ -39,35 +70,11 @@ public class ApiRequests
         return new GsonGetRequest<GsonResult>
                 (
                         url,
-                        new TypeToken<GsonResult>() {}.getType(),
+                        new TypeToken<GsonResult>() {
+                        }.getType(),
                         gson,
                         listener,
                         errorListener
                 );
     }
-
-    public static GsonGetRequest<GsonResult> getQuestionById
-            (
-                    @NonNull final String id,
-                    @NonNull final Response.Listener<GsonResult> listener,
-                    @NonNull final Response.ErrorListener errorListener
-            )
-    {
-        final String url = String.format(UrlPatten.URL_GET_QUESTION_BY_ID, id);
-        LogUtil.d("url", url);
-        final Gson gson = new GsonBuilder()
-                .registerTypeAdapter(GsonResult.class, new GsonResultDeserializer())
-                .create();
-
-        return new GsonGetRequest<GsonResult>
-                (
-                        url,
-                        new TypeToken<GsonResult>() {}.getType(),
-                        gson,
-                        listener,
-                        errorListener
-                );
-    }
-
-
 }

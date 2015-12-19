@@ -24,10 +24,30 @@ public class ValidateUtil {
         }
 
         if(!isEmail(username) &&  !isPhoneNumber(username)){
-            noticeId = R.string.notice_name_blank;
+            noticeId = R.string.notice_name_format;
             result = false;
         }
 
+        if (-1 != noticeId) {
+            Toast.makeText(MEETApplication.getInstance(), MEETApplication.getInstance().getResources().getString(noticeId), Toast.LENGTH_SHORT).show();
+        }
+
+        return result;
+    }
+
+    public static boolean checkPassword(String password) {
+        boolean result = true;
+        int noticeId = -1;
+
+        if (TextUtils.isEmpty(password)) {
+            noticeId = R.string.notice_password_blank;
+            result = false;
+        }
+
+        if(password.length()< 6 || password.length() > 20){
+            noticeId = R.string.notice_password_length;
+            result = false;
+        }
         if (-1 != noticeId) {
             Toast.makeText(MEETApplication.getInstance(), MEETApplication.getInstance().getResources().getString(noticeId), Toast.LENGTH_SHORT).show();
         }

@@ -98,7 +98,7 @@ public class ImageLoader {
             final int defaultImageResId, final int errorImageResId) {
         return new ImageListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error, String tag) {
                 if (errorImageResId != 0) {
                     view.setImageResource(errorImageResId);
                 }
@@ -251,12 +251,12 @@ public class ImageLoader {
             ScaleType scaleType, final String cacheKey) {
         return new ImageRequest(requestUrl, new Listener<Bitmap>() {
             @Override
-            public void onResponse(Bitmap response) {
+            public void onResponse(Bitmap response, String tag) {
                 onGetImageSuccess(cacheKey, response);
             }
         }, maxWidth, maxHeight, scaleType, Config.RGB_565, new ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error, String tag) {
                 onGetImageError(cacheKey, error);
             }
         });
@@ -453,7 +453,7 @@ public class ImageLoader {
      * @param cacheKey The cacheKey of the response being delivered.
      * @param request The BatchedImageRequest to be delivered.
      */
-    private void batchResponse(String cacheKey, BatchedImageRequest request) {
+    private void batchResponse(String cacheKey, final BatchedImageRequest request) {
         mBatchedResponses.put(cacheKey, request);
         // If we don't already have a batch delivery runnable in flight, make a new one.
         // Note that this will be used to deliver responses to all callers in mBatchedResponses.
@@ -473,7 +473,7 @@ public class ImageLoader {
                                 container.mBitmap = bir.mResponseBitmap;
                                 container.mListener.onResponse(container, false);
                             } else {
-                                container.mListener.onErrorResponse(bir.getError());
+                                container.mListener.onErrorResponse(bir.getError(), "");
                             }
                         }
                     }
