@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -130,5 +131,13 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
     public void onPause() {
         super.onPause();
 //        StatService.onPause(this);
+    }
+
+
+    protected void setThemeTranslucent() {
+        if (android.os.Build.VERSION.SDK_INT > 18) {
+            Window window = getActivity().getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 }

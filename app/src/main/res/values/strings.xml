@@ -16,6 +16,7 @@
     <string name="register">注册</string>
     <string name="your_country">你的国家</string>
     <string name="your_identity">你的身份</string>
+    <string name="find_password">找回密码</string>
 
     <string name="register_invitation_text_1"><u><font fgcolor="#5252FF">Hi Meet 条款</font></u>，</string>
     <string name="register_invitation_text_2"><u><font fgcolor="#5252FF">隐私政策</font></u>，</string>

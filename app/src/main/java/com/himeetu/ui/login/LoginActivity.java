@@ -36,7 +36,6 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
     private EditText userNameEditText;
     private EditText passwordEditText;
 
-    private Button loginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +58,7 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
         super.setupListeners();
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.text_register).setOnClickListener(this);
+        findViewById(R.id.text_find_password).setOnClickListener(this);
     }
 
 
@@ -69,15 +69,24 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
             case R.id.text_register:
                 toRegister();
                 break;
+            case R.id.text_find_password:
+                toFindPassword();
+                break;
             case R.id.btn_login:
                 toLogin();
                 break;
         }
     }
 
+    private void toFindPassword() {
+        NavHelper.toFindPassowrdPage(this);
+    }
+
+    private String username;
+    private String password;
     private void toLogin() {
-        String username = userNameEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
+         username = userNameEditText.getText().toString().trim();
+         password = passwordEditText.getText().toString().trim();
 
         if(ValidateUtil.checkUserName(username) && ValidateUtil.checkPassword(password)){
             Api.userLoginStep1(TAG_API_USER_LOGIN_STEP_1, username, password, this, this);
@@ -156,6 +165,6 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
     }
 
     private void onLoginSuccess(){
-        NavHelper.toMainPage(this);
+        NavHelper.toMainPage(this, username);
     }
 }
