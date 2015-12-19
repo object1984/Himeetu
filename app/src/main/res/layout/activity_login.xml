@@ -57,7 +57,8 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_marginRight="3dp"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:text="15901538194" />
                     <ImageButton
                         android:visibility="invisible"
                         android:paddingRight="10dp"
@@ -91,7 +92,9 @@
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:text="123456"
+                        android:password="true" />
                     <ImageButton
                         android:visibility="invisible"
                         android:paddingRight="10dp"
