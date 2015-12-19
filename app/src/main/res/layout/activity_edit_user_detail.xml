@@ -9,7 +9,7 @@
     <include layout="@layout/toolbar_white_common_back"/>
 
     <RelativeLayout
-        android:id="@+id/rl_facebook"
+        android:id="@+id/rl_user_head"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
@@ -25,6 +25,7 @@
 
 
         <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/riv_user_head"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
@@ -52,7 +53,7 @@
         android:background="#c8c8c8" />
 
     <RelativeLayout
-        android:id="@+id/rl_weixin"
+        android:id="@+id/rl_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -67,6 +68,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -91,7 +93,7 @@
         android:background="#c8c8c8" />
 
     <RelativeLayout
-        android:id="@+id/rl_contacts"
+        android:id="@+id/rl_id"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -107,6 +109,7 @@
 
 
         <TextView
+            android:id="@+id/tv_id"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -131,7 +134,7 @@
         android:background="@color/transparent" />
 
     <RelativeLayout
-        android:id="@+id/rl_invite_friends"
+        android:id="@+id/rl_email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -146,6 +149,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -171,7 +175,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_data_edit"
+        android:id="@+id/rl_phone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -186,6 +190,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -211,7 +216,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_pwd_edit"
+        android:id="@+id/rl_sex"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -226,6 +231,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_sex"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -250,7 +256,7 @@
         android:background="@color/transparent" />
 
     <RelativeLayout
-        android:id="@+id/rl_clear_cache"
+        android:id="@+id/rl_birthday"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -265,6 +271,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_birthday"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -290,12 +297,14 @@
 
 
     <RelativeLayout
+        android:id="@+id/rl_question"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
         android:paddingLeft="15dp">
 
         <TextView
+            android:id="@+id/tv_question"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -304,6 +313,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_answer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"

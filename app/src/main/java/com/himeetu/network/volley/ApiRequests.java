@@ -78,6 +78,41 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    public static GsonGetRequest<GsonResult> userImgPath(@NonNull final String uid,
+                                                          @NonNull final Response.Listener<GsonResult> listener,
+                                                          @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_USER_IMG_PATH, uid);
+
+        return doGet(url, listener, errorListener);
+    }
+
+
+    public static GsonGetRequest<GsonResult> userHeadImgPath(@NonNull final String uid,
+                                                         @NonNull final Response.Listener<GsonResult> listener,
+                                                         @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_USER_IMG_HEAD, uid);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> getInviteCode(@NonNull final String name,
+                                                             @NonNull final Response.Listener<GsonResult> listener,
+                                                             @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_GET_INVITE_CODE, name);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> updatePassWord(@NonNull final String name,
+                                                            @NonNull final String pwd,
+                                                            @NonNull final String newPwd,
+                                                           @NonNull final Response.Listener<GsonResult> listener,
+                                                           @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_UPDATE_PASSWORD, name,pwd,newPwd);
+
+        return doGet(url, listener, errorListener);
+    }
+
 
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
         LogUtil.d("url", url);

@@ -17,4 +17,12 @@ public class UrlPatten {
         public static final String URL_USER_LOGIN_STEP_1= URL_ACCOUNT_BASE +"/user/login?name=%s&password=%s";
         public static final String URL_USER_LOGIN_STEP_2= URL_API_BASE +"/user/login?key=%s&uid=%d&time=%d&type=%d";
         public static final String URL_USER_SELF_INFO= URL_API_BASE +"/userdata/getselfdata";
+        public static final String URL_USER_IMG_PATH=URL_API_BASE +"/sys/getuserimgpath?uid=%s";
+        public static final String URL_USER_IMG_HEAD=URL_API_BASE+"/portrait/get?uid=%s";
+        public static final String URL_GET_INVITE_CODE=URL_ACCOUNT_BASE+"/invite/get?name=%s";
+        public static final String URL_UPDATE_PASSWORD=URL_ACCOUNT_BASE+"/user/updatepassword?name=%s&password=%s&newpassword=%s";
+
+
+
+
 }

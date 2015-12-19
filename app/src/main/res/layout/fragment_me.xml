@@ -30,6 +30,7 @@
             android:layout_marginTop="50dp">
 
             <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/riv_user_head"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:src="@drawable/image1"
@@ -39,6 +40,7 @@
                 app:siSquare="true" />
 
             <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/riv_user_country"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentBottom="true"
