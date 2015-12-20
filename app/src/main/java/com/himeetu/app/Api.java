@@ -34,4 +34,25 @@ public class Api {
     public static void getSelfInfo(String tag, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getSelfInfo( listener, errorListener), tag);
     }
+
+    public static void getUserImgPath(String tag, String uid,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.userImgPath(uid, listener, errorListener), tag);
+    }
+
+    public static void getUserHeadImgPath(String tag, String uid,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.userHeadImgPath(uid, listener, errorListener), tag);
+    }
+
+    public static void getInviteCode(String tag, String name,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getInviteCode(name, listener, errorListener), tag);
+    }
+
+    public static void updatePassWord(String tag, String name,String pwd,String newPwd,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.updatePassWord(name,pwd,newPwd, listener, errorListener), tag);
+    }
+
+
+
+
+
 }

@@ -67,6 +67,12 @@
     <string name="home_detail_edit_hint">添加评论...</string>
 
 
+
+    <string name="pwd_not_null">密码不能为空！</string>
+    <string name="pwd_confrim_error">两次密码输入不同！</string>
+    <string name="success">成功！</string>
+
+
     <!--主页-->
     <string name="message">动态</string>
 </resources>

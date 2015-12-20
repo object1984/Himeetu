@@ -18,6 +18,8 @@ public class Constants {
 
     public static final String CONFIG_TOKEN = "config_token";
     public static final String CONFIG_USER = "config_user";
+    public static final String CONFIG_USER_IMG_URL = "config_user_img_url";
+    public static final String CONFIG_USER_Head_URL = "config_user_head_url";
     public static final String CONFIG_CURRENT_ORDER_ID = "config_current_order_id";
     public static final String CONFIG_FOLDER = "/himeetu ";
     public static final String CONFIG_FOLDER_USER = "/user";

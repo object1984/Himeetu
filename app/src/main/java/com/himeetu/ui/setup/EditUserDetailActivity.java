@@ -10,21 +10,35 @@ import android.widget.RelativeLayout;
 import com.himeetu.R;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.view.SelectPicPopupWindow;
+import android.os.Bundle;
+import android.app.Activity;
+import android.widget.RelativeLayout;
+import com.github.siyamed.shapeimageview.RoundedImageView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * 编辑用户资料
  */
 public class EditUserDetailActivity extends BaseActivity implements View.OnClickListener {
     private SelectPicPopupWindow menuWindow;
-    private RelativeLayout rlFacebook;
-    private ImageView ivArrowsRight;
-    private RelativeLayout rlWeixin;
-    private RelativeLayout rlContacts;
-    private RelativeLayout rlInviteFriends;
-    private RelativeLayout rlDataEdit;
-    private RelativeLayout rlPwdEdit;
-    private RelativeLayout rlClearCache;
-
+    private RelativeLayout rlUserHead;
+    private RoundedImageView rivUserHead;
+    private RelativeLayout rlName;
+    private TextView tvName;
+    private RelativeLayout rlId;
+    private TextView tvId;
+    private RelativeLayout rlEmail;
+    private TextView tvEmail;
+    private RelativeLayout rlPhone;
+    private TextView tvPhone;
+    private RelativeLayout rlSex;
+    private TextView tvSex;
+    private RelativeLayout rlBirthday;
+    private TextView tvBirthday;
+    private RelativeLayout rlQuestion;
+    private TextView tvQuestion;
+    private TextView tvAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +53,24 @@ public class EditUserDetailActivity extends BaseActivity implements View.OnClick
     @Override
     protected void loadViews() {
         super.loadViews();
-        rlFacebook = (RelativeLayout) findViewById(R.id.rl_facebook);
-        ivArrowsRight = (ImageView) findViewById(R.id.iv_arrows_right);
-        rlWeixin = (RelativeLayout) findViewById(R.id.rl_weixin);
-        rlContacts = (RelativeLayout) findViewById(R.id.rl_contacts);
-        rlInviteFriends = (RelativeLayout) findViewById(R.id.rl_invite_friends);
-        rlDataEdit = (RelativeLayout) findViewById(R.id.rl_data_edit);
-        rlPwdEdit = (RelativeLayout) findViewById(R.id.rl_pwd_edit);
-        rlClearCache = (RelativeLayout) findViewById(R.id.rl_clear_cache);
+
+        rlUserHead = (RelativeLayout) findViewById(R.id.rl_user_head);
+        rivUserHead = (RoundedImageView) findViewById(R.id.riv_user_head);
+        rlName = (RelativeLayout) findViewById(R.id.rl_name);
+        tvName = (TextView) findViewById(R.id.tv_name);
+        rlId = (RelativeLayout) findViewById(R.id.rl_id);
+        tvId = (TextView) findViewById(R.id.tv_id);
+        rlEmail = (RelativeLayout) findViewById(R.id.rl_email);
+        tvEmail = (TextView) findViewById(R.id.tv_email);
+        rlPhone = (RelativeLayout) findViewById(R.id.rl_phone);
+        tvPhone = (TextView) findViewById(R.id.tv_phone);
+        rlSex = (RelativeLayout) findViewById(R.id.rl_sex);
+        tvSex = (TextView) findViewById(R.id.tv_sex);
+        rlBirthday = (RelativeLayout) findViewById(R.id.rl_birthday);
+        tvBirthday = (TextView) findViewById(R.id.tv_birthday);
+        rlQuestion = (RelativeLayout) findViewById(R.id.rl_question);
+        tvQuestion = (TextView) findViewById(R.id.tv_question);
+        tvAnswer = (TextView) findViewById(R.id.tv_answer);
     }
 
     @Override
@@ -58,14 +82,15 @@ public class EditUserDetailActivity extends BaseActivity implements View.OnClick
     protected void setupListeners() {
         super.setupListeners();
 
-        rlFacebook.setOnClickListener(this);
-        ivArrowsRight.setOnClickListener(this);
-        rlWeixin.setOnClickListener(this);
-        rlContacts.setOnClickListener(this);
-        rlInviteFriends.setOnClickListener(this);
-        rlDataEdit.setOnClickListener(this);
-        rlPwdEdit.setOnClickListener(this);
-        rlClearCache.setOnClickListener(this);
+        rlUserHead.setOnClickListener(this);
+        rlName.setOnClickListener(this);
+        rlId.setOnClickListener(this);
+        rlEmail.setOnClickListener(this);
+        rlPhone.setOnClickListener(this);
+        rlSex.setOnClickListener(this);
+        rlBirthday.setOnClickListener(this);
+        rlQuestion.setOnClickListener(this);
+
 
     }
 
@@ -85,6 +110,34 @@ public class EditUserDetailActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+            case R.id.rl_user_head:
+
+                break;
+
+            case R.id.rl_name:
+
+                break;
+            case R.id.rl_id:
+
+                break;
+            case R.id.rl_email:
+
+                break;
+            case R.id.rl_phone:
+
+                break;
+            case R.id.rl_sex:
+
+                break;
+            case R.id.rl_birthday:
+
+                break;
+            case R.id.rl_question:
+
+                break;
+
+
 
 
         }

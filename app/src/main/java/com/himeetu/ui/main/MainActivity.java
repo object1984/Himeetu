@@ -3,9 +3,11 @@ package com.himeetu.ui.main;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.himeetu.R;
 import com.himeetu.app.Api;
@@ -13,6 +15,7 @@ import com.himeetu.app.NavHelper;
 import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
+import com.himeetu.model.UserImg;
 import com.himeetu.model.service.UserService;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseActivity;
@@ -24,6 +27,7 @@ import com.himeetu.util.JsonUtil;
 import com.himeetu.util.ToastUtil;
 import com.himeetu.view.MainBottomBar;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
@@ -33,6 +37,9 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
 
     private static final String SAVE_INSTANCE_CURRENT_TAG = "currentTag";
     private static final String TAG_API_GET_SELF_INFO = "TAG_API_GET_SELF_INFO";
+    private final String GET_IMG_PATH_TAG = "TAG_API_GET_IMG_PATH";
+    private final String GET_HEAD_IMG_PATH_TAG = "TAG_API_GET_HEAD_IMG_PATH";
+
 
     private static final int TAB_PAGE_HOME = R.id.bottom_bar_home;
     private static final int TAB_PAGE_FAVORITE = R.id.bottom_bar_favorite;
@@ -41,6 +48,8 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     private static final int TAB_PAGE_PHOTO = R.id.bottom_bar_camera;
     private int mCurrentTag = -1;
     private MainBottomBar mMainBottomBar;
+    private User user;
+    private String userHeadPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,11 +218,51 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
         if(TAG_API_GET_SELF_INFO.equals(tag)){
-            User user = UserService.save(response.getJsonStr());
+
+            user =  new Gson().fromJson(response.getJsonStr(), User.class);
+
             if(user != null){
                 user.setUsername(getIntent().getStringExtra(Argument.USERNAME));
                 EventBus.getDefault().post(new UserInfoRefreshEvent(user));
             }
+
+            UserService.save(user);
+
+        }else if(GET_IMG_PATH_TAG.equals(tag)){
+
+            UserImg userImg = new Gson().fromJson(response.getJsonStr(),UserImg.class);
+
+            if(userImg.getCount() == 1){
+
+                userHeadPath = userImg.getPaths().getPath();
+
+                if(!TextUtils.isEmpty(userHeadPath)){
+                    UserService.saveUserImgPath(userHeadPath);
+                }
+
+                getUserHeadImg(user.getUid()+"");
+
+            }
+        }else if(GET_HEAD_IMG_PATH_TAG.equals(tag)){
+
+            try {
+                JSONObject json = new JSONObject(response.getJsonStr());
+                if("0".equals(json.getString("result"))){
+
+                    String img =   json.getString("img");
+
+                    if(!TextUtils.isEmpty(img)){
+                        UserService.saveUserHeadPath(img);
+                    }
+
+                }else{
+                    ToastUtil.show(json.getString("msg"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -229,6 +278,32 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     }
 
     public void onEvent(UserInfoRefreshEvent event){
+        user = event.user;
+
+
+        getUserImgPath();  //获取到用户数据之后 通过uid 获取 用户图片路径 和 用户头像数据
+    }
+
+    /**
+     * 获取用户图片url前缀
+     */
+    public void getUserImgPath(){
+
+        Api.getUserImgPath(GET_IMG_PATH_TAG,user.getUid()+"",this,this);
 
     }
+
+
+    /**
+     * 获取用户头像
+     *
+     */
+    public void getUserHeadImg(String uid){
+
+        Api.getUserHeadImgPath(GET_HEAD_IMG_PATH_TAG,uid,this,this);
+
+    }
+
+
+
 }

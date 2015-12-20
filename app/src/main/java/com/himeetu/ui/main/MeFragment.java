@@ -2,8 +2,10 @@ package com.himeetu.ui.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +16,26 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.google.gson.Gson;
 import com.himeetu.R;
 import com.himeetu.adapter.MePagerAdapter;
+import com.himeetu.app.Api;
 import com.himeetu.event.UserInfoRefreshEvent;
+import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
+import com.himeetu.model.UserImg;
+import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseFragment;
 import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.setup.SettingsActivity;
 import com.himeetu.util.ToastUtil;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -29,6 +43,7 @@ import de.greenrobot.event.EventBus;
 
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -44,9 +59,16 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private TextView tvAttention;
     private View tvFans;
     public static final  String TYPE = "type";
+
+    private String path ;
+
+
     public static enum AttentionType{
         ATTENTION,FANS
     }
+    private User user;
+    private RoundedImageView head,country;
+
 
 
     public MeFragment() {
@@ -92,7 +114,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         tvUsername = (TextView) rootView.findViewById(R.id.tv_username);
         tvAttention = (TextView) rootView.findViewById(R.id.tv_attention);
         tvFans = rootView.findViewById(R.id.tv_fans);
-
+        head = (RoundedImageView) rootView.findViewById(R.id.riv_user_head);
+        country = (RoundedImageView) rootView.findViewById(R.id.riv_user_country);
 
     }
 
@@ -156,6 +179,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         });
 
 
+        user = UserService.get();
+
+        setUserData();
+
     }
 
     @Override
@@ -212,7 +239,35 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void onEvent(UserInfoRefreshEvent event){
-        User user = event.user;
-        ToastUtil.show(user.getNickname());
+        user = event.user;
+//        ToastUtil.show(user.getNickname());
+        setUserData();
+    }
+
+
+    private void setSexImg(int sex){
+
+        Drawable drawable= null;
+        if(sex == 1){
+            drawable= getResources().getDrawable(R.drawable.ic_female);
+        }else{
+            drawable= getResources().getDrawable(R.drawable.ic_male);
+        }
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        tvUsername.setCompoundDrawables(null,null,drawable,null);
+    }
+
+    private void setUserData(){
+
+        setSexImg(user.getSex());
+
+        tvUsername.setText(user.getNickname());
+
+        String path = UserService.getUserImgPath();
+
+        String headPath = UserService.getUserHeadPath();
+
+        Picasso.with(getActivity()).load(path+headPath).placeholder(R.drawable.image1).error(R.drawable.image1).into(head);
+
     }
 }
