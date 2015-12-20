@@ -5,6 +5,7 @@
     android:layout_height="60dp"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
+    android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical">
 
     <com.github.siyamed.shapeimageview.RoundedImageView
@@ -12,6 +13,7 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:src="@drawable/image1"
+        android:layout_centerVertical="true"
         app:siRadius="90dp"
         app:siSquare="true" />
 
@@ -19,9 +21,8 @@
         android:id="@+id/tv_name"
         android:layout_toRightOf="@id/im_head"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
-        android:layout_centerVertical="true"
         android:gravity="center"
         android:textSize="14dp"
         android:text="蛋蛋的爱" />
@@ -36,9 +37,9 @@
         android:text="关注"
         android:gravity="center"
         android:textColor="@color/attention_list_btn"
-        android:background="@drawable/border_attention_btn"
+        android:background="@drawable/selector_attention"
         android:button="@null"
-        android:checked="true"
+        android:checked="false"
         android:layout_alignParentRight="true"/>
 
 

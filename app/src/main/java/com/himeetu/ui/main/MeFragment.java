@@ -30,6 +30,7 @@ import com.himeetu.model.UserImg;
 import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseFragment;
 import com.himeetu.ui.my.AttentionActivity;
+import com.himeetu.ui.setup.EditUserDetailActivity;
 import com.himeetu.ui.setup.SettingsActivity;
 import com.himeetu.util.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -124,7 +125,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         super.initViews();
 
         ibtSetup.setOnClickListener(this);
-//        rlLogo.setOnClickListener(this);
+        rlLogo.setOnClickListener(this);
 //        tvUsername.setOnClickListener(this);
         tvAttention.setOnClickListener(this);
         tvFans.setOnClickListener(this);
@@ -229,6 +230,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
 
+
+            case R.id.rl_logo:
+
+                startActivity(new Intent(getActivity(), EditUserDetailActivity.class));
+
+                break;
         }
     }
 
@@ -240,7 +247,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     public void onEvent(UserInfoRefreshEvent event){
         user = event.user;
-//        ToastUtil.show(user.getNickname());
         setUserData();
     }
 

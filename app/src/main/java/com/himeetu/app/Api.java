@@ -51,6 +51,10 @@ public class Api {
         MEETApplication.addRequest(ApiRequests.updatePassWord(name,pwd,newPwd, listener, errorListener), tag);
     }
 
+    public static void getSelf(String tag, int statr,int limit,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getSelf(statr,limit, listener, errorListener), tag);
+    }
+
 
 
 

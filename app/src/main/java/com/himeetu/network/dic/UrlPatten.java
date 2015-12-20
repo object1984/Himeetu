@@ -21,6 +21,7 @@ public class UrlPatten {
         public static final String URL_USER_IMG_HEAD=URL_API_BASE+"/portrait/get?uid=%s";
         public static final String URL_GET_INVITE_CODE=URL_ACCOUNT_BASE+"/invite/get?name=%s";
         public static final String URL_UPDATE_PASSWORD=URL_ACCOUNT_BASE+"/user/updatepassword?name=%s&password=%s&newpassword=%s";
+        public static final String URL_GET_SELF= URL_API_BASE+"/activity/getself?start=%s&limit=%s";
 
 
 

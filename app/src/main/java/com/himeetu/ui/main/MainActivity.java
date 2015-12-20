@@ -14,6 +14,7 @@ import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
 import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
+import com.himeetu.model.PersonState;
 import com.himeetu.model.User;
 import com.himeetu.model.UserImg;
 import com.himeetu.model.service.UserService;
@@ -22,7 +23,6 @@ import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.my.ActivitysFragment;
 import com.himeetu.ui.my.ActivitysFragment.OnListFragmentInteractionListener;
-import com.himeetu.ui.my.dummy.DummyContent;
 import com.himeetu.util.JsonUtil;
 import com.himeetu.util.ToastUtil;
 import com.himeetu.view.MainBottomBar;
@@ -205,7 +205,7 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(PersonState item) {
 
     }
 

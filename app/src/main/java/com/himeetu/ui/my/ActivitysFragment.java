@@ -6,14 +6,23 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.VolleyError;
+import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.ActivitysAdapter;
-import com.himeetu.ui.my.dummy.DummyContent;
-import com.himeetu.ui.my.dummy.DummyContent.DummyItem;
+import com.himeetu.app.Api;
+import com.himeetu.model.GsonResult;
+import com.himeetu.model.PersonState;
+import com.himeetu.ui.base.BaseFragment;
+import com.himeetu.ui.base.BaseVolleyFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 我的界面 活动list
@@ -22,14 +31,23 @@ import com.himeetu.ui.my.dummy.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ActivitysFragment extends Fragment {
+public class ActivitysFragment extends BaseVolleyFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private int mType;
+    public static final int TYPE_GRDT = 2;
+    public static final int TYPE_CYHD = 3;
+    public static final int TYPE_QBDT = 4;
+    private static final String TYPE ="type";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
+    private final String TAG_GET_SELF="TAG_GET_SELF";
+    private int start = 0;
+    private int limit = 10;
+    private List<PersonState> lists = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,10 +58,11 @@ public class ActivitysFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ActivitysFragment newInstance(int columnCount) {
+    public static ActivitysFragment newInstance(int columnCount,int type) {
         ActivitysFragment fragment = new ActivitysFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putInt(TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +73,27 @@ public class ActivitysFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mType = getArguments().getInt(TYPE);
+        }
+
+        for(int i = 0; i < 20;i++){
+            lists.add(new PersonState());
+        }
+
+        initData();
+
+    }
+
+    private void initData() {
+
+        switch (mType){
+
+            case TYPE_GRDT:
+
+                getSelf();
+
+                break;
+
         }
     }
 
@@ -71,7 +111,7 @@ public class ActivitysFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new ActivitysAdapter(DummyContent.ITEMS, mListener));
+        recyclerView.setAdapter(new ActivitysAdapter(lists, mListener));
         return view;
     }
 
@@ -105,6 +145,30 @@ public class ActivitysFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(PersonState item);
+    }
+
+
+    private void getSelf(){
+        Api.getSelf(TAG_GET_SELF,start,limit,this,this);
+    }
+
+    @Override
+    public void onResponse(GsonResult response, String tag) {
+        super.onResponse(response, tag);
+
+        if(TAG_GET_SELF.equals(tag)){
+
+            if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
+
+        }else{
+
+        }
+
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
     }
 }

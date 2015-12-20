@@ -31,8 +31,10 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Checkable;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -475,5 +477,14 @@ public class BaseAdapterHelper {
     /** Should be called during convert */
     public void setAssociatedObject(Object associatedObject) {
         this.associatedObject = associatedObject;
+    }
+
+    public void setOnCheckedListener(int viewId , CompoundButton.OnCheckedChangeListener listener){
+
+        View view = retrieveView(viewId);
+        if(view  instanceof  CompoundButton){
+            ((CompoundButton)view).setOnCheckedChangeListener(listener);
+        }
+
     }
 }

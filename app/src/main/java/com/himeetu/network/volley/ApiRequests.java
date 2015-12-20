@@ -113,6 +113,15 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    public static GsonGetRequest<GsonResult> getSelf(@NonNull final int start,
+                                                            @NonNull final int limit,
+                                                           @NonNull final Response.Listener<GsonResult> listener,
+                                                           @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_GET_SELF, start,limit);
+
+        return doGet(url, listener, errorListener);
+    }
+
 
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
         LogUtil.d("url", url);

@@ -85,7 +85,6 @@
                 android:textSize="13dp" />
 
             <View
-                android:id="@+id/tv_fans"
                 android:layout_width="0.5dp"
                 android:layout_height="13dp"
                 android:layout_gravity="center"
@@ -94,6 +93,7 @@
                 android:background="@color/white" />
 
             <TextView
+                android:id="@+id/tv_fans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_logo"

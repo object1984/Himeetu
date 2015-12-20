@@ -48,9 +48,9 @@ public class MePagerAdapter extends FragmentPagerAdapter {
 
         list = new ArrayList<Fragment>();
 
-        list.add(ActivitysFragment.newInstance(1));
-        list.add(ActivitysFragment.newInstance(1));
-        list.add(ActivitysFragment.newInstance(2));
+        list.add(ActivitysFragment.newInstance(1,ActivitysFragment.TYPE_GRDT));
+        list.add(ActivitysFragment.newInstance(1,ActivitysFragment.TYPE_CYHD));
+        list.add(ActivitysFragment.newInstance(2,ActivitysFragment.TYPE_QBDT));
     }
 
     @Override
