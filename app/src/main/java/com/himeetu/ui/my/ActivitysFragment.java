@@ -45,6 +45,7 @@ public class ActivitysFragment extends BaseVolleyFragment {
     private OnListFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private final String TAG_GET_SELF="TAG_GET_SELF";
+    private final String TAG_GET_FRIENDS_IMG="TAG_GET_FRIENDS_IMG";
     private int start = 0;
     private int limit = 10;
     private List<PersonState> lists = new ArrayList<>();
@@ -88,9 +89,15 @@ public class ActivitysFragment extends BaseVolleyFragment {
 
         switch (mType){
 
-            case TYPE_GRDT:
+            case TYPE_CYHD:
 
                 getSelf();
+
+                break;
+
+            case TYPE_GRDT:
+
+                getFriendsImg();
 
                 break;
 
@@ -148,9 +155,16 @@ public class ActivitysFragment extends BaseVolleyFragment {
         void onListFragmentInteraction(PersonState item);
     }
 
-
+    /**
+     * 参与的活动
+     */
     private void getSelf(){
         Api.getSelf(TAG_GET_SELF,start,limit,this,this);
+    }
+
+    private void getFriendsImg(){
+        Api.getFriendsImg(TAG_GET_FRIENDS_IMG,start,limit,this,this);
+
     }
 
     @Override
@@ -161,7 +175,9 @@ public class ActivitysFragment extends BaseVolleyFragment {
 
             if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
 
-        }else{
+        }else if(TAG_GET_FRIENDS_IMG.equals(tag)){
+
+            if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
 
         }
 

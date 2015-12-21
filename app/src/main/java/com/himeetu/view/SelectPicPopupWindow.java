@@ -21,13 +21,14 @@ public class SelectPicPopupWindow extends PopupWindow {
 
 
     private TextView btn1, btn2, btn_cancel;
-    private View mMenuView;
+    private View mMenuView,line;
 
     public SelectPicPopupWindow(Activity context, OnClickListener itemsOnClick) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.alert_dialog, null);
+        line = mMenuView.findViewById(R.id.line);
         btn1 = (TextView) mMenuView.findViewById(R.id.btn1);
         btn2 = (TextView) mMenuView.findViewById(R.id.btn2);
         btn_cancel = (TextView) mMenuView.findViewById(R.id.btn_cancel);
@@ -102,6 +103,7 @@ public class SelectPicPopupWindow extends PopupWindow {
     public void setVisible(boolean b1, boolean b2, boolean b3) {
         if (btn1 != null) {
             btn1.setVisibility(b1 ? View.VISIBLE : View.GONE);
+            line.setVisibility(b1 ? View.VISIBLE : View.GONE);
         }
         if (btn2 != null) {
             btn2.setVisibility(b2 ? View.VISIBLE : View.GONE);

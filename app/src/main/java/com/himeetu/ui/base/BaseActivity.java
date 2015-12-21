@@ -175,6 +175,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         rightTextView.setVisibility(visible);
     }
 
+    protected  String getRightText(){
+        TextView rightTextView = (TextView) findViewById(R.id.toolbar_right_text);
+
+        if (rightTextView != null) {
+            return  rightTextView.getText().toString();
+        }
+
+        return  null;
+    }
+
     protected void setRightOnClickListener(View.OnClickListener onClickListener) {
         TextView rightTextView = (TextView) findViewById(R.id.toolbar_right_text);
 

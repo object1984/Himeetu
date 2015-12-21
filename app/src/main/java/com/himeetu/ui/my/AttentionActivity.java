@@ -2,14 +2,17 @@ package com.himeetu.ui.my;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
+import com.himeetu.app.Api;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.PersonState;
 import com.himeetu.model.UserImg;
@@ -23,13 +26,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 关注/粉丝 页面
+ * 关注/粉丝 页面    获取好友列表 ＝＝ 我的关注
+ *  个人动态  11  获取全部好友最新发表的图片
  */
 public class AttentionActivity extends BaseVolleyActivity {
     private MeFragment.AttentionType type;
     private ListView mListView;
     private List<PersonState> lists;
     private Map<Integer,Boolean> flagMap;
+    private final String TAG_GET_FRIENDS_LIST = "TAG_GET_FRIENDS_LIST";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,8 @@ public class AttentionActivity extends BaseVolleyActivity {
         initToolBar();
 
         super.init();
+
+        initData();
 
     }
 
@@ -112,6 +119,17 @@ public class AttentionActivity extends BaseVolleyActivity {
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
+
+        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+
+
+
+        } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {  //我的关注
+
+            if (BuildConfig.DEBUG) Log.d("我的关注＝＝＝", response.getJsonStr());
+        }
+
+
     }
 
     private void initToolBar() {
@@ -124,7 +142,25 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         setupToolbar(true,title);
         setToolBarColor(getResources().getColor(R.color.white));
-//        setRightTextAndVisible(0, View.INVISIBLE);
+    }
+
+    private void initData(){
+
+        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+
+
+        } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
+
+            getFriendsList();
+        }
+
+    }
+
+
+    private void getFriendsList(){
+
+        Api.getFriendsList(TAG_GET_FRIENDS_LIST,this,this);
+
     }
 
 }
