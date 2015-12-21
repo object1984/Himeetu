@@ -129,11 +129,13 @@ public class EditUserDetailActivity extends BaseActivity implements View.OnClick
 
                 if(getString(R.string.edit).equals(text)){//完成
 
-                    setRightTextAndVisible(R.string.edit, View.VISIBLE);
+                    buildData();
+
+                    setRightTextAndVisible(R.string.complete, View.VISIBLE);
                     llShow.setVisibility(View.GONE);
                     llEdit.setVisibility(View.VISIBLE);
                 }else{//编辑
-                    setRightTextAndVisible(R.string.complete, View.VISIBLE);
+                    setRightTextAndVisible(R.string.edit, View.VISIBLE);
                     llShow.setVisibility(View.VISIBLE);
                     llEdit.setVisibility(View.GONE);
 
