@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.adapter.RecommendAdapter;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.HiEvent;
 import com.himeetu.model.Recommend;
 import com.himeetu.ui.base.BaseFragment;
@@ -39,7 +41,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener{
+public class HomeFragment extends BaseFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -119,7 +121,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         recommends.add(new Recommend("#精彩话题8"));
 
         mEventListView = (ListView)rootView.findViewById(R.id.list_event);
-
+        mEventListView.setOnItemClickListener(this);
         LayoutInflater inflater = LayoutInflater.from(getActivity());
 
         View headerView = inflater.inflate(R.layout.header_home, mEventListView, false);
@@ -133,7 +135,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         mEventAdapter = new QuickAdapter<HiEvent>(getActivity(), R.layout.item_list_event) {
             @Override
             protected void convert(BaseAdapterHelper helper, HiEvent item) {
-
+                helper.getView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NavHelper.toTalkDetailPage(getActivity());
+                    }
+                });
             }
         };
 
@@ -143,7 +150,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         mRecommendRecyclerView.setHasFixedSize(true);
         mRecommendRecyclerView.setLayoutManager(linearLayoutManager);
         mRecommendRecyclerView.setAdapter(recommendAdapter);
-
         recommendAdapter.notifyDataSetChanged();
         mEventListView.setAdapter(mEventAdapter);
 
@@ -196,4 +202,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        NavHelper.toTalkDetailPage(getActivity());
+    }
 }

@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.himeetu.model.GsonResult;
 import com.himeetu.util.JsonUtil;
+import com.himeetu.util.LogUtil;
 
 import org.json.JSONObject;
 
@@ -22,6 +23,7 @@ import java.lang.reflect.Type;
 public class GsonResultDeserializer implements JsonDeserializer<GsonResult> {
     @Override
     public GsonResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        LogUtil.d("GsonResultDeserializer", json.toString());
         GsonResult gsonResult = new GsonResult();
 
         JSONObject jsonObject = JsonUtil.getJSONObject(json.toString());

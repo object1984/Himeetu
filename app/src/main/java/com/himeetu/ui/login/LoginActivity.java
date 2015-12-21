@@ -166,5 +166,6 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
 
     private void onLoginSuccess(){
         NavHelper.toMainPage(this, username);
+        finish();
     }
 }

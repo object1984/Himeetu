@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/btn_1"
+            android:id="@+id/btn_photo_take"
             android:background="@color/transparent"
             android:layout_marginRight="24dp"
             android:src="@drawable/ic_main_camera"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content" />
 
         <ImageButton
-            android:id="@+id/btn_2"
+            android:id="@+id/btn_photo_album"
             android:background="@color/transparent"
             android:layout_marginLeft="24dp"
             android:src="@drawable/ic_main_photo"

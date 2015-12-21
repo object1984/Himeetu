@@ -37,6 +37,8 @@ public class PhotoMainActivity extends BaseActivity implements View.OnClickListe
     protected void setupListeners() {
         super.setupListeners();
         findViewById(R.id.btn_close).setOnClickListener(this);
+        findViewById(R.id.btn_photo_take).setOnClickListener(this);
+        findViewById(R.id.btn_photo_album).setOnClickListener(this);
     }
 
     @Override
@@ -62,10 +64,18 @@ public class PhotoMainActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.btn_close:
                 exit();
+            case R.id.btn_photo_take:
+                toPhotoTake();
+            case R.id.btn_photo_album:
+                exit();
         }
     }
 
     private void exit(){
         NavHelper.finish(this);
+    }
+
+    private void toPhotoTake(){
+        NavHelper.toPhotoTakePage(this);
     }
 }

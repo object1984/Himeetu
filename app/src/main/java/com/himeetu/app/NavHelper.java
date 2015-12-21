@@ -9,7 +9,9 @@ import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.login.FindPasswordActivity;
 import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.main.MainActivity;
+import com.himeetu.ui.main.TopicDetailsActivity;
 import com.himeetu.ui.photo.PhotoMainActivity;
+import com.himeetu.ui.photo.TakePhotoActivity;
 import com.himeetu.ui.register.CountryChooseActivity;
 import com.himeetu.ui.register.IdentityActivity;
 import com.himeetu.ui.register.RegisterActivity;
@@ -66,6 +68,20 @@ public class NavHelper {
         intent.setClass(activity, PhotoMainActivity.class);
         activity.startActivity(intent);
         forwardFadeInAnim(activity);
+    }
+
+    public static void toPhotoTakePage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, TakePhotoActivity.class);
+        activity.startActivity(intent);
+//        forwardFadeInAnim(activity);
+    }
+
+    public static void toTalkDetailPage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, TopicDetailsActivity.class);
+        activity.startActivity(intent);
+//        forwardFadeInAnim(activity);
     }
 
     public static void backMainPage(Activity activity, String target) {
