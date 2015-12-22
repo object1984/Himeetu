@@ -128,6 +128,12 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    public static GsonGetRequest<GsonResult> addFriend(@NonNull int uid,  @NonNull Response.Listener<GsonResult> listener,
+                                                       @NonNull  Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_GET_ADD_FRIEND, uid);
+        return doGet(url, listener, errorListener);
+    }
+
     public static GsonGetRequest<GsonResult> getFriendsList(
                                                            @NonNull final Response.Listener<GsonResult> listener,
                                                            @NonNull final Response.ErrorListener errorListener) {
@@ -141,6 +147,14 @@ public class ApiRequests {
                                                            @NonNull final Response.Listener<GsonResult> listener,
                                                            @NonNull final Response.ErrorListener errorListener) {
         final String url = String.format(UrlPatten.URL_GET_FRIENES_IMG,start,limit);
+
+        return doGet(url, listener, errorListener);
+    }
+    public static GsonGetRequest<GsonResult> commentNews(@NonNull int tid,
+                                                         @NonNull String words,
+                                                         @NonNull final Response.Listener<GsonResult> listener,
+                                                         @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_GET_USER_COMMENT,words);
 
         return doGet(url, listener, errorListener);
     }

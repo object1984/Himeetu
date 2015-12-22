@@ -66,6 +66,12 @@ public class Api {
                                        Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getTopicDetails(tid, start, limit, lastid, listener, errorListener),tag);
     }
+    public static void addFriend(String tag, int uid, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.addFriend(uid, listener, errorListener),tag);
+    }
+    public static void commentNews(String tag, int tid, String words, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.addFriend(tid, listener, errorListener),tag);
+    }
 
 
 

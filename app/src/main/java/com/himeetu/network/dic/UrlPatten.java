@@ -25,6 +25,8 @@ public class UrlPatten {
         public static final String URL_GET_FRIENES_LIST= URL_API_BASE+"/friend/getlist";
         public static final String URL_GET_FRIENES_IMG= URL_API_BASE+"/photo/getfriendsimg?start=%s&limit=%s";
         public static final String URL_GET_TOPICDETAILS = URL_API_BASE + "/talking/getusertalk?tid=%s&start=%s&limit=%s&lastid=%s";
+        public static final String URL_GET_ADD_FRIEND = URL_API_BASE + "/friend/del?uid=%s";
+        public static final String URL_GET_USER_COMMENT = URL_API_BASE + "/talking/usertalk?tid=%s&words=%s";
 
 
 

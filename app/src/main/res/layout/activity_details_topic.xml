@@ -7,7 +7,7 @@
     <!--标题栏-->
     <include
         android:id="@+id/toolbar_details"
-        layout="@layout/toolbar_favorite" />
+        layout="@layout/toolbar_white_common_back" />
 
     <ScrollView
         android:layout_width="match_parent"
