@@ -24,6 +24,8 @@ public class UrlPatten {
         public static final String URL_GET_SELF= URL_API_BASE+"/activity/getself?start=%s&limit=%s";
         public static final String URL_GET_FRIENES_LIST= URL_API_BASE+"/friend/getlist";
         public static final String URL_GET_FRIENES_IMG= URL_API_BASE+"/photo/getfriendsimg?start=%s&limit=%s";
+        public static final String URL_ADD_FRIENDS= URL_API_BASE+"/friend/add?uid=%s";
+        public static final String URL_DEL_FRIENDS= URL_API_BASE+"/friend/del?uid=%s";
 
 
 

@@ -63,6 +63,15 @@ public class Api {
         MEETApplication.addRequest(ApiRequests.getFriendsImg( start,limit,listener, errorListener), tag);
     }
 
+    public static void addFriends(String tag, String friendsId ,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.addFriend( friendsId,listener, errorListener), tag);
+    }
+
+    public static void delFriends(String tag, String friendsId ,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.delFriend( friendsId,listener, errorListener), tag);
+    }
+
+
 
 
 
