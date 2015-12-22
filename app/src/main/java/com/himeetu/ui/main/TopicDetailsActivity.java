@@ -7,15 +7,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.himeetu.R;
+import com.himeetu.app.Api;
+import com.himeetu.model.GsonResult;
 import com.himeetu.ui.base.BaseActivity;
+import com.himeetu.ui.base.BaseVolleyActivity;
+import com.himeetu.util.ToastUtil;
 
 /**
  * Created by zhangshuaiqi on 2015/12/19.
  * 话题详情页
  */
-public class TopicDetailsActivity extends BaseActivity {
+public class TopicDetailsActivity extends BaseVolleyActivity {
+    private final String TAG_API_TOPICDETAILS = "TAG_API_TOPICDETAILS";
     private RoundedImageView img_head_portrait;//用户头像
     private TextView tv_details_user_name;//用户名
     private TextView tv_details_publication_time;//发表时间
@@ -56,5 +62,29 @@ public class TopicDetailsActivity extends BaseActivity {
         tv_details_praise.setCompoundDrawablePadding(10);//设置text与drawableleft 间距
         tv_details_praise.setCompoundDrawables(drawable, null, null, null);
 
+        //网络请求
+        Api.getTopicDetails(TAG_API_TOPICDETAILS,18,0,10,0,this,this);
+    }
+
+    @Override
+    public void onResponse(GsonResult response, String tag) {
+        super.onResponse(response, tag);
+        if(TAG_API_TOPICDETAILS.equals(tag)) {
+            int code = response.getCode();
+            switch (code){
+                case 0:
+                    ToastUtil.show("获取成功！");
+                    break;
+
+            }
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
+        if(TAG_API_TOPICDETAILS.equals(tag)){
+            ToastUtil.show("获取失败！");
+        }
     }
 }

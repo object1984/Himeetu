@@ -44,7 +44,7 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
-    public static GsonGetRequest<GsonResult> userLoginStep_2(@NonNull final String key,
+    public static GsonGetRequest<GsonResult> userLoginStep_2(@NonNull   final String key,
                                                              @NonNull final int uid,
                                                              @NonNull final int time,
                                                              @NonNull final int type,
@@ -121,6 +121,12 @@ public class ApiRequests {
 
         return doGet(url, listener, errorListener);
     }
+    public static GsonGetRequest<GsonResult> getTopicDetails(@NonNull int tid,@NonNull int start, @NonNull int limit,@NonNull int lastid,
+                                                            @NonNull Response.Listener<GsonResult> listener,
+                                                             @NonNull  Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_GET_TOPICDETAILS, tid, start, limit ,lastid);
+        return doGet(url, listener, errorListener);
+    }
 
     public static GsonGetRequest<GsonResult> getFriendsList(
                                                            @NonNull final Response.Listener<GsonResult> listener,
@@ -157,4 +163,5 @@ public class ApiRequests {
                         errorListener
                 );
     }
+
 }
