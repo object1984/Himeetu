@@ -35,6 +35,8 @@ public class AttentionActivity extends BaseVolleyActivity {
     private List<PersonState> lists;
     private Map<Integer,Boolean> flagMap;
     private final String TAG_GET_FRIENDS_LIST = "TAG_GET_FRIENDS_LIST";
+    private final String TAG_ADD_FRIEND = "TAG_ADD_FRIEND";
+    private final String TAG_DEL_FRIEND = "TAG_DEL_FRIEND";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +163,15 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         Api.getFriendsList(TAG_GET_FRIENDS_LIST,this,this);
 
+    }
+
+    private void addFriend(String friendId){
+
+        Api.addFriends(TAG_ADD_FRIEND,friendId,this,this);
+    }
+
+    private void delFriend(String friendId){
+        Api.delFriends(TAG_DEL_FRIEND,friendId,this,this);
     }
 
 }

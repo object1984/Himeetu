@@ -62,16 +62,7 @@ public class Api {
     public static void getFriendsImg(String tag, int start,int limit ,Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getFriendsImg( start,limit,listener, errorListener), tag);
     }
-    public static void getTopicDetails(String tag,int tid, int start, int limit, int lastid,
-                                       Response.Listener listener, Response.ErrorListener errorListener){
-        MEETApplication.addRequest(ApiRequests.getTopicDetails(tid, start, limit, lastid, listener, errorListener),tag);
-    }
-    public static void addFriend(String tag, int uid, Response.Listener listener, Response.ErrorListener errorListener){
-        MEETApplication.addRequest(ApiRequests.addFriend(uid, listener, errorListener),tag);
-    }
-    public static void commentNews(String tag, int tid, String words, Response.Listener listener, Response.ErrorListener errorListener){
-        MEETApplication.addRequest(ApiRequests.addFriend(tid, listener, errorListener),tag);
-    }
+
 
 
 

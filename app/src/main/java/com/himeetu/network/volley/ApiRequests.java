@@ -159,6 +159,22 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    public static GsonGetRequest<GsonResult> addFriend(@NonNull final String friendId,
+                                                           @NonNull final Response.Listener<GsonResult> listener,
+                                                           @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_ADD_FRIENDS,friendId);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static GsonGetRequest<GsonResult> delFriend(@NonNull final String friendId,
+                                                           @NonNull final Response.Listener<GsonResult> listener,
+                                                           @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_DEL_FRIENDS,friendId);
+
+        return doGet(url, listener, errorListener);
+    }
+
 
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
         LogUtil.d("url", url);
