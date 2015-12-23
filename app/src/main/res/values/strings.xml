@@ -80,4 +80,8 @@
 
     <!--拍照-->
     <string name="photo_take">拍照</string>
+
+
+    <!--分享至-->
+    <string name="share_to">分享至</string>
 </resources>

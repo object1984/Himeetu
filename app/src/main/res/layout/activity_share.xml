@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:background="#F5F5F5"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/toolbar_white_common_back" />
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:id="@+id/layout_part_1"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/img_add"
+            android:id="@+id/img_add"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/app_default"
+            android:text="＃浪漫海滩之夜"
+            android:id="@+id/text_title"
+            android:layout_toRightOf="@+id/img_add"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+       <EditText
+           android:gravity="top"
+           android:minHeight="60dp"
+           android:textSize="@dimen/font_small"
+           android:background="@color/transparent"
+           android:layout_below="@+id/text_title"
+           android:textColor="@color/text_black"
+           android:textColorHint="@color/text_hint_grey"
+           android:text=""
+           android:hint="请输入"
+           android:id="@+id/text_content"
+           android:layout_toRightOf="@+id/img_add"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    
+    <LinearLayout
+       android:id="@+id/layout_part_2"
+        android:background="@color/white"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/layout_part_1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+       <TextView
+           style="@style/Hi.Text.Normal.Dark"
+           android:text="圈人"
+           android:gravity="center"
+           android:layout_weight="1"
+           android:layout_width="0dp"
+           android:layout_height="match_parent" />
+        <View
+            android:layout_marginBottom="7.5dp"
+            android:layout_marginTop="7.5dp"
+            android:layout_width="1px"
+            android:background="#C8C8C8"
+            android:layout_height="match_parent" />
+        <TextView
+            android:gravity="center"
+            style="@style/Hi.Text.Normal.Grey"
+            android:text="＃点击添加话题"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:layout_height="35dp"
+        android:layout_below="@+id/layout_part_2"
+        android:id="@+id/text_share_notice"
+        android:text="@string/share_to"
+        style="@style/Hi.Text.Small.Dark" />
+
+    <LinearLayout
+        android:id="@+id/layout_part_3"
+        android:background="@color/white"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/text_share_notice"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" >
+            
+            <ImageView
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/img_facebook"
+                android:layout_centerVertical="true"
+                android:src="@drawable/selector_share_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@+id/img_facebook"
+                android:layout_centerVertical="true"
+                style="@style/Hi.Text.Normal.Dark"
+                android:text="facebook"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <View
+            android:layout_marginBottom="7.5dp"
+            android:layout_marginTop="7.5dp"
+            android:layout_width="1px"
+            android:background="#C8C8C8"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/img_twitter"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_twitter_n"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@+id/img_twitter"
+                android:layout_centerVertical="true"
+                style="@style/Hi.Text.Normal.Dark"
+                android:text="twitter"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:id="@+id/line"
+        android:layout_below="@+id/layout_part_3"
+        android:background="#C8C8C8"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+    <LinearLayout
+        android:id="@+id/layout_part_4"
+        android:background="@color/white"
+        android:layout_below="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/img_weixin"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_weixin_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@+id/img_weixin"
+                android:layout_centerVertical="true"
+                style="@style/Hi.Text.Normal.Dark"
+                android:text="微信"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <View
+            android:layout_marginBottom="7.5dp"
+            android:layout_marginTop="7.5dp"
+            android:layout_width="1px"
+            android:background="#C8C8C8"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/img_weibo"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_weibo_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@+id/img_weibo"
+                android:layout_centerVertical="true"
+                style="@style/Hi.Text.Normal.Dark"
+                android:text="新浪微博"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </LinearLayout>
+    <Button
+        android:textColor="@color/text_write"
+        android:textSize="@dimen/font_normal"
+        android:layout_alignParentBottom="true"
+        android:text="分享状态"
+        android:background="@drawable/selector_btn_purple"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+</RelativeLayout>

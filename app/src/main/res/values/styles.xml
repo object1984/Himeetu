@@ -70,6 +70,11 @@
         <item name="android:textColor">@color/text_dark_black</item>
     </style>
 
+    <style name="Hi.Text.Normal.Grey"  parent="Hi.Text.Normal">
+
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
+
     <style name="custom_tab">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
