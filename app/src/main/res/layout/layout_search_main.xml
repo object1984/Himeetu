@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:background="@color/app_default"
     android:paddingTop="@dimen/main_search_bar_padding_top"
     android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/layout_search"
         android:layout_marginTop="@dimen/main_search_bar_margin_top"
-        android:layout_marginRight="@dimen/main_search_bar_margin_horizontal"
         android:layout_marginBottom="@dimen/main_search_bar_margin_bottom"
         android:layout_marginLeft="@dimen/main_search_bar_margin_horizontal"
         android:gravity="center"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:background="@drawable/shape_search_main"
         android:layout_height="@dimen/main_search_bar_height">
-            <TextView
+            <EditText
+                android:background="@color/transparent"
                 android:clickable="true"
                 android:id="@+id/text_search"
                 android:drawablePadding="5dp"
                 android:textColor="@color/text_write"
-                android:text="搜索"
+                android:text=""
+                android:hint="搜索"
                 android:textSize="@dimen/font_small"
+                android:textColorHint="@color/white"
                 android:drawableLeft="@drawable/ic_search"
-                android:gravity="center"
-                android:layout_width="wrap_content"
+                android:gravity="left"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
     </LinearLayout>
+
+   <TextView
+       android:id="@+id/text_cancel"
+       android:textColor="@color/white"
+       android:text="取消"
+       android:paddingLeft="15dp"
+       android:paddingRight="15dp"
+       android:gravity="center"
+       android:textSize="@dimen/font_normal"
+       android:background="@color/transparent"
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent" />
 </LinearLayout>

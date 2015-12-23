@@ -2,6 +2,7 @@ package com.himeetu.ui.main;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.opengl.GLException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -169,7 +170,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     protected void setupListeners() {
         super.setupListeners();
-
+        rootView.findViewById(R.id.layout_search).setOnClickListener(this);
     }
 
     @Override
@@ -188,8 +189,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         super.onClick(v);
 
         switch (v.getId()){
-
+            case R.id.layout_search:
+                toSearch();
+                break;
         }
+    }
+
+    private void toSearch() {
+        NavHelper.toSearchPage(getActivity());
     }
 
 

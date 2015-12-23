@@ -83,6 +83,7 @@
         <activity  android:theme="@style/AppTheme" android:name=".ui.photo.PhotoMainActivity" />
         <activity  android:theme="@style/AppTheme" android:name=".ui.photo.TakePhotoActivity" />
         <activity  android:theme="@style/AppTheme" android:name=".ui.main.ShareActivity" />
+        <activity  android:theme="@style/AppTheme" android:name=".ui.main.SearchActivity" />
 
         <activity android:name=".ui.setup.SettingsActivity"/>
         <activity android:name=".ui.my.AttentionActivity"/>
