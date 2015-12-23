@@ -63,8 +63,23 @@ public class Api {
         MEETApplication.addRequest(ApiRequests.getFriendsImg( start,limit,listener, errorListener), tag);
     }
 
+    public static void getTopicDetails(String tag,int tid, int start, int limit, int lastid,
+                                       Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getTopicDetails(tid, start, limit, lastid, listener, errorListener),tag);
+    }
+    public static void addFriend(String tag, int uid, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.addFriend(uid, listener, errorListener),tag);
+    }
+    public static void commentNews(String tag, int tid, String words, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.commentNews(tid, words, listener, errorListener),tag);
+    }
+    public static void addFriends(String tag, String friendsId ,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.addFriend( friendsId,listener, errorListener), tag);
+    }
 
-
+    public static void delFriends(String tag, String friendsId ,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.delFriend( friendsId,listener, errorListener), tag);
+    }
 
 
 }

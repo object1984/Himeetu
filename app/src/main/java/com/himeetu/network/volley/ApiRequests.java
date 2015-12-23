@@ -154,7 +154,7 @@ public class ApiRequests {
                                                          @NonNull String words,
                                                          @NonNull final Response.Listener<GsonResult> listener,
                                                          @NonNull final Response.ErrorListener errorListener){
-        final String url = String.format(UrlPatten.URL_GET_USER_COMMENT,words);
+        final String url = String.format(UrlPatten.URL_GET_USER_COMMENT,tid, words);
 
         return doGet(url, listener, errorListener);
     }
