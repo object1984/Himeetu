@@ -2,6 +2,7 @@ package com.himeetu.ui.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FavoriteFragment extends BaseFragment implements View.OnClickListener{
+public class FavoriteFragment extends BaseFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -50,13 +52,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(!hidden){
-            if (Build.VERSION.SDK_INT >= 21) {
-                Window window = getActivity().getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.setStatusBarColor(getResources().getColor(R.color.black));
-            }
-            StatusBarCompat.compat(getActivity(), getResources().getColor(R.color.black));
+            setStatusBarColor(R.color.black);
         }
     }
 
@@ -76,13 +72,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-            if (Build.VERSION.SDK_INT >= 21) {
-                Window window = getActivity().getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.setStatusBarColor(getResources().getColor(R.color.black));
-            }
-        StatusBarCompat.compat(getActivity(), getResources().getColor(R.color.black));
+        setStatusBarColor(R.color.black);
     }
 
     @Override
@@ -92,9 +82,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
        rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         init();
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        setTitle("养车钱包");
+
         return rootView;
     }
 
@@ -119,6 +107,11 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
 
         mPagerAdapter.addAll(list);
         mViewPager.setCurrentItem(1);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        startActivity(new Intent(getActivity(), ActivitiesDetailsActivity.class));
     }
 
     public static class TubatuAdapter extends PagerAdapter {
@@ -181,6 +174,7 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
         View headerView = inflater.inflate(R.layout.header_list_favorite, mFavoriteListView, false);
         mFavoriteListView.addHeaderView(headerView);
         mFavoriteListView.setAdapter(mFravoriteAdapter);
+        mFavoriteListView.setOnItemClickListener(this);
         mFravoriteAdapter.add(new HiEvent());
         mFravoriteAdapter.add(new HiEvent());
         mFravoriteAdapter.add(new HiEvent());

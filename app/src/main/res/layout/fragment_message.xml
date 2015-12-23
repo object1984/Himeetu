@@ -2,4 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
         <include layout="@layout/toolbar_white_common_back" />
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:id="@+id/refresh_message"
+            android:layout_below="@+id/toolbar"
+            android:layout_height="match_parent">
+                <ListView
+                    android:id="@+id/list_message"
+                    android:divider="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

@@ -52,17 +52,23 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_photo_take);
         setupToolbar(true, R.string.photo_take);
         init();
-
-
-        SurfaceView surfaceView = (SurfaceView) this
+       final  SurfaceView surfaceView = (SurfaceView) this
                 .findViewById(R.id.surfaceView);
-        surfaceView.getHolder()
-                .setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        surfaceView.getHolder().setFixedSize(SURFAVCE_WIDTH, SURFAVCE_HEIGHT); //设置Surface分辨率
-        surfaceView.getHolder().setKeepScreenOn(true);// 屏幕常亮
-        surfaceView.getHolder().addCallback(new SurfaceCallback());//
 
-        handler = new Handler(this);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                surfaceView.getHolder()
+                        .setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+                surfaceView.getHolder().setFixedSize(SURFAVCE_WIDTH, SURFAVCE_HEIGHT); //设置Surface分辨率
+                surfaceView.getHolder().setKeepScreenOn(true);// 屏幕常亮
+                surfaceView.getHolder().addCallback(new SurfaceCallback());//
+
+                handler = new Handler(TakePhotoActivity.this);
+            }
+        }, 1000);
+
     }
 
     @Override
@@ -120,7 +126,9 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_photo_take:
-                takePicture();
+                if (camera != null) {
+                    takePicture();
+                }
                 break;
         }
     }

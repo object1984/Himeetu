@@ -40,7 +40,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements ImageVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_topic);
-        initViews();
+        init();
     }
 
     /**

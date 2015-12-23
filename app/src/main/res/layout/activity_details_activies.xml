@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
     <!--标题栏-->
     <include
-        android:id="@+id/toolbar_details"
-        layout="@layout/toolbar_favorite" />
-
+        layout="@layout/toolbar_white_activity_back" />
+    <com.himeetu.view.AutoScaleImageView
+        android:id="@+id/img_details_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/toolbar"
+        android:src="@drawable/image1" />
 
     <ScrollView
         android:id="@+id/scroll_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_details"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/img_details_content"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/img_details_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/image1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,19 +44,10 @@
                     android:src="@drawable/ic_time_purple" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PM:"
-                    android:textColor="@color/text_dark_black"
-                    android:textSize="@dimen/font_normal" />
+                    android:id="@+id/text_time"
+                    style="@style/Hi.Text.Normal.Dark"
+                    android:text="PM:  10:00" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="0:00"
-                    android:textColor="@color/text_dark_black"
-                    android:textSize="@dimen/font_normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -75,19 +66,15 @@
                     android:src="@drawable/ic_place_purple" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="地点:"
-                    android:textColor="@color/text_dark_black"
-                    android:textSize="@dimen/font_normal" />
+                    style="@style/Hi.Text.Normal.Dark"
+                    android:text="地点:"  />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/text_address"
+                    style="@style/Hi.Text.Normal.Dark"
                     android:layout_marginLeft="10dp"
                     android:text="北京市朝阳区工人体育场"
-                    android:textColor="@color/text_dark_black"
-                    android:textSize="@dimen/font_normal" />
+                 />
             </LinearLayout>
 
             <LinearLayout
@@ -106,68 +93,65 @@
                     android:src="@drawable/ic_date_purple" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="北京市朝阳区工人体育场"
-                    android:textColor="@color/text_dark_black"
-                    android:textSize="@dimen/font_normal" />
+                    android:id="@+id/text_date"
+                    style="@style/Hi.Text.Normal.Dark"
+                    android:text="2015年12月31日" />
             </LinearLayout>
 
             <View
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="#c8c8c8" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Hi.Text.Small.Dark"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
                 android:text="活动介绍："
-                android:textColor="@color/text_dark_black"
-                android:textSize="@dimen/font_big" />
+                />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Hi.Text.Small.Dark"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:lineSpacingExtra="10dp"
                 android:layout_marginTop="12dp"
                 android:text="第28届音乐会开始了第28届音乐会开始了
                 第28届音乐会开始了第28届音乐会开始了第28届音乐会开
                 始了第28届音乐会开始了第28届音乐会开始了第28届音乐
                 会开始了第28届音乐会开始了"
-                android:textColor="@color/text_dark_black"
-                android:textSize="@dimen/font_big" />
+                />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_details"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_marginTop="70dp"
-                android:layout_marginBottom="20dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
                 android:divider="#c8c8c8" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
         </LinearLayout>
+
+
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/ll_details_join"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/app_default"
-        android:gravity="center">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
+        <Button
+            android:layout_alignParentBottom="true"
+            android:id="@+id/text_join"
+            android:background="@drawable/selector_btn_purple"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="40dp"
             android:text="我要参加"
             android:textColor="@color/text_write"
             android:textSize="@dimen/font_normal" />
-    </LinearLayout>
 
 </RelativeLayout>

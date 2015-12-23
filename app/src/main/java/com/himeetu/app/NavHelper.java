@@ -9,6 +9,7 @@ import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.login.FindPasswordActivity;
 import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.main.MainActivity;
+import com.himeetu.ui.main.ShareActivity;
 import com.himeetu.ui.main.TopicDetailsActivity;
 import com.himeetu.ui.photo.PhotoMainActivity;
 import com.himeetu.ui.photo.TakePhotoActivity;
@@ -80,6 +81,13 @@ public class NavHelper {
     public static void toTalkDetailPage(Activity activity) {
         Intent intent = new Intent();
         intent.setClass(activity, TopicDetailsActivity.class);
+        activity.startActivity(intent);
+//        forwardFadeInAnim(activity);
+    }
+
+    public static void toSharePage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, ShareActivity.class);
         activity.startActivity(intent);
 //        forwardFadeInAnim(activity);
     }

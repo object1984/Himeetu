@@ -66,7 +66,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextView toolbarTitle;
     private View backView;
 
-
     public void setupToolbar(boolean showBackbtn, @NonNull int titleResId) {
         View v = findViewById(R.id.toolbar);
         if (v != null) {
@@ -117,12 +116,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         getLoading().dismiss();
     }
 
-//    protected void setToolbarTitle(String title) {
-//        TextView toolbarTitleTextView = (TextView) findViewById(R.id.toolbar_title);
-//        if (toolbarTitleTextView != null) {
-//            toolbarTitleTextView.setText(title);
-//        }
-//    }
+    public final void setToolbarTitle(String title) {
+        TextView toolbarTitleTextView = (TextView) findViewById(R.id.toolbar_title);
+        if (toolbarTitleTextView != null) {
+            toolbarTitleTextView.setText(title);
+        }
+    }
 
 
     private Fragment retrieveFromCache(String name) {
@@ -136,7 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return null;
     }
 
-    protected void setToolBarTitleColor(int resId) {
+    public final  void setToolBarTitleColor(int resId) {
         TextView rightTextView = (TextView) findViewById(R.id.toolbar_title);
 
         if (rightTextView != null) {
@@ -144,26 +143,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setRightTextColor(int resId) {
+    public final void setRightTextColor(int resId) {
         TextView rightTextView = (TextView) findViewById(R.id.toolbar_right_text);
 
         if (rightTextView != null) {
             rightTextView.setTextColor(resId);
         }
     }
-
-
-//    protected enum BackColorType {
-//        WHITE, BLACK
-//    }
-//
-//    protected void setBackColorType(BackColorType type) {
-//        ImageButton btn_bark = (ImageButton) findViewById(R.id.toolbar_back);
-//
-//        if (btn_bark != null) {
-//            btn_bark.setImageResource(type == BackColorType.BLACK ? R.drawable.ic_toobar_back_black : R.drawable.ic_toobar_back_white);
-//        }
-//    }
 
 
     protected void setRightTextAndVisible(int resId, int visible) {
@@ -193,7 +179,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setToolBarColor(int resId) {
+    public final void setToolBarColor(int resId) {
         View toolbar = findViewById(R.id.toolbar);
 
         if (toolbar != null) {
@@ -212,7 +198,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    protected void setThemeTranslucent() {
+    public final void setThemeTranslucent() {
         if (android.os.Build.VERSION.SDK_INT > 18) {
             Window window = getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

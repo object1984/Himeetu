@@ -78,21 +78,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        StatusBarCompat.compat(getActivity(), getResources().getColor(R.color.app_default));
+        setStatusBarColor(R.color.app_default);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(!hidden){
-            if (Build.VERSION.SDK_INT >= 21) {
-                Window window = getActivity().getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.setStatusBarColor(getResources().getColor(R.color.app_default));
-            }
+            setStatusBarColor(R.color.app_default);
         }
-        StatusBarCompat.compat(getActivity(), getResources().getColor(R.color.app_default));
     }
 
     @Override
@@ -101,9 +95,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
        rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         init();
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        setTitle("养车钱包");
         return rootView;
     }
 

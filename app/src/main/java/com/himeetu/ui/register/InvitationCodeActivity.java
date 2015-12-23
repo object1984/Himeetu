@@ -1,5 +1,6 @@
 package com.himeetu.ui.register;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -20,12 +21,13 @@ import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.util.LogUtil;
+import com.himeetu.util.SoftKeyboardStateHelper;
 import com.himeetu.util.ToastUtil;
 
 /**
  * Created by object1984 on 15/12/14.
  */
-public class InvitationCodeActivity extends BaseVolleyActivity implements TextWatcher, View.OnClickListener{
+public class InvitationCodeActivity extends BaseVolleyActivity implements TextWatcher, View.OnClickListener, SoftKeyboardStateHelper.SoftKeyboardStateListener {
     private static final String TAG = InvitationCodeActivity.class.getSimpleName();
     private EditText invitationEditText;
     private ImageButton clearImageButton;
@@ -35,10 +37,12 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setThemeTranslucent();
-        setContentView(R.layout.activity_invitation_code);
+        setContentView(R.layout.activity_invitation_code1);
         init();
+
+       final SoftKeyboardStateHelper softKeyboardStateHelper = new SoftKeyboardStateHelper(findViewById(R.id.main));
+        softKeyboardStateHelper.addSoftKeyboardStateListener(this);
     }
 
     @Override
@@ -108,6 +112,11 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
         invitationEditText.setText("");
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        invitationEditText.clearFocus();
+    }
 
     private void start(){
         startButton.setText("正在验证...");
@@ -145,5 +154,15 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
         }else if(gsonResult.getCode() == 0){
             NavHelper.toRegisterPage(this);
         }
+    }
+
+    @Override
+    public void onSoftKeyboardOpened(int keyboardHeightInPx) {
+        ToastUtil.show("打开");
+    }
+
+    @Override
+    public void onSoftKeyboardClosed() {
+        ToastUtil.show("关闭");
     }
 }

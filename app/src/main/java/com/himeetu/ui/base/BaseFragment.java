@@ -1,5 +1,6 @@
 package com.himeetu.ui.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -143,6 +144,16 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
             Window window = getActivity().getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+    }
+
+    protected void setStatusBarColor(@NonNull int colorResId){
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(colorResId));
+        }
+        StatusBarCompat.compat(getActivity(), getResources().getColor(colorResId));
     }
 
     public void setupToolbar(boolean showBackbtn, @NonNull int titleResId) {

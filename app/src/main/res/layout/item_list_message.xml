@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="7.5dp"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        android:id="@+id/im_head"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/image1"
+        android:layout_centerVertical="true"
+        app:siRadius="90dp"
+        app:siSquare="true" />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        style="@style/Hi.Text.Normal.Dark"
+        android:id="@+id/text_name"
+        android:layout_toRightOf="@id/im_head"
+        android:layout_marginLeft="15dp"
+        android:textSize="14dp"
+        android:text="蛋蛋的爱" />
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/text_name"
+        style="@style/Hi.Text.Normal.Dark"
+        android:id="@+id/text_message"
+        android:layout_toRightOf="@id/im_head"
+        android:layout_marginLeft="15dp"
+        android:textSize="14dp"
+        android:text="评论了你的状态" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        style="@style/Hi.Text.Normal"
+        android:id="@+id/text_time"
+        android:textSize="@dimen/font_small"
+        android:text="10分钟"
+        android:gravity="center"
+        android:textColor="@color/text_grey"
+        android:layout_alignParentRight="true"/>
+
+    <View
+        android:layout_marginLeft="80dp"
+        android:background="#c8c8c8"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+</RelativeLayout>
