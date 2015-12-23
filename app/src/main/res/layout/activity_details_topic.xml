@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,189 +8,20 @@
         android:id="@+id/toolbar_details"
         layout="@layout/toolbar_white_common_back" />
 
-    <ScrollView
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_details">
+        android:layout_below="@+id/toolbar_details"
+        android:descendantFocusability="blocksDescendants">
 
-        <LinearLayout
+        <ListView
+            android:id="@+id/lv_details_topic"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!--个人信息-->
-            <LinearLayout
-                android:id="@+id/layout_person_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp">
-
-                <RelativeLayout
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="12dp">
-
-                    <com.github.siyamed.shapeimageview.RoundedImageView
-                        android:id="@+id/img_head_portrait"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/image1"
-                        app:siRadius="90dp"
-                        app:siSquare="true" />
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_country_china" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_details_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:text="艾玛Swift"
-                        android:textColor="@color/text_dark_black"
-                        android:textSize="@dimen/font_normal" />
-
-                    <TextView
-                        android:id="@+id/tv_details_publication_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="bottom"
-                        android:maxLines="1"
-                        android:text="5小时"
-                        android:textColor="@color/text_grey"
-                        android:textSize="@dimen/font_mini" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_details_follow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/bg_blue_border"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingBottom="6dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="6dp"
-                    android:text="关注"
-                    android:textColor="@color/text_grey"
-                    android:textSize="@dimen/font_small" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/img_details_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/image1" />
-
-
-            <TextView
-                android:id="@+id/text_details_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:lineSpacingExtra="3dp"
-                android:text="今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 今天天气美美哒 吃了午饭美美哒 "
-                android:textColor="@color/text_dark_black"
-                android:textSize="@dimen/font_normal" />
-
-            <TextView
-                android:id="@+id/tv_details_praise"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:drawableLeft="@drawable/ic_home_zan"
-                android:padding="5dp"
-                android:text="@string/home_detail_praise"
-                android:textColor="@color/text_dark_black"
-                android:textSize="@dimen/font_normal" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:padding="5dp">
-
-                <ImageButton
-                    android:id="@+id/img_praise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:src="@drawable/ic_zan_n" />
-
-                <ImageButton
-                    android:id="@+id/img_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img_praise"
-                    android:background="@null"
-                    android:src="@drawable/ic_comment_n" />
-
-                <ImageButton
-                    android:id="@+id/img_shared"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img_comment"
-                    android:background="@null"
-                    android:src="@drawable/ic_share_n" />
-
-                <ImageButton
-                    android:id="@+id/img_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@null"
-                    android:src="@drawable/ic_report_n" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
-
-            <ListView
-                android:id="@+id/lv_comments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/layout_refresh"
-                android:layout_below="@+id/layout_search"
-                android:layout_width="match_parent"
-                android:descendantFocusability="blocksDescendants"
-                android:layout_height="wrap_content">
-                <ListView
-                    android:divider="#C8C8C8"
-                    android:dividerHeight="1px"
-                    android:id="@+id/list_event"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/item_list_details_topic" />
-            </android.support.v4.widget.SwipeRefreshLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
+            android:layout_height="match_parent"
+            tools:listheader="@layout/item_list_header_topic" />
+    </android.support.v4.widget.SwipeRefreshLayout>
     <!--评论-->
     <LinearLayout
         android:id="@+id/layout_send"
@@ -222,6 +52,4 @@
             android:text="@string/home_detail_send_hint"
             android:textSize="@dimen/font_normal" />
     </LinearLayout>
-
-
 </RelativeLayout>
