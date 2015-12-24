@@ -6,13 +6,14 @@
     <!--标题栏-->
     <include
         android:id="@+id/toolbar_details"
-        layout="@layout/toolbar_white_common_back" />
+        layout="@layout/toolbar_white_activity_back" />
 
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_send"
         android:layout_below="@+id/toolbar_details"
         android:descendantFocusability="blocksDescendants">
 
@@ -20,6 +21,7 @@
             android:id="@+id/lv_details_topic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@null"
             tools:listheader="@layout/item_list_header_topic" />
     </android.support.v4.widget.SwipeRefreshLayout>
     <!--评论-->
