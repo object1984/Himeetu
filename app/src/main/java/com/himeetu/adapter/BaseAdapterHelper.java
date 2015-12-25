@@ -487,4 +487,12 @@ public class BaseAdapterHelper {
         }
 
     }
+
+    public void setTextSize(int viewId,int size){
+        View view = retrieveView(viewId);
+        if(view instanceof TextView){
+            ((TextView) view).setTextSize(size);
+        }
+
+    }
 }

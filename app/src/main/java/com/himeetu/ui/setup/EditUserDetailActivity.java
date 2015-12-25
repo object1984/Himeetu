@@ -4,12 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.himeetu.R;
+import com.himeetu.model.SelectData;
 import com.himeetu.model.User;
 import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseActivity;
@@ -21,6 +23,9 @@ import android.widget.RelativeLayout;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 编辑用户资料   id   email  不能修改
@@ -190,30 +195,24 @@ public class EditUserDetailActivity extends BaseActivity implements View.OnClick
      * 显示pop
      */
     private void showSelectHeadView() {
+        List<SelectData> datas = new ArrayList<>();
+        SelectData data = new SelectData();
+        data.setName(R.string.take_photos);
+        data.setTextColor(R.color.text_dark_black);
+        datas.add(data);
 
-        menuWindow = new SelectPicPopupWindow(EditUserDetailActivity.this, new View.OnClickListener() {
+        data = new SelectData();
+        data.setName(R.string.from_the_album_to_choose);
+        data.setTextColor(R.color.text_dark_black);
+        datas.add(data);
 
-            public void onClick(View v) {
-                menuWindow.dismiss();
-
-                switch (v.getId()) {
-
-                    case R.id.btn1:
-
-                        break;
-                    case R.id.btn2:
-
-                        break;
-
-                }
+        menuWindow = new SelectPicPopupWindow(EditUserDetailActivity.this, new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
             }
-
-        });
-
-        menuWindow.setTextColor(getResources().getColor(R.color.text_dark_black), getResources().getColor(R.color.text_dark_black), getResources().getColor(R.color.text_dark_black));
-        menuWindow.setText(R.string.take_photos, R.string.from_the_album_to_choose, R.string.cancel);
+        },datas);
 
         //显示窗口
         menuWindow.showAtLocation(EditUserDetailActivity.this.findViewById(R.id.tv_head_edit), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置

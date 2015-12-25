@@ -24,14 +24,17 @@ import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.himeetu.R;
+import com.himeetu.model.SelectData;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.main.MainActivity;
 import com.himeetu.view.SelectPicPopupWindow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -139,19 +142,21 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
      */
     private void showLogout() {
 
-        menuWindow = new SelectPicPopupWindow(SettingsActivity.this, new OnClickListener() {
+        List<SelectData> datas = new ArrayList<>();
+        SelectData data = new SelectData();
+        data.setName(R.string.logout);
+        data.setTextColor(R.color.red);
+        datas.add(data);
 
-            public void onClick(View v) {
+
+        menuWindow = new SelectPicPopupWindow(SettingsActivity.this, new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 menuWindow.dismiss();
                 //退出登录
 
-
             }
-
-        });
-
-        menuWindow.setTextColor(0,getResources().getColor(R.color.red), getResources().getColor(R.color.text_dark_black));
-        menuWindow.setText(0,R.string.logout, R.string.cancel);
+        },datas);
 
         //显示窗口
         menuWindow.showAtLocation(SettingsActivity.this.findViewById(R.id.tv_logout), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
