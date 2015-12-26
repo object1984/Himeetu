@@ -118,6 +118,7 @@
 
 
             <TextView
+                android:id="@+id/tv_id"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -157,6 +158,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -312,6 +314,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
+            android:visibility="gone"
             android:paddingLeft="15dp">
 
             <TextView
@@ -515,6 +518,7 @@
             android:layout_margin="10dp"
             android:paddingLeft="10dp"
             android:background="@drawable/border_attention_btn"
+            android:visibility="gone"
             >
 
         <TextView
@@ -539,6 +543,7 @@
             android:layout_margin="10dp"
             android:paddingLeft="10dp"
             android:background="@drawable/border_attention_btn"
+            android:visibility="gone"
             >
 
         <TextView

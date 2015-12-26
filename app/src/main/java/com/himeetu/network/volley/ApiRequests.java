@@ -2,6 +2,7 @@ package com.himeetu.network.volley;
 
 import android.support.annotation.NonNull;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -128,12 +129,6 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
-    public static GsonGetRequest<GsonResult> addFriend(@NonNull int uid,  @NonNull Response.Listener<GsonResult> listener,
-                                                       @NonNull  Response.ErrorListener errorListener){
-        final String url = String.format(UrlPatten.URL_GET_ADD_FRIEND, uid);
-        return doGet(url, listener, errorListener);
-    }
-
     public static GsonGetRequest<GsonResult> getFriendsList(
                                                            @NonNull final Response.Listener<GsonResult> listener,
                                                            @NonNull final Response.ErrorListener errorListener) {
@@ -175,6 +170,37 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    public static Request<?> updateUserDataDetail(@NonNull final String nation,
+                                                  @NonNull final String sex,
+                                                  @NonNull final String birth,
+                                                  @NonNull final String phone,
+                                                  @NonNull final String email,
+                                                  @NonNull final Response.Listener listener,
+                                                  @NonNull final Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_USER_DATA_DETAIL,nation,sex,birth,phone,email);
+
+        return doGet(url, listener, errorListener);
+
+    }
+
+    public static Request<?> getNum( @NonNull final String uid,
+                                     @NonNull final Response.Listener listener,
+                                     @NonNull final Response.ErrorListener errorListener) {
+
+        final String url = String.format(UrlPatten.URL_GET_NUM,uid);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    public static Request<?> getUserData( @NonNull final String uid,
+                                          @NonNull final Response.Listener listener,
+                                          @NonNull final Response.ErrorListener errorListener) {
+
+        final String url = String.format(UrlPatten.URL_GET_USER_DATA,uid);
+
+        return doGet(url, listener, errorListener);
+    }
+
 
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
         LogUtil.d("url", url);
@@ -193,5 +219,7 @@ public class ApiRequests {
                         errorListener
                 );
     }
+
+
 
 }

@@ -16,6 +16,10 @@ public class User implements Serializable {
     private int countryCode;
     private int sex;
     private String birthday;
+    private String portrait;
+    private String email;
+    private String telPhone;
+
 
     public int getUid() {
         return uid;
@@ -63,5 +67,29 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelPhone() {
+        return telPhone;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelPhone(String telPhone) {
+        this.telPhone = telPhone;
     }
 }
