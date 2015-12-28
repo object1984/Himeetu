@@ -195,7 +195,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         switch (v.getId()) {
             case R.id.tv_details_follow://关注
                 if (tv_details_follow.getText().toString().equals("关注"))
-                    Api.addFriend(TAG_API_TOPICDETAILS_FOLLOW, 18, this, this);//uid = 18
+                    Api.addFriends(TAG_API_TOPICDETAILS_FOLLOW, 18+"", this, this);//uid = 18
                 break;
             case R.id.bnt_send_comments://发表评论
                 //加判空条件
