@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.himeetu.R;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.SelectData;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.main.MainActivity;
@@ -115,7 +116,7 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
 
             case R.id.rl_invite_friends:
 
-                startActivity(new Intent(SettingsActivity.this, InviteFriendsActivity.class));
+                NavHelper.toInviteFriendsActivity(SettingsActivity.this);
 
                 break;
 
@@ -126,12 +127,13 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.rl_data_edit:
 
-                startActivity(new Intent(SettingsActivity.this, EditUserDetailActivity.class));
+                NavHelper.toEditUserDetailActivity(SettingsActivity.this);
 
                 break;
             case R.id.rl_pwd_edit:
 
-                startActivity(new Intent(SettingsActivity.this, EditPassWordActivity.class));
+                NavHelper.toEditPassWordActivity(SettingsActivity.this);
+
                 break;
 
         }

@@ -9,14 +9,21 @@ import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.login.FindPasswordActivity;
 import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.main.MainActivity;
+import com.himeetu.ui.main.MeFragment;
 import com.himeetu.ui.main.SearchActivity;
 import com.himeetu.ui.main.ShareActivity;
 import com.himeetu.ui.main.TopicDetailsActivity;
+import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.photo.PhotoMainActivity;
 import com.himeetu.ui.photo.TakePhotoActivity;
 import com.himeetu.ui.register.CountryChooseActivity;
 import com.himeetu.ui.register.IdentityActivity;
+import com.himeetu.ui.register.InvitationCodeActivity;
 import com.himeetu.ui.register.RegisterActivity;
+import com.himeetu.ui.setup.EditPassWordActivity;
+import com.himeetu.ui.setup.EditUserDetailActivity;
+import com.himeetu.ui.setup.InviteFriendsActivity;
+import com.himeetu.ui.setup.SettingsActivity;
 import com.himeetu.util.LogUtil;
 
 
@@ -106,6 +113,50 @@ public class NavHelper {
         intent.setClass(activity, MainActivity.class);
         activity.startActivity(intent);
         backAnim(activity);
+    }
+
+    public static void toInviteFriendsActivity(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, InviteFriendsActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toEditUserDetailActivity(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, EditUserDetailActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toEditPassWordActivity(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, EditPassWordActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toInvitationCodeActivity(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, InvitationCodeActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toSettingsActivity(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, SettingsActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toAttentionActivity(Activity activity,String id,MeFragment.AttentionType type){
+        Intent intent = new Intent();
+        intent.setClass(activity, AttentionActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("type", type);
+        activity.startActivity(intent);
+        forwardAnim(activity);
     }
 
     public static void forwardAnim(Activity activity, int animInId, int animOutId) {

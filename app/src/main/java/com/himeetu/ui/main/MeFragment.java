@@ -25,6 +25,7 @@ import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.MePagerAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.app.NavHelper;
 import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
@@ -241,30 +242,25 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.ibt_setup: //设置
 
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-
+                NavHelper.toSettingsActivity(getActivity());
 
                 break;
             case R.id.tv_attention:  //关注
 
-                Intent intent = new Intent(getActivity(), AttentionActivity.class);
-                intent.putExtra("id", "");
-                intent.putExtra(TYPE, AttentionType.ATTENTION);
-                startActivity(intent);
-
+                NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.ATTENTION);
                 break;
             case R.id.tv_fans:   //粉丝
 
-                intent = new Intent(getActivity(), AttentionActivity.class);
-                intent.putExtra("id", "");
-                intent.putExtra(TYPE, AttentionType.FANS);
-                startActivity(intent);
+
+                NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.FANS);
+
                 break;
 
 
             case R.id.rl_logo:
 
-                startActivity(new Intent(getActivity(), EditUserDetailActivity.class));
+
+                NavHelper.toEditUserDetailActivity(getActivity());
 
                 break;
 
