@@ -2,6 +2,7 @@ package com.himeetu.ui.setup;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,13 +11,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.app.Api;
+import com.himeetu.model.GsonResult;
 import com.himeetu.model.SelectData;
 import com.himeetu.model.User;
 import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
+import com.himeetu.util.FileUtil;
 import com.himeetu.util.ToastUtil;
 import com.himeetu.view.SelectPicPopupWindow;
 
@@ -28,7 +34,12 @@ import com.github.siyamed.shapeimageview.RoundedImageView;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +76,30 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         setContentView(R.layout.activity_edit_user_detail);
         super.init();
         initToolBar();
+
+//        testUpload();
+    }
+
+
+
+    private void testUpload(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File("/mnt/sdcard/abc.png");
+
+//                FileUtil.uploadFile("http://123.57.167.135/sys/uploadimg","abc.png",file,"image/png");
+                try {
+
+                    FileUtil.run("http://123.57.167.135/sys/uploadimg","image/png",file,"abc.png");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();;
+
+
+
     }
 
 
@@ -229,15 +264,17 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
     }
 
     private void buildData() {
-        refreshView();
 
-        if (isNull(et_name) || isNull(et_phone) || isNull(et_sex) || isNull(et_birthday)) {
+//        if (isNull(et_name) || isNull(et_phone) || isNull(et_sex) || isNull(et_birthday)) {
 //                || isNull(et_question) || isNull(et_answer)){
 
-            ToastUtil.show("资料填写不合格");
-            return;
-        }
-        commit(null,et_sex.getText().toString(),et_birthday.getText().toString(),et_phone.getText().toString(),null);
+//            ToastUtil.show("资料填写不合格");
+//            return;
+//        }
+
+        String sex = "男".equals(et_sex.getText().toString())?"0":"1";
+
+        commit(UserService.get().getCountryCode()+"",sex,et_birthday.getText().toString(),et_phone.getText().toString(),et_email.getText().toString());
 
     }
 
@@ -274,5 +311,30 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 
     }
 
+    @Override
+    public void onResponse(GsonResult response, String tag) {
+        super.onResponse(response, tag);
+        if (BuildConfig.DEBUG) Log.d("EditUserDetailActivity", response.getJsonStr());
+        if(TAG_UPDATE_DATA_DETAIL.equals(tag)){
 
+            try {
+                JSONObject json = new JSONObject(response.getJsonStr());
+                if ("0".equals(json.getString("result"))) {
+                    ToastUtil.show(R.string.success);
+                    refreshView();
+                } else {
+                    ToastUtil.show(json.getString("msg"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
+    }
 }
