@@ -6,11 +6,19 @@ import android.os.Environment;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.himeetu.BuildConfig;
 import com.himeetu.app.Constants;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,6 +33,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class FileUtil {
     private static final String TAG = "FileUtil";
@@ -191,7 +202,7 @@ public class FileUtil {
     public static String createFolder(String userName) throws Exception {
         LogUtil.d("createFolder", userName);
         try {
-            File file = new File( userName);
+            File file = new File(userName);
             if (!file.exists())
                 file.mkdir();
             return file.getAbsolutePath() + "/";
@@ -463,4 +474,33 @@ public class FileUtil {
             }
         }
     }
+
+
+
+    public static void run(String url, String  type ,File file,String name) throws Exception {
+
+        RequestBody requestBody = new MultipartBuilder()
+                .type(MultipartBuilder.FORM)
+                .addFormDataPart("type", type)
+                .addFormDataPart("name",name)
+                .addFormDataPart("size",file.length()+"")
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+
+        Response response = getClient().newCall(request).execute();
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        System.out.println(response.body().string());
+    }
+
+    private static OkHttpClient getClient() {
+        OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(5, TimeUnit.MINUTES);
+        client.setReadTimeout(5, TimeUnit.MINUTES);
+        return client;
+    }
+
 }

@@ -67,9 +67,6 @@ public class Api {
                                        Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getTopicDetails(tid, start, limit, lastid, listener, errorListener),tag);
     }
-    public static void addFriend(String tag, int uid, Response.Listener listener, Response.ErrorListener errorListener){
-        MEETApplication.addRequest(ApiRequests.addFriend(uid, listener, errorListener),tag);
-    }
     public static void commentNews(String tag, int tid, String words, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.commentNews(tid, words, listener, errorListener),tag);
     }
@@ -79,6 +76,18 @@ public class Api {
 
     public static void delFriends(String tag, String friendsId ,Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.delFriend( friendsId,listener, errorListener), tag);
+    }
+
+    public static void updateUserDataDetail(String tag,String nation,String sex,String birth,String phone,String email ,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.updateUserDataDetail( nation,sex,birth,phone,email,listener, errorListener), tag);
+    }
+
+    public static void getNum(String tag,String uid,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getNum(uid,listener, errorListener), tag);
+    }
+
+    public static void getUserData(String tag,String uid,Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getUserData(uid,listener, errorListener), tag);
     }
 
 

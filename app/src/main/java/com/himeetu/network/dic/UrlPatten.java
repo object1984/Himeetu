@@ -27,9 +27,8 @@ public class UrlPatten {
         public static final String URL_ADD_FRIENDS= URL_API_BASE+"/friend/add?uid=%s";
         public static final String URL_DEL_FRIENDS= URL_API_BASE+"/friend/del?uid=%s";
         public static final String URL_GET_TOPICDETAILS = URL_API_BASE + "/talking/getusertalk?tid=%s&start=%s&limit=%s&lastid=%s";
-        public static final String URL_GET_ADD_FRIEND = URL_API_BASE + "/friend/del?uid=%s";
         public static final String URL_GET_USER_COMMENT = URL_API_BASE + "/talking/usertalk?tid=%s&words=%s";
-
-
-
+        public static final String URL_USER_DATA_DETAIL = URL_API_BASE + "/userdata/update?nation=%s&sex=%s&birthday=%s&telphone=%s&email=%s";
+        public static final String URL_GET_NUM = URL_API_BASE + "/friend?getnum?uid=%s";
+        public static final String URL_GET_USER_DATA = URL_API_BASE + "/userdata/getuserdata?uid=%s";
 }

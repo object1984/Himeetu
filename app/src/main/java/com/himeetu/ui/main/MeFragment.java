@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.ViewUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,18 +21,23 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.google.gson.Gson;
+import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.MePagerAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.app.NavHelper;
 import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
 import com.himeetu.model.UserImg;
 import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseFragment;
+import com.himeetu.ui.base.BaseVolleyActivity;
+import com.himeetu.ui.base.BaseVolleyFragment;
 import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.setup.EditUserDetailActivity;
 import com.himeetu.ui.setup.SettingsActivity;
+import com.himeetu.util.DensityUtil;
 import com.himeetu.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
@@ -43,7 +49,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 
 
-public class MeFragment extends BaseFragment implements View.OnClickListener {
+public class MeFragment extends BaseVolleyFragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -53,34 +59,40 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private ViewPager viewPager;
     private MePagerAdapter pagerAdapter;
     private List<Integer> imageIdList;
-//    private ImageButton ibtBack;
+    //    private ImageButton ibtBack;
     private ImageButton ibtSetup;
     private RelativeLayout rlLogo;
     private TextView tvUsername;
     private TextView tvAttention;
-    private View tvFans;
-    public static final  String TYPE = "type";
+    private TextView tvFans;
+    public static final String TYPE = "type";
+    public static final String TAG_GET_NUM = "TAG_GET_NUM";
+    public static final String TAG_GET_USER_DATA = "TAG_GET_USER_DATA";
+    private String path;
+    private String uid;
+    private RelativeLayout rlUser;
+    private TextView tvAtten;
 
-    private String path ;
 
-
-    public static enum AttentionType{
-        ATTENTION,FANS
+    public static enum AttentionType {
+        ATTENTION, FANS
     }
-    private User user;
-    private RoundedImageView head,country;
 
+    private User user;
+    private RoundedImageView head, country;
 
 
     public MeFragment() {
         // Required empty public constructor
     }
 
-    public static MeFragment newInstance(String param1, String param2) {
+
+    public static MeFragment newInstance(String param1, String param2 ,String uid) {
         MeFragment fragment = new MeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString("uid",uid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,6 +103,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            uid =  getArguments().getString("uid");
         }
 
         EventBus.getDefault().register(this);
@@ -102,6 +115,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rootView = inflater.inflate(R.layout.fragment_me, container, false);
 
         init();
+
         return rootView;
     }
 
@@ -114,10 +128,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rlLogo = (RelativeLayout) rootView.findViewById(R.id.rl_logo);
         tvUsername = (TextView) rootView.findViewById(R.id.tv_username);
         tvAttention = (TextView) rootView.findViewById(R.id.tv_attention);
-        tvFans = rootView.findViewById(R.id.tv_fans);
+        tvFans = (TextView) rootView.findViewById(R.id.tv_fans);
         head = (RoundedImageView) rootView.findViewById(R.id.riv_user_head);
         country = (RoundedImageView) rootView.findViewById(R.id.riv_user_country);
-
+        rlUser = (RelativeLayout) rootView.findViewById(R.id.rl_user);
+        tvAtten = (TextView) rootView.findViewById(R.id.tv_atten);
     }
 
     @Override
@@ -129,6 +144,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 //        tvUsername.setOnClickListener(this);
         tvAttention.setOnClickListener(this);
         tvFans.setOnClickListener(this);
+        tvAtten.setOnClickListener(this);
 
         pagerAdapter = new MePagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -180,16 +196,32 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         });
 
 
-        user = UserService.get();
 
-        setUserData();
+    }
 
+    /**
+     * 判断是自己还是其他人
+     */
+    private void initData(){
+        if(!TextUtils.isEmpty(uid)){
+
+            getUserData(uid);
+
+            otherUserView(true);
+        }else{
+            user = UserService.get();
+
+            setUserData();
+
+            otherUserView(false);
+        }
     }
 
     @Override
     protected void setupListeners() {
         super.setupListeners();
 
+        initData();
     }
 
     @Override
@@ -210,30 +242,31 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.ibt_setup: //设置
 
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-
+                NavHelper.toSettingsActivity(getActivity());
 
                 break;
             case R.id.tv_attention:  //关注
 
-                Intent intent = new Intent(getActivity(), AttentionActivity.class);
-                intent.putExtra("id","");
-                intent.putExtra(TYPE,AttentionType.ATTENTION);
-                startActivity(intent);
-
+                NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.ATTENTION);
                 break;
             case R.id.tv_fans:   //粉丝
 
-                intent = new Intent(getActivity(), AttentionActivity.class);
-                intent.putExtra("id","");
-                intent.putExtra(TYPE,AttentionType.FANS);
-                startActivity(intent);
+
+                NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.FANS);
+
                 break;
 
 
             case R.id.rl_logo:
 
-                startActivity(new Intent(getActivity(), EditUserDetailActivity.class));
+
+                NavHelper.toEditUserDetailActivity(getActivity());
+
+                break;
+
+            case R.id.tv_atten: //关注别人
+
+                Api.addFriends(AttentionActivity.TAG_ADD_FRIEND,uid,this,this);
 
                 break;
         }
@@ -245,27 +278,29 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEvent(UserInfoRefreshEvent event){
+    public void onEvent(UserInfoRefreshEvent event) {
         user = event.user;
         setUserData();
     }
 
 
-    private void setSexImg(int sex){
+    private void setSexImg(int sex) {
 
-        Drawable drawable= null;
-        if(sex == 1){
-            drawable= getResources().getDrawable(R.drawable.ic_female);
-        }else{
-            drawable= getResources().getDrawable(R.drawable.ic_male);
+        Drawable drawable = null;
+        if (sex == 1) {
+            drawable = getResources().getDrawable(R.drawable.ic_female);
+        } else {
+            drawable = getResources().getDrawable(R.drawable.ic_male);
         }
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        tvUsername.setCompoundDrawables(null,null,drawable,null);
+        tvUsername.setCompoundDrawables(null, null, drawable, null);
     }
 
-    private void setUserData(){
+    private void setUserData() {
 
         setSexImg(user.getSex());
+
+        getNum(user.getUid() + "");
 
         tvUsername.setText(user.getNickname());
 
@@ -273,7 +308,99 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
         String headPath = UserService.getUserHeadPath();
 
-        Picasso.with(getActivity()).load(path+headPath).placeholder(R.drawable.image1).error(R.drawable.image1).into(head);
+        Picasso.with(getActivity()).load(path + headPath).placeholder(R.drawable.image1).error(R.drawable.image1).into(head);
 
+    }
+
+    private void getNum(String uid) {
+        Api.getNum(TAG_GET_NUM, uid, this, this);
+
+    }
+
+    @Override
+    public void onResponse(GsonResult response, String tag) {
+        super.onResponse(response, tag);
+
+        if (TAG_GET_NUM.equals(tag)) {
+
+            if (BuildConfig.DEBUG)
+                Log.d("MeFragment", "response:" + TAG_GET_NUM + "=====" + response);
+
+//            try {
+//                JSONObject json = new JSONObject(response.getJsonStr());
+//                if("0".equals(json.getString("result"))){
+//
+//                    String friends_num =   json.getString("friends_num");
+//                    String fans_num =   json.getString("fans_num");
+//
+//                    tvAttention.setText(friends_num);
+//                    tvFans.setText(fans_num);
+//
+//                }else{
+//                    ToastUtil.show(json.getString("msg"));
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+        } else if (TAG_GET_USER_DATA.equals(tag)) {
+            try {
+                JSONObject json = new JSONObject(response.getJsonStr());
+                if ("0".equals(json.getString("result"))) {
+
+                    user = new Gson().fromJson(response.getJsonStr(), User.class);
+
+                    setUserData();
+
+                } else {
+                    ToastUtil.show(json.getString("msg"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }else if(AttentionActivity.TAG_ADD_FRIEND.equals(tag)){
+
+            try {
+                JSONObject json = new JSONObject(response.getJsonStr());
+                if ("0".equals(json.getString("result"))) {
+
+                    ToastUtil.show(R.string.success);
+                } else {
+                    ToastUtil.show(json.getString("msg"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
+    }
+
+    /**
+     * 获取其他用户的数据
+     */
+    private void getUserData(String uid) {
+        Api.getUserData(TAG_GET_USER_DATA, uid, this, this);
+    }
+
+
+    private void otherUserView(boolean isSelf){
+        ViewGroup.LayoutParams pm = rlUser.getLayoutParams();
+        if(isSelf){
+            pm.height = DensityUtil.dip2px(getActivity(),200);
+            tvAtten.setVisibility(View.GONE);
+        }else{
+            pm.height = DensityUtil.dip2px(getActivity(),250);
+            tvAtten.setVisibility(View.VISIBLE);
+        }
+        rlUser.setLayoutParams(pm);
     }
 }

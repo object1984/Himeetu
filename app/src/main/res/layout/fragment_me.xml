@@ -7,6 +7,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/rl_user"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/bg_me">
@@ -67,6 +68,7 @@
             android:textSize="16dp" />
 
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_username"
@@ -104,6 +106,19 @@
 
 
         </LinearLayout>
+        
+        <TextView
+            android:id="@+id/tv_atten"
+            android:layout_width="55dp"
+            android:layout_height="25dp"
+            android:text="关注"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_below="@id/layout"
+            android:layout_margin="15dp"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"/>
 
 
     </RelativeLayout>

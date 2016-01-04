@@ -94,7 +94,7 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
     }
 
     private void toRegister(){
-        startActivity(new Intent(this, InvitationCodeActivity.class));
+        NavHelper.toInvitationCodeActivity(this);
     }
 
     @Override
