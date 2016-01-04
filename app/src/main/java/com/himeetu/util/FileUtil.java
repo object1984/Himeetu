@@ -477,7 +477,7 @@ public class FileUtil {
 
 
 
-    public static void run(String url, String  type ,File file,String name) throws Exception {
+    public static String run(String url, String  type ,File file,String name) throws Exception {
 
         RequestBody requestBody = new MultipartBuilder()
                 .type(MultipartBuilder.FORM)
@@ -493,7 +493,8 @@ public class FileUtil {
 
         Response response = getClient().newCall(request).execute();
         if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-        System.out.println(response.body().string());
+//        System.out.println(response.body().string());
+        return response.body().string();
     }
 
     private static OkHttpClient getClient() {

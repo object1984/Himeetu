@@ -207,13 +207,13 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
 
             getUserData(uid);
 
-            otherUserView(true);
+            otherUserView(false);
         }else{
             user = UserService.get();
 
             setUserData();
 
-            otherUserView(false);
+            otherUserView(true);
         }
     }
 
@@ -250,7 +250,6 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
                 NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.ATTENTION);
                 break;
             case R.id.tv_fans:   //粉丝
-
 
                 NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.FANS);
 

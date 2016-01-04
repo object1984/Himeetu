@@ -91,7 +91,10 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 //                FileUtil.uploadFile("http://123.57.167.135/sys/uploadimg","abc.png",file,"image/png");
                 try {
 
-                    FileUtil.run("http://123.57.167.135/sys/uploadimg","image/png",file,"abc.png");
+                  String result =   FileUtil.run("http://123.57.167.135/sys/uploadimg","image/png",file,"abc.png");
+
+                    Log.d("lanzhihong","result==="+result);
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }

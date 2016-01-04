@@ -8,13 +8,16 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.model.Friend;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.PersonState;
+import com.himeetu.model.User;
 import com.himeetu.model.UserImg;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
@@ -36,11 +39,13 @@ import java.util.Map;
 public class AttentionActivity extends BaseVolleyActivity {
     private MeFragment.AttentionType type;
     private ListView mListView;
-    private List<PersonState> lists;
+    private List<User> users;
     private Map<Integer, Boolean> flagMap;
     private final String TAG_GET_FRIENDS_LIST = "TAG_GET_FRIENDS_LIST";
     public static final String TAG_ADD_FRIEND = "TAG_ADD_FRIEND";
     private final String TAG_DEL_FRIEND = "TAG_DEL_FRIEND";
+    public static final String TAG_GET_USER_DATA = "TAG_GET_USER_DATA";
+    private QuickAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,54 +66,13 @@ public class AttentionActivity extends BaseVolleyActivity {
     @Override
     protected void loadViews() {
         super.loadViews();
-
         mListView = (ListView) findViewById(R.id.listView);
-
 
     }
 
     @Override
     protected void initViews() {
         super.initViews();
-
-        lists = new ArrayList<>();
-        flagMap = new HashMap<>();
-
-        for (int i = 0; i < 20; i++) {
-            lists.add(new PersonState());
-        }
-
-        mListView.setAdapter(new QuickAdapter<PersonState>(AttentionActivity.this, R.layout.item_list_attention, lists) {
-            @Override
-            protected void convert(final BaseAdapterHelper helper, PersonState item) {
-
-                helper.setText(R.id.tv_name, "test");
-
-                helper.setImageResource(R.id.im_head, R.drawable.image1);
-
-                int position = helper.getPosition();
-
-                boolean isChecked = false;
-
-                if (flagMap.containsKey(position)) {
-
-                    isChecked = flagMap.get(position);
-
-                }
-
-                helper.setChecked(R.id.bt_attention, isChecked);
-
-                helper.setOnCheckedListener(R.id.bt_attention, new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        flagMap.put(helper.getPosition(), isChecked);
-                    }
-                });
-
-
-            }
-        });
-
     }
 
     @Override
@@ -125,20 +89,18 @@ public class AttentionActivity extends BaseVolleyActivity {
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
 
-//        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
-//
-//
-//
-//
-//
-//
-//        } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {  //我的关注
-//
-//            if (BuildConfig.DEBUG) Log.d("我的关注＝＝＝", response.getJsonStr());
-//        }
+        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+
+        } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {  //我的关注
+
+            Friend friends = new Gson().fromJson(response.getJsonStr(), Friend.class);
+
+            getUserData(friends.getList());
+
+        }
 
 
-        if (AttentionActivity.TAG_ADD_FRIEND.equals(tag)) {
+        if (AttentionActivity.TAG_ADD_FRIEND.equals(tag) || TAG_DEL_FRIEND.equals(tag)) {
 
             try {
                 JSONObject json = new JSONObject(response.getJsonStr());
@@ -154,10 +116,40 @@ public class AttentionActivity extends BaseVolleyActivity {
             }
 
 
-        } else {
+        } else if (TAG_GET_USER_DATA.equals(tag)) {
+            try {
+                JSONObject json = new JSONObject(response.getJsonStr());
+                if ("0".equals(json.getString("result"))) {
+
+                    if (users == null) {
+                        users = new ArrayList<>();
+                    }
+
+                    User user = new Gson().fromJson(response.getJsonStr(), User.class);
+
+                    users.add(user);
+
+                    setListData(users);
+
+                } else {
+                    ToastUtil.show(json.getString("msg"));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
 
+    }
+
+    private void getUserData(final List<Friend.ListEntity> datas) {
+        if (datas == null || datas.size() < 1) {
+            return;
+        }
+        for (Friend.ListEntity entity : datas) {
+            getUserData(entity.getFriend());
+        }
     }
 
     private void initToolBar() {
@@ -200,4 +192,69 @@ public class AttentionActivity extends BaseVolleyActivity {
         Api.delFriends(TAG_DEL_FRIEND, friendId, this, this);
     }
 
+    /**
+     * 获取其他用户的数据
+     */
+    private void getUserData(String uid) {
+        Api.getUserData(TAG_GET_USER_DATA, uid, this, this);
+    }
+
+    private void setListData(final List<User> users) {
+        flagMap = new HashMap<>();
+
+        if (adapter == null) {
+            adapter = new QuickAdapter<User>(AttentionActivity.this, R.layout.item_list_attention, users) {
+                @Override
+                protected void convert(final BaseAdapterHelper helper, User item) {
+
+                    helper.setText(R.id.tv_name, item.getNickname());
+
+                    helper.setImageResource(R.id.im_head, R.drawable.image1);
+
+                    final int position = helper.getPosition();
+
+                    boolean isChecked = false;
+
+                    if (flagMap.containsKey(position)) {
+                        isChecked = flagMap.get(position);
+                    }
+
+                    helper.setChecked(R.id.bt_attention, isChecked);
+
+
+                    if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+
+                        helper.setText(R.id.bt_attention, "关注");
+                    } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
+
+                        helper.setText(R.id.bt_attention, "取消");
+                    }
+
+
+                    helper.setOnCheckedListener(R.id.bt_attention, new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            flagMap.put(helper.getPosition(), isChecked);
+                            String uid = users.get(position).getUid() + "";
+                            if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+                                addFriend(uid);
+                            } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
+                                delFriend(uid);
+                            }
+
+
+                        }
+                    });
+
+                }
+            };
+
+            mListView.setAdapter(adapter);
+
+        } else {
+            adapter.notifyDataSetChanged();
+        }
+
+
+    }
 }
