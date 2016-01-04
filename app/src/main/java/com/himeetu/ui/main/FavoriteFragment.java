@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.adapter.RecyclingPagerAdapter;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.HiEvent;
 import com.himeetu.ui.base.BaseFragment;
 import com.himeetu.ui.base.StatusBarCompat;
@@ -111,10 +113,10 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(getActivity(), ActivitiesDetailsActivity.class));
+        NavHelper.toActivityTalksPage(getActivity());
     }
 
-    public static class TubatuAdapter extends PagerAdapter {
+    public  class TubatuAdapter extends PagerAdapter {
 
         private final List<Integer> mList;
         private final Context mContext;
@@ -145,6 +147,12 @@ public class FavoriteFragment extends BaseFragment implements View.OnClickListen
             imageView = new ImageView(mContext);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setTag(position);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavHelper.toActivityDetailPage(getActivity());
+                }
+            });
             imageView.setImageResource(mList.get(position));
             ((ViewPager) container).addView(imageView, 0);
             return imageView;

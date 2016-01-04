@@ -70,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         View v = findViewById(R.id.toolbar);
         if (v != null) {
             toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
-            if (toolbarTitle != null) {
+            if (toolbarTitle != null && titleResId != 0) {
                 toolbarTitle.setText(titleResId);
             }
 
