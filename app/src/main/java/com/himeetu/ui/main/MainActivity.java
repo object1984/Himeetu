@@ -14,7 +14,7 @@ import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
 import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
-import com.himeetu.model.PersonState;
+import com.himeetu.model.ListItem;
 import com.himeetu.model.User;
 import com.himeetu.model.UserImg;
 import com.himeetu.model.service.UserService;
@@ -205,7 +205,7 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     }
 
     @Override
-    public void onListFragmentInteraction(PersonState item) {
+    public void onListFragmentInteraction(ListItem item) {
 
     }
 

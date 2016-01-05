@@ -396,9 +396,11 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
         if(isSelf){
             pm.height = DensityUtil.dip2px(getActivity(),200);
             tvAtten.setVisibility(View.GONE);
+            ibtSetup.setVisibility(View.VISIBLE);
         }else{
             pm.height = DensityUtil.dip2px(getActivity(),250);
             tvAtten.setVisibility(View.VISIBLE);
+            ibtSetup.setVisibility(View.GONE);
         }
         rlUser.setLayoutParams(pm);
     }

@@ -21,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 
 import com.himeetu.R;
-import com.himeetu.model.PersonState;
 import com.himeetu.ui.my.ActivitysFragment;
 
 /**

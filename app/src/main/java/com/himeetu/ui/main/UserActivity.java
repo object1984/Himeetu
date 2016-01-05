@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import com.himeetu.R;
 import com.himeetu.ui.base.BaseActivity;
 
+/**
+ *其他用户的主页
+ */
 public class UserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -16,7 +16,6 @@ import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.app.Api;
 import com.himeetu.model.Friend;
 import com.himeetu.model.GsonResult;
-import com.himeetu.model.PersonState;
 import com.himeetu.model.User;
 import com.himeetu.model.UserImg;
 import com.himeetu.ui.base.BaseActivity;
@@ -59,7 +58,6 @@ public class AttentionActivity extends BaseVolleyActivity {
         super.init();
 
         initData();
-
     }
 
 
@@ -99,7 +97,6 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         }
 
-
         if (AttentionActivity.TAG_ADD_FRIEND.equals(tag) || TAG_DEL_FRIEND.equals(tag)) {
 
             try {
@@ -107,6 +104,8 @@ public class AttentionActivity extends BaseVolleyActivity {
                 if ("0".equals(json.getString("result"))) {
 
                     ToastUtil.show(R.string.success);
+
+                    initData();
                 } else {
                     ToastUtil.show(json.getString("msg"));
                 }

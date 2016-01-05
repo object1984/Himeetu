@@ -8,17 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.himeetu.R;
-import com.himeetu.model.PersonState;
+import com.himeetu.model.ListItem;
 import com.himeetu.ui.my.ActivitysFragment;
 
 import java.util.List;
 
 public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.ViewHolder> {
 
-    private final List<PersonState> mValues;
+    private final List<ListItem> mValues;
     private final ActivitysFragment.OnListFragmentInteractionListener mListener;
 
-    public ActivitysAdapter(List<PersonState> items, ActivitysFragment.OnListFragmentInteractionListener listener) {
+    public ActivitysAdapter(List<ListItem> items, ActivitysFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -33,6 +33,9 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+
+        holder.mIdView.setText(holder.mItem.getTime());
+        holder.mImageView.setImageResource(R.drawable.image1);
 //        holder.mIdView.setText(mValues.get(position).id);
 //        holder.mImageView.setText(mValues.get(position).content);
 
@@ -57,7 +60,7 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
         public final View mView;
         public final TextView mIdView;
         public final ImageView mImageView;
-        public PersonState mItem;
+        public ListItem mItem;
 
         public ViewHolder(View view) {
             super(view);

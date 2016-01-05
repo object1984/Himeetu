@@ -12,14 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.ActivitysAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.model.FriendImgs;
 import com.himeetu.model.GsonResult;
-import com.himeetu.model.PersonState;
+import com.himeetu.model.ListItem;
+import com.himeetu.model.User;
+import com.himeetu.model.service.Activitys;
 import com.himeetu.ui.base.BaseFragment;
 import com.himeetu.ui.base.BaseVolleyFragment;
+import com.himeetu.util.ToastUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,16 +47,17 @@ public class ActivitysFragment extends BaseVolleyFragment {
     public static final int TYPE_GRDT = 2;
     public static final int TYPE_CYHD = 3;
     public static final int TYPE_QBDT = 4;
-    private static final String TYPE ="type";
+    private static final String TYPE = "type";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
-    private final String TAG_GET_SELF="TAG_GET_SELF";
-    private final String TAG_GET_FRIENDS_IMG="TAG_GET_FRIENDS_IMG";
+    private final String TAG_GET_SELF = "TAG_GET_SELF";
+    private final String TAG_GET_FRIENDS_IMG = "TAG_GET_FRIENDS_IMG";
     private int start = 0;
     private int limit = 10;
-    private List<PersonState> lists = new ArrayList<>();
+    private List<ListItem> lists = new ArrayList<>();
+    private ActivitysAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,7 +68,7 @@ public class ActivitysFragment extends BaseVolleyFragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ActivitysFragment newInstance(int columnCount,int type) {
+    public static ActivitysFragment newInstance(int columnCount, int type) {
         ActivitysFragment fragment = new ActivitysFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
@@ -67,6 +76,13 @@ public class ActivitysFragment extends BaseVolleyFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
+
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,17 +93,13 @@ public class ActivitysFragment extends BaseVolleyFragment {
             mType = getArguments().getInt(TYPE);
         }
 
-        for(int i = 0; i < 20;i++){
-            lists.add(new PersonState());
-        }
-
         initData();
 
     }
 
     private void initData() {
 
-        switch (mType){
+        switch (mType) {
 
             case TYPE_CYHD:
 
@@ -118,7 +130,8 @@ public class ActivitysFragment extends BaseVolleyFragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new ActivitysAdapter(lists, mListener));
+        adapter = new ActivitysAdapter(lists, mListener);
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -152,18 +165,18 @@ public class ActivitysFragment extends BaseVolleyFragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(PersonState item);
+        void onListFragmentInteraction(ListItem item);
     }
 
     /**
      * 参与的活动
      */
-    private void getSelf(){
-        Api.getSelf(TAG_GET_SELF,start,limit,this,this);
+    private void getSelf() {
+        Api.getSelf(TAG_GET_SELF, start, limit, this, this);
     }
 
-    private void getFriendsImg(){
-        Api.getFriendsImg(TAG_GET_FRIENDS_IMG,start,limit,this,this);
+    private void getFriendsImg() {
+        Api.getFriendsImg(TAG_GET_FRIENDS_IMG, start, limit, this, this);
 
     }
 
@@ -171,15 +184,91 @@ public class ActivitysFragment extends BaseVolleyFragment {
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
 
-        if(TAG_GET_SELF.equals(tag)){
+//        if (TAG_GET_SELF.equals(tag)) {
 
             if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
 
-        }else if(TAG_GET_FRIENDS_IMG.equals(tag)){
+//            try {
+//                JSONObject json = new JSONObject(response.getJsonStr());
+//                if ("0".equals(json.getString("result"))) {
 
-            if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
+                    String json = "{\n" +
+                            "    \"count\": \"1\",\n" +
+                            "    \"list\": [\n" +
+                            "        {\n" +
+                            "            \"id\": 0,\n" +
+                            "            \"name\": \"hh\",\n" +
+                            "            \"address\": \"beijing\",\n" +
+                            "            \"starttime\": \"10:10\",\n" +
+                            "            \"endtime\": \"10:10\",\n" +
+                            "            \"img\": \"imgmd5name.png\",\n" +
+                            "            \"des\": \"…\",\n" +
+                            "            \"state\": 2\n" +
+                            "        },\n" +
+                            "        {\n" +
+                            "            \"id\": 1,\n" +
+                            "            \"name\": \"test\",\n" +
+                            "            \"address\": \"beijing\",\n" +
+                            "            \"starttime\": \"10:10\",\n" +
+                            "            \"endtime\": \"10:10\",\n" +
+                            "            \"img\": \"imgmd5name.png\",\n" +
+                            "            \"des\": \"…\",\n" +
+                            "            \"state\": 2\n" +
+                            "        }\n" +
+                            "    ]\n" +
+                            "}";
 
-        }
+
+//                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
+                    Activitys activitys = new Gson().fromJson(json, Activitys.class);
+
+                    List<Activitys.Activity> activityList = activitys.getActivitys();
+                    for (Activitys.Activity activity : activityList) {
+                        ListItem item = new ListItem();
+                        item.setImgPath(activity.getImg());
+                        item.setTime(activity.getStarttime() );
+//                                + "--" + activity.getEndtime());
+                        lists.add(item);
+                    }
+                    adapter.notifyDataSetChanged();
+
+//                } else {
+//                    ToastUtil.show(json.getString("msg"));
+//                }
+
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+
+
+//        } else if (TAG_GET_FRIENDS_IMG.equals(tag)) {
+//
+//            if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
+//
+//            try {
+//                JSONObject json = new JSONObject(response.getJsonStr());
+//                if ("0".equals(json.getString("result"))) {
+//
+//                    FriendImgs friends = new Gson().fromJson(response.getJsonStr(), FriendImgs.class);
+//
+//                    List<FriendImgs.FriendImg> imgs = friends.getFriendImgs();
+//                    for (FriendImgs.FriendImg img : imgs) {
+//                        ListItem item = new ListItem();
+//                        item.setImgPath(img.getImg_path());
+//                        item.setTime(img.getCtime());
+//                        lists.add(item);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//
+//                } else {
+//                    ToastUtil.show(json.getString("msg"));
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
 
     }
 
