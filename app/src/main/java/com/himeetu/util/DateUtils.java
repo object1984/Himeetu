@@ -458,4 +458,45 @@ public class DateUtils {
         int flag = now.compareTo(dateStr);
         return flag > 0 ? true : false;
     }
+
+    /**
+     * Mon Jan 01 00:00:00 格林尼治标准时间+0800 2018 转为 yyyy-MM-dd
+     * @param date:Mon Jan 01 00:00:00 格林尼治标准时间+0800 2018
+     */
+    public static String LocaleDateFormat(String date){
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss 格林尼治标准时间+0800 yyyy",Locale.ENGLISH);
+        Date d = null;
+        SimpleDateFormat sdf2 = null;
+        try {
+            d = sdf.parse(date);
+            sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return sdf2.format(d);
+    }
+
+    /**
+     * 获取的日期是上午还是下午
+     * @return
+     */
+    public static String getAMorPM(String date){
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = null;
+        String time = "";
+        try {
+            d = sdf.parse(date);
+            cal.setTime(d);
+            if (cal.get(Calendar.AM_PM) == Calendar.PM) {
+                time += "PM: ";
+            }else {
+                time += "AM: ";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
+
 }

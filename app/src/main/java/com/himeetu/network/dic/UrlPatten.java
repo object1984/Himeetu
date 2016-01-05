@@ -31,6 +31,7 @@ public class UrlPatten {
         public static final String URL_USER_DATA_DETAIL = URL_API_BASE + "/userdata/update?nation=%s&sex=%s&birthday=%s&telphone=%s&email=%s";
         public static final String URL_GET_NUM = URL_API_BASE + "/friend?getnum?uid=%s";
         public static final String URL_GET_USER_DATA = URL_API_BASE + "/userdata/getuserdata?uid=%s";
+        public static final String URL_GET_ACTIVE_USERS = URL_API_BASE + "/activity/getuserlist?id=%s&start=%s&limit=%s";
 
         //获取综合推荐列表
         public static final String URL_GET_HOT_RECOMMEND = URL_API_BASE + "/systop/get";

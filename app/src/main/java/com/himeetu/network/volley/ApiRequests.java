@@ -200,6 +200,14 @@ public class ApiRequests {
 
         return doGet(url, listener, errorListener);
     }
+    public static Request<?> getParticipateInActiveUsers(@NonNull final int id,
+                                                         @NonNull final int start,
+                                                         @NonNull final int limit,
+                                                         @NonNull final Response.Listener listener,
+                                                         @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_GET_ACTIVE_USERS, id, start, limit);
+        return doGet(url, listener, errorListener);
+    }
 
     public static Request<?> getOnGoingActivity( @NonNull final int start,
                                                  @NonNull final int limit,

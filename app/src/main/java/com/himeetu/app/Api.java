@@ -89,6 +89,9 @@ public class Api {
     public static void getUserData(String tag,String uid,Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getUserData(uid,listener, errorListener), tag);
     }
+    public static void getParticipateInActiveUsers(String tag, int id, int start, int limit, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getParticipateInActiveUsers(id, start, limit, listener, errorListener),tag);
+    }
 
     /**
      * 获取综合推荐列表

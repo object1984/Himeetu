@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.himeetu.R;
+import com.himeetu.model.ActiveUsers;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ import java.util.List;
  */
 public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecyclerAdapter.DetailsViewHolder> {
     private Context context;
-    private List<String> mList;
-    public DetailsRecyclerAdapter(Context context, List<String> mList){
+    public List<ActiveUsers> mList;
+    public DetailsRecyclerAdapter(Context context, List<ActiveUsers> mList){
         this.context = context;
         this.mList = mList;
     }
