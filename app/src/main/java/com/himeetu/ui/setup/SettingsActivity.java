@@ -114,27 +114,27 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.rl_invite_friends:
-
-                NavHelper.toInviteFriendsActivity(SettingsActivity.this);
-
-                break;
-
-            case R.id.tv_logout:
-
-                showLogout();
-
-                break;
-            case R.id.rl_data_edit:
-
-                NavHelper.toEditUserDetailActivity(SettingsActivity.this);
-
-                break;
-            case R.id.rl_pwd_edit:
-
-                NavHelper.toEditPassWordActivity(SettingsActivity.this);
-
-                break;
+//            case R.id.rl_invite_friends:
+//
+//                NavHelper.toInviteFriendsActivity(SettingsActivity.this);
+//
+//                break;
+//
+//            case R.id.tv_logout:
+//
+//                showLogout();
+//
+//                break;
+//            case R.id.rl_data_edit:
+//
+//                NavHelper.toEditUserDetailActivity(SettingsActivity.this);
+//
+//                break;
+//            case R.id.rl_pwd_edit:
+//
+//                NavHelper.toEditPassWordActivity(SettingsActivity.this);
+//
+//                break;
 
         }
     }

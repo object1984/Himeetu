@@ -21,18 +21,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.adapter.RecommendAdapter;
+import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
+import com.himeetu.model.GsonResult;
 import com.himeetu.model.HiEvent;
 import com.himeetu.model.Recommend;
 import com.himeetu.ui.base.BaseFragment;
+import com.himeetu.ui.base.BaseVolleyActivity;
+import com.himeetu.ui.base.BaseVolleyFragment;
 import com.himeetu.ui.base.StatusBarCompat;
+import com.himeetu.util.JsonUtil;
 import com.himeetu.view.WrapContentLayoutManager;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +52,17 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class HomeFragment extends BaseVolleyFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+    private static final String TAG = HomeFragment.class.getCanonicalName();
+    private static final String TAG_API_GET_TOP_RECOMMEND = "TAG_API_GET_TOP_RECOMMEND";
+
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
     private List<Integer> imageIdList;
-    private List<Recommend> recommends = new ArrayList<>();
+    private List<Recommend> recommendList = new ArrayList<>();
 
     private ListView mEventListView;
     private QuickAdapter<HiEvent> mEventAdapter;
@@ -96,6 +110,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
        rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         init();
+
+        getTopRecommend();
         return rootView;
     }
 
@@ -103,14 +119,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     protected void loadViews() {
         super.loadViews();
 
-        recommends.add(new Recommend("#精彩话题1"));
-        recommends.add(new Recommend("#精彩话题2"));
-        recommends.add(new Recommend("#精彩话题3"));
-        recommends.add(new Recommend("#精彩话题4"));
-        recommends.add(new Recommend("#精彩话题5"));
-        recommends.add(new Recommend("#精彩话题6"));
-        recommends.add(new Recommend("#精彩话题7"));
-        recommends.add(new Recommend("#精彩话题8"));
 
         mEventListView = (ListView)rootView.findViewById(R.id.list_event);
         mEventListView.setOnItemClickListener(this);
@@ -122,7 +130,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mEventListView.addFooterView(footerView);
 
         mRecommendRecyclerView = (RecyclerView)headerView.findViewById(R.id.recycler_recommend);
-        recommendAdapter = new RecommendAdapter(getActivity(), recommends);
+        recommendAdapter = new RecommendAdapter(getActivity(), recommendList);
 
         mEventAdapter = new QuickAdapter<HiEvent>(getActivity(), R.layout.item_list_event) {
             @Override
@@ -203,5 +211,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         NavHelper.toTalkDetailPage(getActivity());
+    }
+
+    private void getTopRecommend(){
+        Api.getHotRecommend(TAG_API_GET_TOP_RECOMMEND, this, this);
+    }
+
+    @Override
+    public void onResponse(GsonResult response, String tag) {
+        super.onResponse(response, tag);
+
+        if(TAG_API_GET_TOP_RECOMMEND.equals(tag)){
+            JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+
+            Type listType = new TypeToken<List<Recommend>>() {
+            }.getType();
+            List<Recommend> recommends  = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
+
+            if(recommends != null){
+                recommendAdapter.addAll(recommends);
+            }
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error, String tag) {
+        super.onErrorResponse(error, tag);
     }
 }

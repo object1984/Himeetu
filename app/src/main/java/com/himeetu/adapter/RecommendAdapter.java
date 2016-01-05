@@ -2,6 +2,7 @@ package com.himeetu.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.himeetu.R;
+import com.himeetu.app.Constants;
 import com.himeetu.model.Recommend;
 import com.himeetu.util.LogUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,9 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Recommend item = mRecommendItems.get(position);
             ((RecommendViewHolder) holder).mTitleTextView.setText(item.getTitle());
+
+        LogUtil.d("IMG_URL", Constants.WEB_IMG_BASE + item.getImgPath());
+        Picasso.with(mContext).load(Constants.WEB_IMG_BASE + item.getImgPath()).into(((RecommendViewHolder) holder).mIconImageView);
 //            ((NormalViewHolder) holder).mIconImageView.setImageResource();
 
     }
@@ -64,6 +70,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
         }
+    }
+
+    public void addAll(List<Recommend> recommends){
+        this.mRecommendItems.addAll(recommends);
+        this.notifyDataSetChanged();
     }
 
 }

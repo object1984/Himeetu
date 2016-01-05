@@ -63,7 +63,7 @@ public class GsonGetRequest<T> extends Request<T>
 
             String json = new String(response.data, "utf-8");
 
-            LogUtil.d("GsonGetRequest json", json);
+            LogUtil.d("GsonGetRequest tag＝" + tag, json);
             return (Response<T>) Response.success
                     (
                             gson.fromJson(json, type),

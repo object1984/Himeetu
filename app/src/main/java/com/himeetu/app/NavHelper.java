@@ -8,6 +8,8 @@ import com.himeetu.R;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.login.FindPasswordActivity;
 import com.himeetu.ui.login.LoginActivity;
+import com.himeetu.ui.main.ActivitiesDetailsActivity;
+import com.himeetu.ui.main.ActivityTalksActivity;
 import com.himeetu.ui.main.MainActivity;
 import com.himeetu.ui.main.MeFragment;
 import com.himeetu.ui.main.SearchActivity;
@@ -22,7 +24,6 @@ import com.himeetu.ui.register.InvitationCodeActivity;
 import com.himeetu.ui.register.RegisterActivity;
 import com.himeetu.ui.setup.EditPassWordActivity;
 import com.himeetu.ui.setup.EditUserDetailActivity;
-import com.himeetu.ui.setup.InviteFriendsActivity;
 import com.himeetu.ui.setup.SettingsActivity;
 import com.himeetu.util.LogUtil;
 
@@ -107,17 +108,23 @@ public class NavHelper {
 //        forwardFadeInAnim(activity);
     }
 
-    public static void backMainPage(Activity activity, String target) {
+    public static void toEditPassWordActivity(Activity activity){
         Intent intent = new Intent();
-        intent.putExtra(Argument.TARGET, target);
-        intent.setClass(activity, MainActivity.class);
+        intent.setClass(activity, EditPassWordActivity.class);
         activity.startActivity(intent);
-        backAnim(activity);
+        forwardAnim(activity);
     }
 
-    public static void toInviteFriendsActivity(Activity activity){
+    public static void toActivityTalksPage(Activity activity){
         Intent intent = new Intent();
-        intent.setClass(activity, InviteFriendsActivity.class);
+        intent.setClass(activity, EditUserDetailActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toActivityDetailPage(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, EditUserDetailActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
     }
@@ -125,13 +132,6 @@ public class NavHelper {
     public static void toEditUserDetailActivity(Activity activity){
         Intent intent = new Intent();
         intent.setClass(activity, EditUserDetailActivity.class);
-        activity.startActivity(intent);
-        forwardAnim(activity);
-    }
-
-    public static void toEditPassWordActivity(Activity activity){
-        Intent intent = new Intent();
-        intent.setClass(activity, EditPassWordActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
     }
@@ -157,6 +157,14 @@ public class NavHelper {
         intent.putExtra("type", type);
         activity.startActivity(intent);
         forwardAnim(activity);
+    }
+
+    public static void backMainPage(Activity activity, String target) {
+        Intent intent = new Intent();
+        intent.putExtra(Argument.TARGET, target);
+        intent.setClass(activity, MainActivity.class);
+        activity.startActivity(intent);
+        backAnim(activity);
     }
 
     public static void forwardAnim(Activity activity, int animInId, int animOutId) {

@@ -90,5 +90,13 @@ public class Api {
         MEETApplication.addRequest(ApiRequests.getUserData(uid,listener, errorListener), tag);
     }
 
-
+    /**
+     * 获取综合推荐列表
+     * @param tag
+     * @param listener
+     * @param errorListener
+     */
+    public static void getHotRecommend(String tag, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getHotRecommend(listener, errorListener), tag);
+    }
 }

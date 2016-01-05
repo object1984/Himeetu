@@ -202,6 +202,22 @@ public class ApiRequests {
     }
 
 
+    /**
+     * 获取综合推荐列表
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> getHotRecommend(
+                                          @NonNull final Response.Listener listener,
+                                          @NonNull final Response.ErrorListener errorListener) {
+
+        final String url = String.format(UrlPatten.URL_GET_HOT_RECOMMEND);
+
+        return doGet(url, listener, errorListener);
+    }
+
+
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
         LogUtil.d("url", url);
 
