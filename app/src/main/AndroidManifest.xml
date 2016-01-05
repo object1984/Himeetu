@@ -96,6 +96,9 @@
             android:name=".ui.main.ShareActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.main.ActivityTalksActivity"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.main.SearchActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.setup.SettingsActivity" />

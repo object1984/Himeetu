@@ -117,14 +117,21 @@ public class NavHelper {
 
     public static void toActivityTalksPage(Activity activity){
         Intent intent = new Intent();
-        intent.setClass(activity, EditUserDetailActivity.class);
+        intent.setClass(activity, ActivityTalksActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toTopicDetailsPage(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, TopicDetailsActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
     }
 
     public static void toActivityDetailPage(Activity activity){
         Intent intent = new Intent();
-        intent.setClass(activity, EditUserDetailActivity.class);
+        intent.setClass(activity, ActivitiesDetailsActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
     }
