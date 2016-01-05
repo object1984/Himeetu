@@ -45,9 +45,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((RecommendViewHolder) holder).mTitleTextView.setText(item.getTitle());
 
         LogUtil.d("IMG_URL", Constants.WEB_IMG_BASE + item.getImgPath());
-        Picasso.with(mContext).load(Constants.WEB_IMG_BASE + item.getImgPath()).into(((RecommendViewHolder) holder).mIconImageView);
-//            ((NormalViewHolder) holder).mIconImageView.setImageResource();
-
+        Picasso.with(mContext).load(Constants.WEB_IMG_BASE + item.getImgPath()).placeholder(R.drawable.img_default)
+                .error(R.drawable.img_default).into(((RecommendViewHolder) holder).mIconImageView);
     }
 
     @Override

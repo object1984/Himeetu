@@ -99,4 +99,16 @@ public class Api {
     public static void getHotRecommend(String tag, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getHotRecommend(listener, errorListener), tag);
     }
+
+    /**
+     * 获取正在进行的活动列表
+     * @param tag
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     */
+    public static void getOnGoingActivity(String tag, int start, int limit,  Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getOnGoingActivity(start, limit, listener, errorListener), tag);
+    }
 }

@@ -12,6 +12,7 @@ public class Argument {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String COUNTRY_CODE = "country_code";
+    public static final String HIACTIVITY = "HiActivity";
 
 
 }

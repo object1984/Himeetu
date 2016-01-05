@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.himeetu.R;
+import com.himeetu.model.HiActivity;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.login.FindPasswordActivity;
 import com.himeetu.ui.login.LoginActivity;
@@ -129,8 +130,9 @@ public class NavHelper {
         forwardAnim(activity);
     }
 
-    public static void toActivityDetailPage(Activity activity){
+    public static void toActivityDetailPage(Activity activity, HiActivity hiActivity){
         Intent intent = new Intent();
+        intent.putExtra(Argument.HIACTIVITY, hiActivity);
         intent.setClass(activity, ActivitiesDetailsActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);

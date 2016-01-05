@@ -34,4 +34,15 @@ public class UrlPatten {
 
         //获取综合推荐列表
         public static final String URL_GET_HOT_RECOMMEND = URL_API_BASE + "/systop/get";
+        //获取全部的活动列表
+        public static final String URL_GET_ACTIVITY_ALL = URL_API_BASE + "/activity/getlist?start=%d&limit=％d&state=0";
+        //获取还未开始的活动列表
+        public static final String URL_GET_ACTIVITY_NOT_START = URL_API_BASE + "/activity/getlist?start=%d&limit=％d&state=1";
+        //获取进行中的活动列表
+        public static final String URL_GET_ACTIVITY_ON_GOING = URL_API_BASE + "/activity/getlist?start=%d&limit=%d&state=2";
+        //获取活动中和等待中的活动列表
+        public static final String URL_GET_ACTIVITY_NOT_END = URL_API_BASE + "/activity/getlist?start=%d&limit=％d&state=3";
+        //获取已经结束的活动列表
+        public static final String URL_GET_ACTIVITY_END = URL_API_BASE + "/activity/getlist?start=%d&limit=％d&state=4";
+
 }

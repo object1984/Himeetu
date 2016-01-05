@@ -14,7 +14,7 @@
         android:overScrollMode="never" />
 
     <TextView
-        android:id="@+id/text_favorite"
+        android:id="@+id/text_name"
         android:layout_marginBottom="15dp"
         android:layout_below="@+id/viewpager"
         android:text="沙滩浪漫之夜"
