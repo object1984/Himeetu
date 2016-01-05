@@ -19,6 +19,7 @@ import com.himeetu.ui.main.TopicDetailsActivity;
 import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.photo.PhotoMainActivity;
 import com.himeetu.ui.photo.TakePhotoActivity;
+import com.himeetu.ui.photo.TakePhotoResultActivity;
 import com.himeetu.ui.register.CountryChooseActivity;
 import com.himeetu.ui.register.IdentityActivity;
 import com.himeetu.ui.register.InvitationCodeActivity;
@@ -84,6 +85,13 @@ public class NavHelper {
     public static void toPhotoTakePage(Activity activity) {
         Intent intent = new Intent();
         intent.setClass(activity, TakePhotoActivity.class);
+        activity.startActivity(intent);
+//        forwardFadeInAnim(activity);
+    }
+
+    public static void toPhotoTakeResultPage(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, TakePhotoResultActivity.class);
         activity.startActivity(intent);
 //        forwardFadeInAnim(activity);
     }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.himeetu.view.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+        <com.himeetu.view.AutoScaleImageView
+            android:id="@+id/img_img"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:text="沙滩之夜"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_big"
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/text_name"
+        android:layout_centerHorizontal="true"
+        android:text="官方活动"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_small"
+        android:id="@+id/text_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:drawableLeft="@drawable/ic_activity_time"
+        android:layout_below="@+id/text_type"
+        android:textSize="@dimen/font_normal"
+        android:layout_centerHorizontal="true"
+        android:text="PM: 20:00 2015年12月31日"
+        android:textColor="@color/white"
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="@dimen/font_normal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:drawablePadding="8dp"
+        android:drawableLeft="@drawable/ic_activity_address"
+        android:text="地址: 海淀区西直门北大街凯德茂广场"
+        android:textColor="@color/white"
+        android:id="@+id/text_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</com.himeetu.view.AutoRelativeLayout>

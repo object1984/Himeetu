@@ -6,14 +6,21 @@
     android:layout_height="match_parent">
     <include layout="@layout/toolbar_white_photo_take_back" />
 
-    <SurfaceView
+    <com.himeetu.view.SquareLayout
         android:layout_below="@+id/toolbar"
-        android:id="@+id/surfaceView"
+        android:id="@+id/layout_surface"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        />
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
+    </com.himeetu.view.SquareLayout>
+
     <RelativeLayout
-        android:layout_below="@+id/surfaceView"
+        android:layout_below="@+id/layout_surface"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageButton

@@ -10,7 +10,7 @@
         tools:listheader="@layout/header_list_favorite"
         android:dividerHeight="5dp"
         android:divider="@color/transparent"
-        tools:listitem="@layout/item_list_favorite"
+        tools:listitem="@layout/item_list_activity"
         android:id="@+id/list_favorite"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"

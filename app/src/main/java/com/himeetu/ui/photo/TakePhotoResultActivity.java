@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,28 +17,21 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.himeetu.R;
-import com.himeetu.app.NavHelper;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.util.LogUtil;
 import com.himeetu.util.ToastUtil;
-import com.himeetu.view.HiSurfaceView;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by object1984 on 15/12/21.
  */
-public class TakePhotoActivity extends BaseActivity implements View.OnClickListener, Handler.Callback {
+public class TakePhotoResultActivity extends BaseActivity implements View.OnClickListener, Handler.Callback {
     private static final String TAG = "TakePhotoActivity";
     private Camera camera;
     private Camera.Parameters parameters = null;
@@ -46,14 +40,11 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
     private Handler handler;
     private boolean hasBitmap = false;
     private Uri uri;
-    private static final int SURFAVCE_WIDTH = 720;
-    private static final int SURFAVCE_HEIGHT = 720;
-    private static final int PICTURE_WIDTH = 720;
-    private static final int PICTURE_HEIGHT = 720;
+    private static final int SURFAVCE_WIDTH = 1920;
+    private static final int SURFAVCE_HEIGHT = 1080;
+    private static final int PICTURE_WIDTH = 1280;
+    private static final int PICTURE_HEIGHT= 720;
     private boolean enable = true;
-    private HiSurfaceView hiSurfaceView = null;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,31 +52,6 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_photo_take);
         setupToolbar(true, R.string.photo_take);
         init();
-
-    }
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        if (camera == null){
-            camera = getCameraInstance();
-            }
-        //必须放在onResume中，不然会出现Home键之后，再回到该APP，黑屏
-        hiSurfaceView = new HiSurfaceView(getApplicationContext(), camera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        preview.addView(hiSurfaceView);
-    }
-
-    /*得到一相机对象*/
-    private Camera getCameraInstance(){
-        Camera camera = null;
-        try{
-            camera = camera.open();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return camera;
     }
 
     @Override
@@ -101,10 +67,10 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
 
     // 拍照
     private void takePicture() {
-        if (!hasBitmap) {
+        if(!hasBitmap){
 //            pictureButton.setOnClickListener(null);
             camera.takePicture(null, null, new MyPictureCallback());
-        } else {
+        }else {
             Intent resultIntent = new Intent();
             resultIntent.setData(uri);
             setResult(RESULT_OK, resultIntent);
@@ -113,17 +79,17 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void cancel() {
-        if (hasBitmap) {
+    private void cancel(){
+        if(hasBitmap){
 
-            if (camera != null) {
+            if(camera != null){
                 camera.stopPreview();
                 camera.startPreview();
             }
 
             hasBitmap = false;
 //            pictureButton.setText("拍 照");
-        } else {
+        }else {
             finish();
         }
     }
@@ -132,7 +98,7 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
     public boolean handleMessage(Message msg) {
         ToastUtil.show("拍照成功");
 
-        uri = (Uri) msg.getData().get("uri");
+        uri = (Uri)msg.getData().get("uri");
         hasBitmap = true;
 //        pictureButton.setText("完 成");
 //        pictureButton.setOnClickListener(this);
@@ -141,36 +107,20 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.btn_photo_take:
                 if (camera != null) {
                     takePicture();
-
-                    NavHelper.toPhotoTakeResultPage(this);
                 }
                 break;
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
     class SaveBitmapThread extends Thread {
         private byte[] data;
-
-        public SaveBitmapThread(byte[] data) {
+        public  SaveBitmapThread(byte[] data){
             this.data = data;
         }
-
         @Override
         public void run() {
             super.run();
@@ -219,17 +169,17 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
 
             String path = MediaStore.Images.Media.insertImage(getContentResolver(), jpgFile.getAbsolutePath(), filename, "eby pic");
 
-            LogUtil.d(TAG, "MediaStore=" + path);
+            LogUtil.d(TAG, "MediaStore=" +  path);
             sendBroadcast(jpgFile);
 
-            if (!bitmap.isRecycled()) {
+            if(!bitmap.isRecycled()) {
                 bitmap.recycle();
             }
             return Uri.fromFile(jpgFile);
         }
     }
 
-    private void sendBroadcast(File file) {
+    private void sendBroadcast(File file){
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
@@ -246,14 +196,65 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        ;
+        };
 
 
     }
 
 
+
+    private final class SurfaceCallback implements SurfaceHolder.Callback {
+        // 拍照状态变化时调用该方法
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                                   int height) {
+            LogUtil.d(TAG, "surfaceChanged" + "w=" + width + ", h=" + height);
+
+            if(camera == null){
+                ToastUtil.show("没有开启照相权限，请到手机安全中心中开启。");
+                return;
+            }
+
+            Camera.Parameters parameters = camera.getParameters();// 获得相机参数
+
+            parameters.setPictureSize(PICTURE_WIDTH, PICTURE_HEIGHT);
+            parameters.setPictureFormat(PixelFormat.JPEG); // 设置照片格式
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            camera.setParameters(parameters);// 设置相机参数
+            camera.startPreview();
+        }
+
+        // 开始拍照时调用该方法
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            try {
+                camera = Camera.open(); // 打开摄像头
+
+                if(camera == null){
+                    enable = false;
+                    return;
+                }
+
+                camera.setPreviewDisplay(holder); // 设置用于显示拍照影像的SurfaceHolder对象
+                parameters = camera.getParameters();
+                parameters.setJpegQuality(100); // 设置照片质量
+                camera.setDisplayOrientation(90);
+                camera.startPreview(); // 开始预览
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        // 停止拍照时调用该方法
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            if (camera != null) {
+                camera.release(); // 释放照相机
+                camera = null;
+            }
+        }
+    }
 
 
     @Override
@@ -269,6 +270,4 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 }

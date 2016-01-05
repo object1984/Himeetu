@@ -105,12 +105,12 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
         //地址
         text_address.setText(hiActivity.getAddress());
         //设置时间
-        String localeDate = DateUtils.LocaleDateFormat(hiActivity.getStartDate().toString());//获取yyyy-MM-dd HH:mm:ss
-        String[] Array = localeDate.split(" ");
+        String localeDate = DateUtils.LocaleDateFormat(hiActivity.getStartDate());//获取yyyy-MM-dd HH:mm:ss
+        String[] timeAry = localeDate.split(" ");
         if (localeDate != null && !localeDate.equals("")) {
-            text_time.setText(DateUtils.getAMorPM(localeDate) +Array[1]);
+            text_time.setText(DateUtils.getAMorPM(hiActivity.getStartDate()) + timeAry[1]);
             //日期
-            text_date.setText(Array[0]);
+            text_date.setText(timeAry[0]);
         }
     }
 

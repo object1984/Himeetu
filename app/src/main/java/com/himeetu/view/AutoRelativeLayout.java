@@ -2,21 +2,21 @@ package com.himeetu.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 /**
- * Created by object1984 on 15/11/28.
+ * Created by object1984 on 16/1/5.
  */
-public class AutoScaleImageView extends ImageView {
-    public AutoScaleImageView(Context context) {
+public class AutoRelativeLayout extends RelativeLayout{
+    public AutoRelativeLayout(Context context) {
         super(context);
     }
 
-    public AutoScaleImageView(Context context, AttributeSet attrs) {
+    public AutoRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AutoScaleImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AutoRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

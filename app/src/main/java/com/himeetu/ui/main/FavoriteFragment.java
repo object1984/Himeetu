@@ -26,11 +26,9 @@ import com.himeetu.app.Constants;
 import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.HiActivity;
-import com.himeetu.model.HiEvent;
-import com.himeetu.model.Recommend;
 import com.himeetu.ui.base.BaseVolleyFragment;
+import com.himeetu.util.DateUtils;
 import com.himeetu.util.JsonUtil;
-import com.himeetu.util.TimestampTypeAdapter;
 import com.himeetu.view.ClipViewPager;
 import com.himeetu.view.ScalePageTransformer;
 import com.squareup.picasso.Picasso;
@@ -38,23 +36,19 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
 public class FavoriteFragment extends BaseVolleyFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private static final String TAG = FavoriteFragment.class.getCanonicalName();
     private static final String TAG_API_GET_ACTIVITY_ON_GOING = "TAG_API_GET_ACTIVITY_ON_GOING";
+    private static final String TAG_API_GET_ACTIVITY_END = "TAG_API_GET_ACTIVITY_END";
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
-    private List<Integer> imageIdList;
-    private ListView mFavoriteListView;
+    private ListView mEndActivityListView;
     private TextView mCurrentSelectedHiActivityNameTextView;
-    private QuickAdapter<HiEvent> mFravoriteAdapter;
+    private QuickAdapter<HiActivity> mHiActivityListAdapter;
     public FavoriteFragment() {
         // Required empty public constructor
     }
@@ -70,8 +64,6 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
     public static FavoriteFragment newInstance(String param1, String param2) {
         FavoriteFragment fragment = new FavoriteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,8 +72,6 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setStatusBarColor(R.color.black);
     }
@@ -94,6 +84,7 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
         init();
         getOnGoingActivity();
+        geEndActivity();
         return rootView;
     }
 
@@ -166,30 +157,39 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
 
 
-        mFavoriteListView = (ListView)rootView.findViewById(R.id.list_favorite);
-        mFravoriteAdapter = new QuickAdapter<HiEvent>(getActivity(), R.layout.item_list_favorite) {
+        mEndActivityListView = (ListView)rootView.findViewById(R.id.list_favorite);
+        mHiActivityListAdapter = new QuickAdapter<HiActivity>(getActivity(), R.layout.item_list_activity) {
             @Override
-            protected void convert(BaseAdapterHelper helper, HiEvent item) {
+            protected void convert(BaseAdapterHelper helper, HiActivity item) {
+                helper.setText(R.id.text_name, item.getName());
+                helper.setText(R.id.text_address, item.getAddress());
 
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(item.getStartDate());
+                String time = "";
+                if (cal.get(Calendar.AM_PM) == Calendar.PM) {
+                    time += "PM: ";
+                }else {
+                    time += "AM: ";
+                }
+
+                time += String.format("%s  %s", DateUtils.formatTime(item.getStartDate()), DateUtils.formatYear(item.getStartDate()));
+
+                helper.setText(R.id.text_time, time);
+
+                String imgPath = Constants.WEB_IMG_BASE + item.getImgPath();
+
+                Picasso.with(getActivity()).load(imgPath).placeholder(R.drawable.img_default).error(R.drawable.img_default).into((ImageView) helper.getView().findViewById(R.id.img_img));
             }
         };
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
 
-        View headerView = inflater.inflate(R.layout.header_list_favorite, mFavoriteListView, false);
+        View headerView = inflater.inflate(R.layout.header_list_favorite, mEndActivityListView, false);
         mCurrentSelectedHiActivityNameTextView = (TextView)headerView.findViewById(R.id.text_name);
-        mFavoriteListView.addHeaderView(headerView);
-        mFavoriteListView.setAdapter(mFravoriteAdapter);
-        mFavoriteListView.setOnItemClickListener(this);
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
-        mFravoriteAdapter.add(new HiEvent());
+        mEndActivityListView.addHeaderView(headerView);
+        mEndActivityListView.setAdapter(mHiActivityListAdapter);
+        mEndActivityListView.setOnItemClickListener(this);
 
         mViewPager = (ClipViewPager)headerView. findViewById(R.id.viewpager);
         mViewPager.setPageTransformer(true, new ScalePageTransformer());
@@ -256,7 +256,13 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
     private void getOnGoingActivity(){
         //暂时只获取前10个，以后根据业务修改
-        Api.getOnGoingActivity(TAG_API_GET_ACTIVITY_ON_GOING, 0, 10, this, this);
+        Api.getOnGoingActivity(TAG_API_GET_ACTIVITY_END, 0, 10, this, this);
+    }
+
+    private int pageNum = 0;
+    private int pageSize = 20;
+    private void geEndActivity(){
+        Api.getOnGoingActivity(TAG_API_GET_ACTIVITY_ON_GOING, pageNum*pageSize, pageSize, this, this);
     }
 
     @Override
@@ -285,6 +291,22 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
                 HiActivity currentSelectedHiActivity = mHiActivityAdapter.getItem(mViewPager.getCurrentItem());
                 mCurrentSelectedHiActivityNameTextView.setText(currentSelectedHiActivity.getName());
 
+            }
+        }
+
+        if(TAG_API_GET_ACTIVITY_END.equals(tag)){
+            JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.setDateFormat("yyyy-MM-dd hh:mm:ss");
+            Gson gson = gsonBuilder.create();
+
+            Type listType = new TypeToken<List<HiActivity>>() {}.getType();
+            List<HiActivity> hiActivities  = gson.fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
+
+            if(hiActivities != null){
+                mHiActivityListAdapter.addAll(hiActivities);
+                mHiActivityListAdapter.notifyDataSetChanged();
             }
         }
     }

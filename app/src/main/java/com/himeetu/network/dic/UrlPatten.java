@@ -46,4 +46,6 @@ public class UrlPatten {
         //获取已经结束的活动列表
         public static final String URL_GET_ACTIVITY_END = URL_API_BASE + "/activity/getlist?start=%d&limit=％d&state=4";
 
+        //获取消息提醒
+        public static final String URL_GET_MESSAGE = URL_API_BASE + "/notice/get?start=%d&limit=%d";
 }
