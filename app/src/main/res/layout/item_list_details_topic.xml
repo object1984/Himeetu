@@ -39,6 +39,7 @@
             android:textSize="@dimen/font_normal" />
 
         <TextView
+            android:id="@+id/item_tv_comments_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
