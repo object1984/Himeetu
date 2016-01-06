@@ -58,6 +58,12 @@ public class AttentionActivity extends BaseVolleyActivity {
         super.init();
 
         initData();
+
+        if (BuildConfig.DEBUG) {
+            addFriend("13");
+            addFriend("12");
+
+        }
     }
 
 
@@ -99,53 +105,46 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         if (AttentionActivity.TAG_ADD_FRIEND.equals(tag) || TAG_DEL_FRIEND.equals(tag)) {
 
-            try {
-                JSONObject json = new JSONObject(response.getJsonStr());
-                if ("0".equals(json.getString("result"))) {
+            if (response.getCode() == 0) {
 
-                    ToastUtil.show(R.string.success);
+                ToastUtil.show(R.string.success);
+                initData();
+            } else {
 
-                    initData();
-                } else {
-                    ToastUtil.show(json.getString("msg"));
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+                ToastUtil.show(response.getMsg());
             }
-
 
         } else if (TAG_GET_USER_DATA.equals(tag)) {
-            try {
-                JSONObject json = new JSONObject(response.getJsonStr());
-                if ("0".equals(json.getString("result"))) {
 
-                    if (users == null) {
-                        users = new ArrayList<>();
-                    }
 
-                    User user = new Gson().fromJson(response.getJsonStr(), User.class);
-
-                    users.add(user);
-
-                    setListData(users);
-
-                } else {
-                    ToastUtil.show(json.getString("msg"));
+            if (response.getCode() == 0) {
+                if (users == null) {
+                    users = new ArrayList<>();
                 }
+                User user = new Gson().fromJson(response.getJsonStr(), User.class);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                users.add(user);
+
+                setListData(users);
+            } else {
+
+                ToastUtil.show(response.getMsg());
             }
+
 
         }
 
     }
 
     private void getUserData(final List<Friend.ListEntity> datas) {
-        if (datas == null || datas.size() < 1) {
+        if (datas == null || datas.size() == 0) {
+            if (users != null) {
+                users.clear();
+                adapter.notifyDataSetChanged();
+            }
             return;
         }
+
         for (Friend.ListEntity entity : datas) {
             getUserData(entity.getFriend());
         }
@@ -205,6 +204,9 @@ public class AttentionActivity extends BaseVolleyActivity {
             adapter = new QuickAdapter<User>(AttentionActivity.this, R.layout.item_list_attention, users) {
                 @Override
                 protected void convert(final BaseAdapterHelper helper, User item) {
+                    if (users.size() < 1) {
+                        return;
+                    }
 
                     helper.setText(R.id.tv_name, item.getNickname());
 
@@ -240,8 +242,6 @@ public class AttentionActivity extends BaseVolleyActivity {
                             } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
                                 delFriend(uid);
                             }
-
-
                         }
                     });
 

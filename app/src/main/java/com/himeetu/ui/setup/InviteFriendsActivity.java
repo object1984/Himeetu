@@ -45,10 +45,10 @@ public class InviteFriendsActivity extends BaseVolleyActivity implements View.On
 
     }
 
-    private void getInviteCode(){
+    private void getInviteCode() {
         String name = UserService.get().getUsername();
 
-        Api.getInviteCode(TAG_INVITE_FRIENDS_CODE,name,this,this);
+        Api.getInviteCode(TAG_INVITE_FRIENDS_CODE, name, this, this);
     }
 
 
@@ -104,21 +104,19 @@ public class InviteFriendsActivity extends BaseVolleyActivity implements View.On
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
 
-        try {
-            JSONObject json = new JSONObject(response.getJsonStr());
-            if("0".equals(json.getString("result"))){
 
-                String code =   json.getString("invite");
-
-                if(!TextUtils.isEmpty(code)){
+        if (response.getCode() == 0) {
+            try {
+                JSONObject json = new JSONObject(response.getJsonStr());
+                String  code = json.getString("invite");
+                if (!TextUtils.isEmpty(code)) {
                     tvInviteCode.setText(code);
                 }
-            }else{
-                ToastUtil.show(json.getString("msg"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } else {
+            ToastUtil.show(response.getMsg());
         }
 
 

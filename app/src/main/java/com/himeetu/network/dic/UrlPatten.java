@@ -52,4 +52,8 @@ public class UrlPatten {
         //获取朋友的话题列表
        public static final String URL_GET_FRIEND_TALK = URL_API_BASE + "/photo/getfriendsimg?start=%d&limit=%d";
 
+        //用户参加活动
+       public static final String JOIN_IN_THE_ACTIVITIES = URL_API_BASE + "/activity/applyadd?id=%s";
+
+
 }

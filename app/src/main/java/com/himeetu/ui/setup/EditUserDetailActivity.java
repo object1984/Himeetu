@@ -67,7 +67,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
     private EditText et_name, et_email, et_phone, et_sex, et_birthday, et_id;
     //    private EditText et_question,et_answer;
     private TextView tv_head_edit;
-    private static final String TAG_UPDATE_DATA_DETAIL="TAG_UPDATE_DATA_DETAIL";
+    private static final String TAG_UPDATE_DATA_DETAIL = "TAG_UPDATE_DATA_DETAIL";
 
 
     @Override
@@ -81,8 +81,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
     }
 
 
-
-    private void testUpload(){
+    private void testUpload() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -91,16 +90,16 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 //                FileUtil.uploadFile("http://123.57.167.135/sys/uploadimg","abc.png",file,"image/png");
                 try {
 
-                  String result =   FileUtil.run("http://123.57.167.135/sys/uploadimg","image/png",file,"abc.png");
+                    String result = FileUtil.run("http://123.57.167.135/sys/uploadimg", "image/png", file, "abc.png");
 
-                    Log.d("lanzhihong","result==="+result);
+                    Log.d("lanzhihong", "result===" + result);
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        }).start();;
-
+        }).start();
+        ;
 
 
     }
@@ -275,13 +274,13 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 //            return;
 //        }
 
-        String sex = "男".equals(et_sex.getText().toString())?"0":"1";
+        String sex = "男".equals(et_sex.getText().toString()) ? "0" : "1";
 
-        commit(UserService.get().getCountryCode()+"",sex,et_birthday.getText().toString(),et_phone.getText().toString(),et_email.getText().toString());
+        commit(UserService.get().getCountryCode() + "", sex, et_birthday.getText().toString(), et_phone.getText().toString(), et_email.getText().toString());
 
     }
 
-    private void refreshView(){
+    private void refreshView() {
 
         tvName.setText(et_name.getText());
         tvPhone.setText(et_phone.getText());
@@ -308,9 +307,9 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         }
     }
 
-    private void commit(String nation,String sex,String birth,String phone,String email ){
+    private void commit(String nation, String sex, String birth, String phone, String email) {
 
-        Api.updateUserDataDetail(TAG_UPDATE_DATA_DETAIL,nation,sex,birth,phone,email ,this,this);
+        Api.updateUserDataDetail(TAG_UPDATE_DATA_DETAIL, nation, sex, birth, phone, email, this, this);
 
     }
 
@@ -318,20 +317,16 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
         if (BuildConfig.DEBUG) Log.d("EditUserDetailActivity", response.getJsonStr());
-        if(TAG_UPDATE_DATA_DETAIL.equals(tag)){
+        if (TAG_UPDATE_DATA_DETAIL.equals(tag)) {
 
-            try {
-                JSONObject json = new JSONObject(response.getJsonStr());
-                if ("0".equals(json.getString("result"))) {
-                    ToastUtil.show(R.string.success);
-                    refreshView();
-                } else {
-                    ToastUtil.show(json.getString("msg"));
-                }
+            if (response.getCode() == 0) {
+                ToastUtil.show(R.string.success);
+                refreshView();
+            } else {
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                ToastUtil.show(response.getMsg());
             }
+
 
         }
     }
