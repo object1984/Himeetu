@@ -16,21 +16,31 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.model.ActiveUsers;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.HiEvent;
+import com.himeetu.model.TopicComments;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
+import com.himeetu.util.JsonUtil;
 import com.himeetu.util.ToastUtil;
+
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by zhangshuaiqi on 2015/12/19.
  * 话题详情页
  */
-public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
+public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private final String TAG_API_TOPICDETAILS = "TAG_API_TOPICDETAILS";//获取话题详情
     private final String TAG_API_TOPICDETAILS_FOLLOW = "TAG_API_TOPICDETAILS_FOLLOW";//话题详情关注
     private final String TAG_API_TOPICDETAILS_COMMENT = "TAG_API_TOPICDETAILS_COMMENT";//发表评论
@@ -45,7 +55,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     private Button bnt_send_comments;//发表
     private SwipeRefreshLayout swipeRefreshLayout;//刷新
     private ListView lv_details_topic;//列表
-    private QuickAdapter<HiEvent> quickAdapter;
+    private QuickAdapter<TopicComments.TopicCommentsItem> quickAdapter;
 
 
     @Override
@@ -59,15 +69,15 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     @Override
     protected void loadViews() {
         super.loadViews();
-        setupToolbar(true,0);
+        setupToolbar(true, 0);
         setToolbarTitle("状态照片");
         lv_details_topic = (ListView) findViewById(R.id.lv_details_topic);
         LayoutInflater inflater = LayoutInflater.from(this);
         View headerView = inflater.inflate(R.layout.item_list_header_topic, lv_details_topic, false);
         lv_details_topic.addHeaderView(headerView);
-        img_head_portrait = (RoundedImageView)headerView.findViewById(R.id.img_head_portrait);
+        img_head_portrait = (RoundedImageView) headerView.findViewById(R.id.img_head_portrait);
         tv_details_user_name = (TextView) headerView.findViewById(R.id.tv_details_user_name);
-        tv_details_publication_time = (TextView)headerView.findViewById(R.id.tv_details_publication_time);
+        tv_details_publication_time = (TextView) headerView.findViewById(R.id.tv_details_publication_time);
         tv_details_follow = (TextView) headerView.findViewById(R.id.tv_details_follow);
         img_details_content = (ImageView) headerView.findViewById(R.id.img_details_content);
         text_details_content = (TextView) headerView.findViewById(R.id.text_details_content);
@@ -81,22 +91,27 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
      */
     @Override
     protected void initViews() {
-        quickAdapter = new QuickAdapter<HiEvent>(this,R.layout.item_list_details_topic) {
+        quickAdapter = new QuickAdapter<TopicComments.TopicCommentsItem>(this, R.layout.item_list_details_topic) {
             @Override
-            protected void convert(BaseAdapterHelper helper, HiEvent item) {
-                if(helper.getPosition() == 0){//顶部分隔线
-                    helper.setVisible(R.id.line_topic_top,true);
-                }else{
-                    helper.setVisible(R.id.line_topic_top,false);
+            protected void convert(BaseAdapterHelper helper, TopicComments.TopicCommentsItem item) {
+                if (helper.getPosition() == 0) {//顶部分隔线
+                    helper.setVisible(R.id.line_topic_top, true);
+                } else {
+                    helper.setVisible(R.id.line_topic_top, false);
                 }
+                if (item.getWords() != null)
+                    helper.setText(R.id.item_tv_comments_content, item.getWords());//内容
+                if (item.getCtime() != null)
+                    helper.setText(R.id.item_tv_comments_time, item.getCtime());//时间
+                //没有头像链接 & 用户名
             }
         };
-        quickAdapter.add(new HiEvent());
-        quickAdapter.add(new HiEvent());
-        quickAdapter.add(new HiEvent());
-        quickAdapter.add(new HiEvent());
-        quickAdapter.add(new HiEvent());
-        quickAdapter.add(new HiEvent());
+//        quickAdapter.add(new HiEvent());
+//        quickAdapter.add(new HiEvent());
+//        quickAdapter.add(new HiEvent());
+//        quickAdapter.add(new HiEvent());
+//        quickAdapter.add(new HiEvent());
+//        quickAdapter.add(new HiEvent());
         lv_details_topic.setAdapter(quickAdapter);
         lv_details_topic.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -110,7 +125,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
                         }
                         break;
                 }
-                }
+            }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -137,9 +152,10 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         tv_details_praise.setCompoundDrawablePadding(10);//设置text与drawableleft 间距
         tv_details_praise.setCompoundDrawables(drawable, null, null, null);
 
-        //网络请求
-        Api.getTopicDetails(TAG_API_TOPICDETAILS, 8, 0, 10, 0, this, this);
+        //网络请求---评论列表
+        Api.getTopicDetails(TAG_API_TOPICDETAILS, 1, 0, 10, 0, this, this);
     }
+
     @Override
     protected void setupListeners() {
         super.setupListeners();
@@ -151,10 +167,17 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
-        if (TAG_API_TOPICDETAILS.equals(tag)) {//获取详情
+        if (TAG_API_TOPICDETAILS.equals(tag)) {//获取评论列表
             int code = response.getCode();
             switch (code) {
                 case 0:
+                    JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+                    Type listType = new TypeToken<List<TopicComments.TopicCommentsItem>>() {
+                    }.getType();
+                    List<TopicComments.TopicCommentsItem> usersList = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
+                    if (usersList != null) {
+                        quickAdapter.addAll(usersList);
+                    }
                     ToastUtil.show("获取成功！");
                     break;
 
@@ -167,7 +190,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
                     tv_details_follow.setText("已关注");
                     break;
             }
-        }else if(TAG_API_TOPICDETAILS_COMMENT.equals(tag)){//发表
+        } else if (TAG_API_TOPICDETAILS_COMMENT.equals(tag)) {//发表
             int code = response.getCode();
             switch (code) {
                 case 0:
@@ -185,7 +208,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
             ToastUtil.show("获取失败！");
         } else if (TAG_API_TOPICDETAILS_FOLLOW.equals(tag)) {//关注
             ToastUtil.show("关注失败！");
-        } else if(TAG_API_TOPICDETAILS_COMMENT.equals(tag)){//评论
+        } else if (TAG_API_TOPICDETAILS_COMMENT.equals(tag)) {//评论
             ToastUtil.show("评论失败！");
         }
     }
@@ -195,11 +218,11 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         switch (v.getId()) {
             case R.id.tv_details_follow://关注
                 if (tv_details_follow.getText().toString().equals("关注"))
-                    Api.addFriends(TAG_API_TOPICDETAILS_FOLLOW, 18+"", this, this);//uid = 18
+                    Api.addFriends(TAG_API_TOPICDETAILS_FOLLOW, 18 + "", this, this);//uid = 18
                 break;
             case R.id.bnt_send_comments://发表评论
                 //加判空条件
-                Api.commentNews(TAG_API_TOPICDETAILS_COMMENT,8,edit_send_comments.getText().toString().trim(),this,this);//tid = 18
+                Api.commentNews(TAG_API_TOPICDETAILS_COMMENT, 8, edit_send_comments.getText().toString().trim(), this, this);//tid = 18
                 break;
         }
 
