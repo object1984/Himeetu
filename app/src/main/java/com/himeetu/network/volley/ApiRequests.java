@@ -221,6 +221,23 @@ public class ApiRequests {
 
 
     /**
+     * 获取朋友的话题列表
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> getFriendTalk(
+                                                         @NonNull final int start,
+                                                         @NonNull final int limit,
+                                                         @NonNull final Response.Listener listener,
+                                                         @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_GET_FRIEND_TALK, start, limit);
+        return doGet(url, listener, errorListener);
+    }
+
+    /**
      * 获取综合推荐列表
      * @param listener
      * @param errorListener
@@ -254,7 +271,7 @@ public class ApiRequests {
 
 
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
-        LogUtil.d("url", url);
+
 
         final Gson gson = new GsonBuilder()
                 .registerTypeAdapter(GsonResult.class, new GsonResultDeserializer())

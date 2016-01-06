@@ -55,20 +55,13 @@ import in.srain.cube.views.ptr.PtrHandler;
 public class HomeFragment extends BaseVolleyFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private static final String TAG = HomeFragment.class.getCanonicalName();
     private static final String TAG_API_GET_TOP_RECOMMEND = "TAG_API_GET_TOP_RECOMMEND";
+    private static final String TAG_API_GET_FRIEND_TALK= "TAG_API_GET_FRIEND_TALK";
 
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
-    private List<Integer> imageIdList;
     private List<Recommend> recommendList = new ArrayList<>();
 
     private ListView mEventListView;
     private QuickAdapter<HiEvent> mEventAdapter;
-
-    private PtrFrameLayout ptrFrameLayout;
-
     private RecyclerView mRecommendRecyclerView;
     private RecommendAdapter recommendAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -79,8 +72,6 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,8 +80,6 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
         setStatusBarColor(R.color.app_default);
@@ -112,6 +101,7 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         init();
 
         getTopRecommend();
+        getFriendTalk();
         return rootView;
     }
 
@@ -152,14 +142,6 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         mRecommendRecyclerView.setAdapter(recommendAdapter);
         recommendAdapter.notifyDataSetChanged();
         mEventListView.setAdapter(mEventAdapter);
-
-        mEventAdapter.add(new HiEvent());
-        mEventAdapter.add(new HiEvent());
-        mEventAdapter.add(new HiEvent());
-        mEventAdapter.add(new HiEvent());
-        mEventAdapter.add(new HiEvent());
-        mEventAdapter.add(new HiEvent());
-        mEventAdapter.add(new HiEvent());
 
         swipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.layout_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -217,6 +199,12 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         Api.getHotRecommend(TAG_API_GET_TOP_RECOMMEND, this, this);
     }
 
+    private int pageNum = 0;
+    private int pageSize = 20;
+    private void getFriendTalk(){
+        Api.getFriendTalk(TAG_API_GET_FRIEND_TALK, pageNum*pageSize, pageSize, this, this);
+    }
+
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
@@ -231,6 +219,18 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
             if(recommends != null){
                 recommendAdapter.addAll(recommends);
             }
+        }
+
+        if(TAG_API_GET_FRIEND_TALK.equals(tag)){
+//            JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+//
+//            Type listType = new TypeToken<List<Recommend>>() {
+//            }.getType();
+//            List<Recommend> recommends  = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
+//
+//            if(recommends != null){
+//                recommendAdapter.addAll(recommends);
+//            }
         }
     }
 

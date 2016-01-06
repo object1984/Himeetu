@@ -3,6 +3,7 @@ package com.himeetu.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.himeetu.R;
 import com.himeetu.model.HiActivity;
@@ -103,8 +104,9 @@ public class NavHelper {
 //        forwardFadeInAnim(activity);
     }
 
-    public static void toSharePage(Activity activity) {
+    public static void toSharePage(Activity activity, Uri photoUri) {
         Intent intent = new Intent();
+        intent.putExtra(Argument.PHOTO_URI, photoUri);
         intent.setClass(activity, ShareActivity.class);
         activity.startActivity(intent);
 //        forwardFadeInAnim(activity);

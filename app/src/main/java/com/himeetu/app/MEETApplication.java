@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -67,7 +68,7 @@ public class MEETApplication extends Application {
 
         String folder = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-        FileUtil.mkdirs(folder + "/test");
+        FileUtil.mkdirs(folder + "/himeetu");
 
 
     }
@@ -158,6 +159,8 @@ public class MEETApplication extends Application {
 
     public static void addRequest(@NonNull final Request<?> request,@NonNull final String tag){
         request.setTag(tag);
+
+        LogUtil.d("url.tag＝" + tag, request.getUrl());
         getInstance().getVolleyRequestQueue().add(request);
     }
 

@@ -48,4 +48,8 @@ public class UrlPatten {
 
         //获取消息提醒
         public static final String URL_GET_MESSAGE = URL_API_BASE + "/notice/get?start=%d&limit=%d";
+
+        //获取朋友的话题列表
+       public static final String URL_GET_FRIEND_TALK = URL_API_BASE + "/photo/getfriendsimg?start=%d&limit=%d";
+
 }

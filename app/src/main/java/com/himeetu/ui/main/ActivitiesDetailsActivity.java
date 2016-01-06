@@ -162,6 +162,6 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     }
 
     private void toShare() {
-        NavHelper.toSharePage(this);
+        NavHelper.toSharePage(this, null);
     }
 }
