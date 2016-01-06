@@ -1,10 +1,17 @@
 package com.himeetu.ui.main;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,7 +49,7 @@ import java.util.List;
 public class ActivitiesDetailsActivity extends BaseVolleyActivity implements View.OnClickListener {
     private static final String TAG_PARTICIPATE_IN_ACTIVE_USERS = "participate_in_active_users";
     private RelativeLayout toolbar_details;//标题栏
-    private TextView joinTextView;//我要参加
+    private Button joinTextView;//我要参加
     private TextView tv_active_details_content;//详情
     private TextView text_time;//开始时间
     private TextView text_date;//开始日期
@@ -68,7 +75,7 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     @Override
     protected void loadViews() {
         super.loadViews();
-        joinTextView = (TextView) findViewById(R.id.text_join);
+        joinTextView = (Button) findViewById(R.id.text_join);
         toolbar_details = (RelativeLayout) findViewById(R.id.toolbar);
         autoScaleImageView = (AutoScaleImageView) findViewById(R.id.img_details_content);
         text_time = (TextView) findViewById(R.id.text_time);
@@ -119,6 +126,7 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
         super.setupListeners();
 
         findViewById(R.id.toolbar_share).setOnClickListener(this);
+        joinTextView.setOnClickListener(this);
     }
 
     @Override
@@ -127,6 +135,10 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
 
             case R.id.toolbar_share:
                 toShare();
+                break;
+            case R.id.text_join://我要参加
+                ActiveDialog activeDialog = new ActiveDialog(this);
+                activeDialog.show();
                 break;
         }
     }
@@ -164,4 +176,31 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     private void toShare() {
         NavHelper.toSharePage(this, null);
     }
+
+    /**
+     * 活动dialog
+     */
+    private class ActiveDialog extends Dialog {
+        private Context context;
+
+        public ActiveDialog(Context context) {
+            super(context);
+            this.context = context;
+        }
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);//去标题
+            setContentView(R.layout.dialog_active_user_info);
+
+            Window dialogWindow = getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+            lp.width = (int) (d.widthPixels * 0.8); // 宽度设置为屏幕的0.8
+            lp.height = (int) (d.heightPixels * 0.6); // 高度设置为屏幕的0.6
+            dialogWindow.setAttributes(lp);
+
+        }
+    }
+
 }

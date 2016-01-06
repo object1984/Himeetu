@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/dialog_bnt_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:src="@drawable/but_close" />
+
+    <LinearLayout
+        android:id="@+id/dialog_layout_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/line_1"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="44dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_my" />
+
+        <EditText
+            android:id="@+id/dialog_edit_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:hint="请输入你的真实姓名"
+            android:textSize="@dimen/font_normal" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/dialog_layout_user_phone"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@color/app_default" />
+
+    <LinearLayout
+        android:id="@+id/dialog_layout_user_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="44dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_call" />
+
+        <EditText
+            android:id="@+id/dialog_edit_user_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:hint="请输入你的手机号"
+            android:textSize="@dimen/font_normal" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/dialog_layout_user_phone"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="44dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/app_default" />
+
+
+    <Button
+        android:id="@+id/dialog_bnt_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/selector_btn_purple"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="确定"
+        android:textColor="@color/text_write"
+        android:textSize="@dimen/font_big" />
+
+</RelativeLayout>
