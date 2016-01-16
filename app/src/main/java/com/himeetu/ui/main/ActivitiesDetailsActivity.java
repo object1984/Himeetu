@@ -97,7 +97,7 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
         Api.getParticipateInActiveUsers(TAG_PARTICIPATE_IN_ACTIVE_USERS, hiActivity.getId(), start, limit, this, this);//id = 2
         setToolbarTitle(hiActivity.getName());//设置标题
         //获取图片链接
-        imgPath = Constants.WEB_IMG_BASE + hiActivity.getImgPath();
+        imgPath = hiActivity.getImgPath();
         Picasso.with(this).load(imgPath).placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into(autoScaleImageView);
         //设置详情内容

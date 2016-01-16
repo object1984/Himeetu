@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import com.himeetu.ui.base.StatusBarCompat;
 import com.himeetu.util.JsonUtil;
 import com.himeetu.view.WrapContentLayoutManager;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -212,9 +214,19 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         if(TAG_API_GET_TOP_RECOMMEND.equals(tag)){
             JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
 
+            if(jsonObject == null){
+                return;
+            }
+
             Type listType = new TypeToken<List<Recommend>>() {
             }.getType();
-            List<Recommend> recommends  = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
+
+            JSONArray  listJsonAry = JsonUtil.getJSONArray(jsonObject, "list");
+
+            if(listJsonAry == null){
+                return;
+            }
+            List<Recommend> recommends  = new Gson().fromJson(listJsonAry.toString(), listType);
 
             if(recommends != null){
                 recommendAdapter.addAll(recommends);

@@ -138,8 +138,7 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
                 }
             });
 
-            String imgPath = Constants.WEB_IMG_BASE + mList.get(position).getImgPath();
-            Picasso.with(mContext).load(imgPath).placeholder(R.drawable.img_default)
+            Picasso.with(mContext).load(mList.get(position).getImgPath()).placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(imageView);
 
             ((ViewPager) container).addView(imageView, 0);
@@ -177,9 +176,7 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
                 helper.setText(R.id.text_time, time);
 
-                String imgPath = Constants.WEB_IMG_BASE + item.getImgPath();
-
-                Picasso.with(getActivity()).load(imgPath).placeholder(R.drawable.img_default).error(R.drawable.img_default).into((ImageView) helper.getView().findViewById(R.id.img_img));
+                Picasso.with(getActivity()).load( item.getImgPath()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into((ImageView) helper.getView().findViewById(R.id.img_img));
             }
         };
 
@@ -225,7 +222,7 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
             }
         });
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(0);
     }
 
     @Override
@@ -286,6 +283,8 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
                     mViewPager.setCurrentItem(1);
                 }else if(hiActivities.size() == 1){
                     mViewPager.setCurrentItem(0);
+                }else if(hiActivities.size() == 2){
+                    mViewPager.setCurrentItem(1);
                 }
 
                 HiActivity currentSelectedHiActivity = mHiActivityAdapter.getItem(mViewPager.getCurrentItem());
