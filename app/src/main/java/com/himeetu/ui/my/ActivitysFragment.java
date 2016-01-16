@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,12 +77,6 @@ public class ActivitysFragment extends BaseVolleyFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
-
-
-
 
 
     @Override
@@ -186,91 +181,81 @@ public class ActivitysFragment extends BaseVolleyFragment {
 
 //        if (TAG_GET_SELF.equals(tag)) {
 
-            if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
+        if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
 
-//            try {
-//                JSONObject json = new JSONObject(response.getJsonStr());
-//                if ("0".equals(json.getString("result"))) {
+        String json = "{\n" +
+                "    \"count\": \"1\",\n" +
+                "    \"list\": [\n" +
+                "        {\n" +
+                "            \"id\": 0,\n" +
+                "            \"name\": \"hh\",\n" +
+                "            \"address\": \"beijing\",\n" +
+                "            \"starttime\": \"10:10\",\n" +
+                "            \"endtime\": \"10:10\",\n" +
+                "            \"img\": \"imgmd5name.png\",\n" +
+                "            \"des\": \"…\",\n" +
+                "            \"state\": 2\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"id\": 1,\n" +
+                "            \"name\": \"test\",\n" +
+                "            \"address\": \"beijing\",\n" +
+                "            \"starttime\": \"10:10\",\n" +
+                "            \"endtime\": \"10:10\",\n" +
+                "            \"img\": \"imgmd5name.png\",\n" +
+                "            \"des\": \"…\",\n" +
+                "            \"state\": 2\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
 
-                    String json = "{\n" +
-                            "    \"count\": \"1\",\n" +
-                            "    \"list\": [\n" +
-                            "        {\n" +
-                            "            \"id\": 0,\n" +
-                            "            \"name\": \"hh\",\n" +
-                            "            \"address\": \"beijing\",\n" +
-                            "            \"starttime\": \"10:10\",\n" +
-                            "            \"endtime\": \"10:10\",\n" +
-                            "            \"img\": \"imgmd5name.png\",\n" +
-                            "            \"des\": \"…\",\n" +
-                            "            \"state\": 2\n" +
-                            "        },\n" +
-                            "        {\n" +
-                            "            \"id\": 1,\n" +
-                            "            \"name\": \"test\",\n" +
-                            "            \"address\": \"beijing\",\n" +
-                            "            \"starttime\": \"10:10\",\n" +
-                            "            \"endtime\": \"10:10\",\n" +
-                            "            \"img\": \"imgmd5name.png\",\n" +
-                            "            \"des\": \"…\",\n" +
-                            "            \"state\": 2\n" +
-                            "        }\n" +
-                            "    ]\n" +
-                            "}";
 
+        if (response.getCode() == 0) {
 
 //                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
-                    Activitys activitys = new Gson().fromJson(json, Activitys.class);
+            Activitys activitys = new Gson().fromJson(json, Activitys.class);
 
-                    List<Activitys.Activity> activityList = activitys.getActivitys();
-                    for (Activitys.Activity activity : activityList) {
-                        ListItem item = new ListItem();
-                        item.setImgPath(activity.getImg());
-                        item.setTime(activity.getStarttime() );
+            List<Activitys.Activity> activityList = activitys.getActivitys();
+            for (Activitys.Activity activity : activityList) {
+                ListItem item = new ListItem();
+                item.setImgPath(activity.getImg());
+                item.setTime(activity.getStarttime());
 //                                + "--" + activity.getEndtime());
-                        lists.add(item);
-                    }
-                    adapter.notifyDataSetChanged();
+                lists.add(item);
+            }
+            adapter.notifyDataSetChanged();
 
-//                } else {
-//                    ToastUtil.show(json.getString("msg"));
-//                }
 
-//            } catch (JSONException e) {
-//                e.printStackTrace();
+        } else {
+
+            ToastUtil.show(response.getMsg());
+        }
+
+
+//    }
+//
+//    else if(TAG_GET_FRIENDS_IMG.equals(tag))  {
+//
+//        if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
+//        if (response.getCode() == 0) {
+//            FriendImgs friends = new Gson().fromJson(response.getJsonStr(), FriendImgs.class);
+//
+//            List<FriendImgs.FriendImg> imgs = friends.getFriendImgs();
+//
+//            for (FriendImgs.FriendImg img : imgs) {
+//                ListItem item = new ListItem();
+//                item.setImgPath(img.getImg_path());
+//                item.setTime(img.getCtime());
+//                lists.add(item);
 //            }
-
-
-//        } else if (TAG_GET_FRIENDS_IMG.equals(tag)) {
+//            adapter.notifyDataSetChanged();
+//        } else {
 //
-//            if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
-//
-//            try {
-//                JSONObject json = new JSONObject(response.getJsonStr());
-//                if ("0".equals(json.getString("result"))) {
-//
-//                    FriendImgs friends = new Gson().fromJson(response.getJsonStr(), FriendImgs.class);
-//
-//                    List<FriendImgs.FriendImg> imgs = friends.getFriendImgs();
-//                    for (FriendImgs.FriendImg img : imgs) {
-//                        ListItem item = new ListItem();
-//                        item.setImgPath(img.getImg_path());
-//                        item.setTime(img.getCtime());
-//                        lists.add(item);
-//                    }
-//                    adapter.notifyDataSetChanged();
-//
-//                } else {
-//                    ToastUtil.show(json.getString("msg"));
-//                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
+//            ToastUtil.show(response.getMsg());
 //        }
+//    }
 
-    }
+}
 
     @Override
     public void onErrorResponse(VolleyError error, String tag) {

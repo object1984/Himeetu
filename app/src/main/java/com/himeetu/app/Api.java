@@ -139,4 +139,16 @@ public class Api {
     public static void getFriendTalk(String tag, int start, int limit,  Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getFriendTalk(start, limit, listener, errorListener), tag);
     }
+
+
+    /**
+     * 用户参加活动
+     * @param tag
+     * @param activityId
+     * @param listener
+     * @param errorListener
+     */
+    public static void joinInTheActivities(String tag, String activityId,  Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.joinInTheActivities(activityId,  listener, errorListener), tag);
+    }
 }

@@ -8,10 +8,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.himeetu.R;
 import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
+import com.himeetu.model.User;
 import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
@@ -118,25 +120,14 @@ public class EditPassWordActivity extends BaseVolleyActivity implements View.OnC
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
 
-        try {
-            JSONObject json = new JSONObject(response.getJsonStr());
-            if("0".equals(json.getString("result"))){
+        if (response.getCode() == 0) {
 
-                ToastUtil.show(getString(R.string.success));
+            ToastUtil.show(getString(R.string.success));
+            NavHelper.finishWithAnim(EditPassWordActivity.this);
+        } else {
 
-                NavHelper.finishWithAnim(EditPassWordActivity.this);
-
-            }else{
-                ToastUtil.show(json.getString("msg"));
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+            ToastUtil.show(response.getMsg());
         }
-
-
-
-
     }
 
     @Override

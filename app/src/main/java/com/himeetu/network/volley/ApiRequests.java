@@ -269,6 +269,18 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    /**
+     * 用户参加活动
+     * @param activityId
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> joinInTheActivities(String activityId, Response.Listener listener, Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.JOIN_IN_THE_ACTIVITIES, activityId);
+        return doGet(url, listener, errorListener);
+    }
+
 
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
 
@@ -286,8 +298,6 @@ public class ApiRequests {
                         listener,
                         errorListener
                 );
+
     }
-
-
-
 }

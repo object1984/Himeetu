@@ -87,12 +87,12 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     }
 
 
-    public static MeFragment newInstance(String param1, String param2 ,String uid) {
+    public static MeFragment newInstance(String param1, String param2, String uid) {
         MeFragment fragment = new MeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
-        args.putString("uid",uid);
+        args.putString("uid", uid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,7 +103,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            uid =  getArguments().getString("uid");
+            uid = getArguments().getString("uid");
         }
 
         EventBus.getDefault().register(this);
@@ -196,19 +196,18 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
         });
 
 
-
     }
 
     /**
      * 判断是自己还是其他人
      */
-    private void initData(){
-        if(!TextUtils.isEmpty(uid)){
+    private void initData() {
+        if (!TextUtils.isEmpty(uid)) {
 
             getUserData(uid);
 
             otherUserView(false);
-        }else{
+        } else {
             user = UserService.get();
 
             setUserData();
@@ -247,11 +246,11 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
                 break;
             case R.id.tv_attention:  //关注
 
-                NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.ATTENTION);
+                NavHelper.toAttentionActivity(getActivity(), user.getUid() + "", AttentionType.ATTENTION);
                 break;
             case R.id.tv_fans:   //粉丝
 
-                NavHelper.toAttentionActivity(getActivity(),user.getUid()+"",AttentionType.FANS);
+                NavHelper.toAttentionActivity(getActivity(), user.getUid() + "", AttentionType.FANS);
 
                 break;
 
@@ -265,7 +264,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
 
             case R.id.tv_atten: //关注别人
 
-                Api.addFriends(AttentionActivity.TAG_ADD_FRIEND,uid,this,this);
+                Api.addFriends(AttentionActivity.TAG_ADD_FRIEND, uid, this, this);
 
                 break;
         }
@@ -325,56 +324,46 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
             if (BuildConfig.DEBUG)
                 Log.d("MeFragment", "response:" + TAG_GET_NUM + "=====" + response);
 
-//            try {
-//                JSONObject json = new JSONObject(response.getJsonStr());
-//                if("0".equals(json.getString("result"))){
-//
-//                    String friends_num =   json.getString("friends_num");
-//                    String fans_num =   json.getString("fans_num");
-//
-//                    tvAttention.setText(friends_num);
-//                    tvFans.setText(fans_num);
-//
-//                }else{
-//                    ToastUtil.show(json.getString("msg"));
-//                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            if( response  == null){
+                return;
+            }
+
+            if ( response.getCode() == 0) {
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(response.getJsonStr());
+                    String friends_num = json.getString("friends_num");
+                    String fans_num = json.getString("fans_num");
+
+                    tvAttention.setText(friends_num);
+                    tvFans.setText(fans_num);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                ToastUtil.show(response.getMsg());
+            }
+
+
         } else if (TAG_GET_USER_DATA.equals(tag)) {
-            try {
-                JSONObject json = new JSONObject(response.getJsonStr());
-                if ("0".equals(json.getString("result"))) {
 
-                    user = new Gson().fromJson(response.getJsonStr(), User.class);
+            if (response.getCode() == 0) {
+                user = new Gson().fromJson(response.getJsonStr(), User.class);
+                setUserData();
+            } else {
 
-                    setUserData();
-
-                } else {
-                    ToastUtil.show(json.getString("msg"));
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+                ToastUtil.show(response.getMsg());
             }
 
-        }else if(AttentionActivity.TAG_ADD_FRIEND.equals(tag)){
+        } else if (AttentionActivity.TAG_ADD_FRIEND.equals(tag)) {
 
-            try {
-                JSONObject json = new JSONObject(response.getJsonStr());
-                if ("0".equals(json.getString("result"))) {
+            if (response.getCode() == 0) {
+                ToastUtil.show(R.string.success);
+            } else {
 
-                    ToastUtil.show(R.string.success);
-                } else {
-                    ToastUtil.show(json.getString("msg"));
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+                ToastUtil.show(response.getMsg());
             }
-
-
         }
     }
 
@@ -391,14 +380,14 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     }
 
 
-    private void otherUserView(boolean isSelf){
+    private void otherUserView(boolean isSelf) {
         ViewGroup.LayoutParams pm = rlUser.getLayoutParams();
-        if(isSelf){
-            pm.height = DensityUtil.dip2px(getActivity(),200);
+        if (isSelf) {
+            pm.height = DensityUtil.dip2px(getActivity(), 200);
             tvAtten.setVisibility(View.GONE);
             ibtSetup.setVisibility(View.VISIBLE);
-        }else{
-            pm.height = DensityUtil.dip2px(getActivity(),250);
+        } else {
+            pm.height = DensityUtil.dip2px(getActivity(), 250);
             tvAtten.setVisibility(View.VISIBLE);
             ibtSetup.setVisibility(View.GONE);
         }

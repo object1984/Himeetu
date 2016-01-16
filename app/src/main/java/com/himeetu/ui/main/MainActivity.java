@@ -32,7 +32,7 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends BaseVolleyActivity implements MainBottomBar.OnTabSelectedListener,OnListFragmentInteractionListener {
+public class MainActivity extends BaseVolleyActivity implements MainBottomBar.OnTabSelectedListener, OnListFragmentInteractionListener {
     private static final String TAG = "MainActivity";
 
     private static final String SAVE_INSTANCE_CURRENT_TAG = "currentTag";
@@ -50,6 +50,7 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     private MainBottomBar mMainBottomBar;
     private User user;
     private String userHeadPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,9 +191,9 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
 
     @Override
     public void onTabSelected(int tag) {
-        if(tag == TAB_PAGE_PHOTO){
+        if (tag == TAB_PAGE_PHOTO) {
             NavHelper.toPhotoMainPage(this);
-        }else {
+        } else {
             showFragment(tag);
         }
     }
@@ -210,57 +211,56 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     }
 
 
-    private void getSelfInfo(){
+    private void getSelfInfo() {
         Api.getSelfInfo(TAG_API_GET_SELF_INFO, this, this);
     }
 
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
-        if(TAG_API_GET_SELF_INFO.equals(tag)){
+        if (TAG_API_GET_SELF_INFO.equals(tag)) {
 
-            user =  new Gson().fromJson(response.getJsonStr(), User.class);
+            user = new Gson().fromJson(response.getJsonStr(), User.class);
 
-            if(user != null){
+            if (user != null) {
                 user.setUsername(getIntent().getStringExtra(Argument.USERNAME));
                 EventBus.getDefault().post(new UserInfoRefreshEvent(user));
             }
 
             UserService.save(user);
 
-        }else if(GET_IMG_PATH_TAG.equals(tag)){
+        } else if (GET_IMG_PATH_TAG.equals(tag)) {
 
-            UserImg userImg = new Gson().fromJson(response.getJsonStr(),UserImg.class);
+            UserImg userImg = new Gson().fromJson(response.getJsonStr(), UserImg.class);
 
-            if(userImg.getCount() == 1){
+            if (userImg.getCount() == 1) {
 
                 userHeadPath = userImg.getPaths().getPath();
 
-                if(!TextUtils.isEmpty(userHeadPath)){
+                if (!TextUtils.isEmpty(userHeadPath)) {
                     UserService.saveUserImgPath(userHeadPath);
                 }
 
-                getUserHeadImg(user.getUid()+"");
+                getUserHeadImg(user.getUid() + "");
 
             }
-        }else if(GET_HEAD_IMG_PATH_TAG.equals(tag)){
+        } else if (GET_HEAD_IMG_PATH_TAG.equals(tag)) {
 
-            try {
-                JSONObject json = new JSONObject(response.getJsonStr());
-                if("0".equals(json.getString("result"))){
+            if (response.getCode() == 0) {
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(response.getJsonStr());
+                    String img = json.getString("img");
 
-                    String img =   json.getString("img");
-
-                    if(!TextUtils.isEmpty(img)){
+                    if (!TextUtils.isEmpty(img)) {
                         UserService.saveUserHeadPath(img);
                     }
-
-                }else{
-                    ToastUtil.show(json.getString("msg"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+                ToastUtil.show(response.getMsg());
             }
 
         }
@@ -277,9 +277,8 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEvent(UserInfoRefreshEvent event){
+    public void onEvent(UserInfoRefreshEvent event) {
         user = event.user;
-
 
         getUserImgPath();  //获取到用户数据之后 通过uid 获取 用户图片路径 和 用户头像数据
     }
@@ -287,23 +286,21 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     /**
      * 获取用户图片url前缀
      */
-    public void getUserImgPath(){
+    public void getUserImgPath() {
 
-        Api.getUserImgPath(GET_IMG_PATH_TAG,user.getUid()+"",this,this);
+        Api.getUserImgPath(GET_IMG_PATH_TAG, user.getUid() + "", this, this);
 
     }
 
 
     /**
      * 获取用户头像
-     *
      */
-    public void getUserHeadImg(String uid){
+    public void getUserHeadImg(String uid) {
 
-        Api.getUserHeadImgPath(GET_HEAD_IMG_PATH_TAG,uid,this,this);
+        Api.getUserHeadImgPath(GET_HEAD_IMG_PATH_TAG, uid, this, this);
 
     }
-
 
 
 }
