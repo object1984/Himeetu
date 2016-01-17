@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.himeetu.R;
-import com.himeetu.model.ActiveUsers;
+import com.himeetu.model.User;
+import com.himeetu.util.RoundedTransformation;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -18,8 +20,8 @@ import java.util.List;
  */
 public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecyclerAdapter.DetailsViewHolder> {
     private Context context;
-    public List<ActiveUsers> mList;
-    public DetailsRecyclerAdapter(Context context, List<ActiveUsers> mList){
+    public List<User> mList;
+    public DetailsRecyclerAdapter(Context context, List<User> mList){
         this.context = context;
         this.mList = mList;
     }
@@ -37,7 +39,9 @@ public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecycler
         }else {
             holder.item_promoter.setVisibility(View.VISIBLE);
         }
-//        holder.roundedImageView
+
+        Picasso.with(context).load(mList.get(position).getPortrait()).placeholder(R.drawable.img_avatar_default)
+                .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(holder.roundedImageView);
     }
 
     @Override

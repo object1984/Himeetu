@@ -24,9 +24,9 @@ import com.himeetu.adapter.DetailsRecyclerAdapter;
 import com.himeetu.app.Api;
 import com.himeetu.app.Constants;
 import com.himeetu.app.NavHelper;
-import com.himeetu.model.ActiveUsers;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.HiActivity;
+import com.himeetu.model.User;
 import com.himeetu.model.service.Activitys;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseVolleyActivity;
@@ -59,11 +59,11 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     private RecyclerView recycler_details;
     private DetailsRecyclerAdapter recyclerAdapter;
     private AutoScaleImageView autoScaleImageView;
-    private List<ActiveUsers> mList;
+    private List<User> mList;
     private HiActivity hiActivity;
     private String imgPath;
-    private int start = 1;
-    private int limit = 10;
+    private int start = 0;
+    private int limit = 30;
     private static final String TAG_JOIN_IN_THE_ACTIVITY = "TAG_JOIN_IN_THE_ACTIVITY";
     private final String TAG_GET_SELF = "TAG_GET_SELF";
     private boolean IsJoin = false;
@@ -157,9 +157,9 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
             switch (code) {
                 case 0:
                     JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
-                    Type listType = new TypeToken<List<ActiveUsers>>() {
+                    Type listType = new TypeToken<List<User>>() {
                     }.getType();
-                    List<ActiveUsers> usersList = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
+                    List<User> usersList = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
                     if (usersList != null) {
                         recyclerAdapter.mList.addAll(usersList);
                         recyclerAdapter.notifyDataSetChanged();
