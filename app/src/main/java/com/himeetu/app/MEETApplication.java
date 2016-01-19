@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.himeetu.network.dic.UrlPatten;
+import com.himeetu.network.http.MultiPartStack;
 import com.himeetu.network.http.OkHttpStack;
 import com.himeetu.util.FileUtil;
 import com.himeetu.util.LogUtil;
@@ -134,6 +135,7 @@ public class MEETApplication extends Application {
     }
 
     private RequestQueue mRequestQueue;
+//    private RequestQueue mUploadQueue;
     public RequestQueue getVolleyRequestQueue() {
         if (mRequestQueue == null)
         {
@@ -152,6 +154,24 @@ public class MEETApplication extends Application {
         return mRequestQueue;
     }
 
+//    public RequestQueue getVolleyUploadQueue() {
+//        if (mUploadQueue == null)
+//        {
+//            OkHttpClient okHttpClient = new OkHttpClient();
+//            CookieManager cookieManager = new CookieManager();
+//
+//            CookieStore cookieStore = cookieManager.getCookieStore();
+//            for(HttpCookie cookie :  cookieStore.getCookies()){
+//                LogUtil.d("cookie", String.format("name=%s, value=%s", cookie.getName(), cookie.getValue()));
+//            }
+//
+//            okHttpClient.setCookieHandler(cookieManager);
+//
+//            mUploadQueue =  Volley.newRequestQueue(this, new MultiPartStack());
+//        }
+//        return mUploadQueue;
+//    }
+
 
     public static void addRequest(@NonNull final Request<?> request){
         getInstance().getVolleyRequestQueue().add(request);
@@ -169,4 +189,12 @@ public class MEETApplication extends Application {
             getInstance().getVolleyRequestQueue().cancelAll(tag);
         }
     }
+
+
+//    public static void addUploadRequest(@NonNull final Request<?> request,@NonNull final String tag){
+//        request.setTag(tag);
+//
+//        LogUtil.d("url.tag＝" + tag, request.getUrl());
+//        getInstance().getVolleyUploadQueue().add(request);
+//    }
 }

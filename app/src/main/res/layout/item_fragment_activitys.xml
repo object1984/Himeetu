@@ -22,5 +22,5 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="10dp"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_me" />
+        android:src="@drawable/img_default" />
 </LinearLayout>

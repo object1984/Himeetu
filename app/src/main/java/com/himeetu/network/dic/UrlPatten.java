@@ -55,5 +55,9 @@ public class UrlPatten {
         //用户参加活动
        public static final String JOIN_IN_THE_ACTIVITIES = URL_API_BASE + "/activity/applyadd?id=%s";
 
+    //获取广告列表
+    public static final String URL_GET_AD = URL_API_BASE + "/advertisement/getlist";
 
+    //上传图片
+    public static final String URL_UPLOAD_STATE_ = URL_API_BASE + "/photo/upload";
 }

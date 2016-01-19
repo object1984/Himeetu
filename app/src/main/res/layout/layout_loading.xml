@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="50dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/loading_view"
+        android:layout_width="80dp"
+        android:layout_centerInParent="true"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@drawable/anim_input_loading"
+        android:gravity="center"
+        android:paddingTop="5dp">
+
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/anim_input_loading" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

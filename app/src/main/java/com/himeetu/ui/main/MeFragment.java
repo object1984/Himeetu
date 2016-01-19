@@ -38,6 +38,7 @@ import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.setup.EditUserDetailActivity;
 import com.himeetu.ui.setup.SettingsActivity;
 import com.himeetu.util.DensityUtil;
+import com.himeetu.util.RoundedTransformation;
 import com.himeetu.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
@@ -302,11 +303,8 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
 
         tvUsername.setText(user.getNickname());
 
-        String path = UserService.getUserImgPath();
-
-        String headPath = UserService.getUserHeadPath();
-
-        Picasso.with(getActivity()).load(path + headPath).placeholder(R.drawable.image1).error(R.drawable.image1).into(head);
+        Picasso.with(getActivity()).load(user.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(head);
 
     }
 
@@ -335,8 +333,8 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
                     String friends_num = json.getString("friends_num");
                     String fans_num = json.getString("fans_num");
 
-                    tvAttention.setText(friends_num);
-                    tvFans.setText(fans_num);
+                    tvAttention.setText(String.format("关注 %s", friends_num));
+                    tvFans.setText(String.format("粉丝 %s", fans_num));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.himeetu.view.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <com.himeetu.view.AutoScaleImageView
+        android:id="@+id/img_ad"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_default"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.himeetu.view.AutoRelativeLayout>

@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.himeetu.view.AutoScaleImageView
-        android:layout_width="match_parent"
-        android:src="@drawable/image1"
-        android:scaleType="centerCrop"
-        android:layout_height="wrap_content" />
+
+        <com.himeetu.view.ADViewPager
+            android:id="@+id/pager_ad"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
 
     <TextView
         android:textColor="@color/text_dark_black"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
@@ -21,7 +22,9 @@ import com.himeetu.model.UserImg;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.main.MeFragment;
+import com.himeetu.util.RoundedTransformation;
 import com.himeetu.util.ToastUtil;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,15 +58,15 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         initToolBar();
 
-        super.init();
+        init();
 
         initData();
 
-        if (BuildConfig.DEBUG) {
-            addFriend("13");
-            addFriend("12");
-
-        }
+//        if (BuildConfig.DEBUG) {
+//            addFriend("13");
+//            addFriend("12");
+//
+//        }
     }
 
 
@@ -211,6 +214,11 @@ public class AttentionActivity extends BaseVolleyActivity {
                     helper.setText(R.id.tv_name, item.getNickname());
 
                     helper.setImageResource(R.id.im_head, R.drawable.image1);
+
+                    ImageView headImageView = helper.getView(R.id.im_head);
+
+                    Picasso.with(context).load(item.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                            .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(headImageView);
 
                     final int position = helper.getPosition();
 

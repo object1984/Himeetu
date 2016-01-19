@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_logo"
                 android:layout_centerHorizontal="true"
-                android:text="关注 1234"
+                android:text="关注 0"
                 android:textColor="@color/white"
                 android:textSize="13dp" />
 
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_logo"
                 android:layout_centerHorizontal="true"
-                android:text="粉丝 1234"
+                android:text="粉丝 0"
                 android:textColor="@color/white"
                 android:textSize="13dp" />
 
