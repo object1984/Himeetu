@@ -17,11 +17,14 @@ package com.himeetu.adapter;
 
 import android.content.Context;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+
+import com.himeetu.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,13 +99,20 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends B
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (getItemViewType(position) == 0) {
-            final H helper = getAdapterHelper(position, convertView, parent);
-            T item = getItem(position);
-            helper.setAssociatedObject(item);
-            convert(helper, item);
-            return helper.getView();
+        if(getCount() == 0){
+            View view= LayoutInflater.from(context).inflate(R.layout.layout_empty_common, parent);
+            return view;
+        }else {
+
+            if (getItemViewType(position) == 0) {
+                final H helper = getAdapterHelper(position, convertView, parent);
+                T item = getItem(position);
+                helper.setAssociatedObject(item);
+                convert(helper, item);
+                return helper.getView();
+            }
         }
+
 
         return createIndeterminateProgressView(convertView, parent);
     }

@@ -95,6 +95,35 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void setupToolbar(boolean showBackbtn, @NonNull String title) {
+        View v = findViewById(R.id.toolbar);
+        if (v != null) {
+            toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
+            if (toolbarTitle != null) {
+                toolbarTitle.setText(title);
+            }
+
+            backView = v.findViewById(R.id.toolbar_back);
+            if (backView != null) {
+                if (showBackbtn) {
+                    backView.setVisibility(View.VISIBLE);
+                    backView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavHelper.finishWithAnim(BaseActivity.this);
+                            onBackPressed();
+                        }
+                    });
+                } else {
+                    backView.setVisibility(View.GONE);
+                    backView.setOnClickListener(null);
+                }
+
+            }
+
+        }
+    }
+
 
     private ProgressDialog getLoading() {
         if (progressDialog == null) {

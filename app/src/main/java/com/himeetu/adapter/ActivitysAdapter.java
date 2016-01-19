@@ -3,6 +3,7 @@ package com.himeetu.adapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.himeetu.R;
 import com.himeetu.model.ListItem;
 import com.himeetu.ui.my.ActivitysFragment;
 import com.himeetu.util.DateUtils;
+import com.himeetu.util.LogUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -39,9 +41,13 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mIdView.setText(DateUtils.format(DateUtils.parse(holder.mItem.getTime()), "dd/MM"));
-        holder.mImageView.setImageResource(R.drawable.image1);
+        if(TextUtils.isEmpty(holder.mItem.getTime())){
+            holder.mIdView.setText("00/00");
+        }else {
+            holder.mIdView.setText(DateUtils.format(DateUtils.parse(holder.mItem.getTime()), "dd/MM"));
+        }
 
+        LogUtil.d("ActivitysAdapter", holder.mItem.getImgPath());
         Picasso.with(mContext).load(holder.mItem.getImgPath()).placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into( holder.mImageView);
 //        holder.mIdView.setText(mValues.get(position).id);

@@ -16,9 +16,9 @@ import com.himeetu.util.LogUtil;
  * Created by object1984 on 15/9/11.
  */
 public class CommonWebActivity extends WebActivity  {
+    private static final String TAG = CommonWebActivity.class.getSimpleName();
     private String url;
-    private String shareUrl = "";
-    private boolean inited = false;
+    private String title;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -28,9 +28,16 @@ public class CommonWebActivity extends WebActivity  {
         initWebView(WebSettings.LOAD_NO_CACHE);
         url = getIntent().getStringExtra("url");
 
-        clickRefresh();
+        if(!url.startsWith("http://")){
+            url = "http://" + url;
+        }
 
+        title = getIntent().getStringExtra("title");
+        setupToolbar(true, title);
+        LogUtil.d(TAG, url);
         webView.loadUrl(this.getLoadUrl());
+
+        clickRefresh();
     }
 
     @Override
@@ -42,7 +49,7 @@ public class CommonWebActivity extends WebActivity  {
     @Override
     public boolean myShouldOverrideUrlLoading(WebView view, String url) {
        LogUtil.d("CommonWebActivity", "myShouldOverrideUrlLoading");
-        loadingView.setVisibility(View.VISIBLE);
+        loadingView.setVisibility(View.INVISIBLE);
 
         return true;
     }

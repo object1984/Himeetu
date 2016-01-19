@@ -15,15 +15,20 @@
             android:layout_width="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:layout_height="wrap_content">
-            <ListView
-                android:divider="#C8C8C8"
-                android:dividerHeight="1px"
-                android:id="@+id/list_event"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listheader="@layout/header_home"
-                tools:listitem="@layout/item_list_event" />
-        </android.support.v4.widget.SwipeRefreshLayout>
 
+                <ListView
+                    android:divider="#C8C8C8"
+                    android:dividerHeight="1px"
+                    android:id="@+id/list_event"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listheader="@layout/header_home"
+                    tools:listitem="@layout/item_list_talk" />
+
+                <include  layout="@layout/layout_empty_common" android:id="@+id/empty" android:layout_below="@+id/layout_refresh" android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="visible"/>
+
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
