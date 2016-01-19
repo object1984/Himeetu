@@ -1,18 +1,15 @@
 package com.himeetu.ui.setup;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.app.Api;
@@ -20,24 +17,14 @@ import com.himeetu.model.GsonResult;
 import com.himeetu.model.SelectData;
 import com.himeetu.model.User;
 import com.himeetu.model.service.UserService;
-import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.util.FileUtil;
 import com.himeetu.util.ToastUtil;
 import com.himeetu.view.SelectPicPopupWindow;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.widget.RelativeLayout;
-
 import com.github.siyamed.shapeimageview.RoundedImageView;
 
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -150,7 +137,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         et_birthday.setText(user.getBirthday());
         et_sex.setText("1".equals(user.getSex()) ? "女" : "男");
         et_email.setText(user.getEmail());
-        et_phone.setText(user.getTelPhone());
+        et_phone.setText(user.getTelphone());
 
     }
 

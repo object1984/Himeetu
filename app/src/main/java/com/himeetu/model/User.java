@@ -18,7 +18,7 @@ public class User implements Serializable {
     private String birthday;
     private String portrait;
     private String email;
-    private String telPhone;
+    private String telphone;
 
 
     public int getUid() {
@@ -77,8 +77,8 @@ public class User implements Serializable {
         return email;
     }
 
-    public String getTelPhone() {
-        return telPhone;
+    public String getTelphone() {
+        return telphone;
     }
 
     public void setPortrait(String portrait) {
@@ -89,7 +89,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public void setTelPhone(String telPhone) {
-        this.telPhone = telPhone;
+    public void setTelphone(String telphone) {
+        this.telphone = telphone;
     }
 }

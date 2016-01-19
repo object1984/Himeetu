@@ -27,6 +27,7 @@ import com.himeetu.ui.register.InvitationCodeActivity;
 import com.himeetu.ui.register.RegisterActivity;
 import com.himeetu.ui.setup.EditPassWordActivity;
 import com.himeetu.ui.setup.EditUserDetailActivity;
+import com.himeetu.ui.setup.InviteFriendsActivity;
 import com.himeetu.ui.setup.SettingsActivity;
 import com.himeetu.util.LogUtil;
 
@@ -186,6 +187,16 @@ public class NavHelper {
         backAnim(activity);
     }
 
+
+    public static void toInviteFriendsActivity(Activity activity) {
+        Intent intent = new Intent();
+        intent.setClass(activity, InviteFriendsActivity.class);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+
+
     public static void forwardAnim(Activity activity, int animInId, int animOutId) {
         activity.overridePendingTransition(animInId, animOutId);
     }
@@ -229,5 +240,6 @@ public class NavHelper {
         ((Activity) context).finish();
         forwardBottomOutAnim((Activity) context);
     }
+
 
 }

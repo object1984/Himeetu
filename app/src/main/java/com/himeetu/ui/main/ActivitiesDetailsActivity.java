@@ -3,18 +3,17 @@ package com.himeetu.ui.main;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -22,12 +21,12 @@ import com.google.gson.reflect.TypeToken;
 import com.himeetu.R;
 import com.himeetu.adapter.DetailsRecyclerAdapter;
 import com.himeetu.app.Api;
-import com.himeetu.app.Constants;
 import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.HiActivity;
 import com.himeetu.model.User;
 import com.himeetu.model.service.Activitys;
+import com.himeetu.model.service.UserService;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.util.DateUtils;
@@ -41,7 +40,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,6 +64,7 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     private int limit = 30;
     private static final String TAG_JOIN_IN_THE_ACTIVITY = "TAG_JOIN_IN_THE_ACTIVITY";
     private final String TAG_GET_SELF = "TAG_GET_SELF";
+    private static final String TAG_UPDATE_DATA_DETAIL = "TAG_UPDATE_DATA_DETAIL";
     private boolean IsJoin = false;
 
     @Override
@@ -143,7 +142,17 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
                 break;
             case R.id.text_join://我要参加
 
-                getSelf();
+                User user = UserService.get();
+                String phone = user.getTelphone();
+                if (TextUtils.isEmpty(phone)) {
+
+                    ActiveDialog activeDialog = new ActiveDialog(this, IsJoin);
+                    activeDialog.show();
+
+                } else {
+                    joinTheActivity(hiActivity.getId() + "");
+
+                }
 
                 break;
         }
@@ -178,28 +187,13 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
                     ToastUtil.show(response.getMsg());
                     break;
             }
-        } else if (TAG_GET_SELF.equals(tag)) {  //获取用户参与的活动列表
-            int code = response.getCode();
-            switch (code) {
-                case 0:
-                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
-
-                    List<Activitys.Activity> activityList = activitys.getActivitys();
-
-                    for (Activitys.Activity activity : activityList) {
-                        if (String.valueOf(hiActivity.getId()).equals(activity.getId())) {
-                            IsJoin = true;
-                            break;
-                        }
-                    }
-
-                    ActiveDialog activeDialog = new ActiveDialog(this, hiActivity.getId() + "", IsJoin);
-                    activeDialog.show();
-                    break;
-                case 1:
-                    ToastUtil.show(response.getMsg());
-                    break;
+        } else if (TAG_UPDATE_DATA_DETAIL.equals(tag)) {
+            if (response.getCode() == 0) {
+                joinTheActivity(hiActivity.getId() + "");
+            } else {
+                ToastUtil.show(response.getMsg());
             }
+
         }
     }
 
@@ -215,12 +209,6 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
         NavHelper.toSharePage(this, null);
     }
 
-    /**
-     * 参与的活动
-     */
-    private void getSelf() {
-        Api.getSelf(TAG_GET_SELF, start, limit, this, this);
-    }
 
     /**
      * 用户参与活动
@@ -232,17 +220,32 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     }
 
     /**
+     * 提交用户信息
+     *
+     * @param nation
+     * @param sex
+     * @param birth
+     * @param phone
+     * @param email
+     */
+    private void commit(String nation, String sex, String birth, String phone, String email) {
+
+        Api.updateUserDataDetail(TAG_UPDATE_DATA_DETAIL, nation, sex, birth, phone, email, this, this);
+
+    }
+
+
+    /**
      * 活动dialog
      */
     private class ActiveDialog extends Dialog {
         private Context context;
-        private String activityId;
         private boolean IsJoin;
+        private EditText userPhone;
 
-        public ActiveDialog(Context context, String activityId, boolean IsJoin) {
+        public ActiveDialog(Context context, boolean IsJoin) {
             super(context);
             this.context = context;
-            this.activityId = activityId;
             this.IsJoin = IsJoin;
         }
 
@@ -260,11 +263,22 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
             dialogWindow.setAttributes(lp);
 
             Button ok = (Button) findViewById(R.id.dialog_bnt_ok);
+
+            EditText dialog_edit_user_name = (EditText) findViewById(R.id.dialog_edit_user_name);
+            dialog_edit_user_name.setText(UserService.get().getNickname());
+            dialog_edit_user_name.setEnabled(false);
+            userPhone = (EditText) findViewById(R.id.dialog_edit_user_phone);
             ok.setEnabled(!IsJoin); //设置是否可以点击
             ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    joinTheActivity(activityId);
+                    String phone = userPhone.getText().toString();
+                    if (TextUtils.isEmpty(phone)) {
+                        ToastUtil.show("请输入手机号");
+                    } else {
+                        commit("", "", "", phone, "");
+                    }
+
                     dismiss();
                 }
             });
