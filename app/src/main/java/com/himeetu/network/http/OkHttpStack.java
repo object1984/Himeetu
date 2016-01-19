@@ -63,7 +63,6 @@ public class OkHttpStack implements HttpStack {
             throws IOException, AuthFailureError
     {
 
-        if(!(request instanceof MultiPartRequest)) {
             OkHttpClient client = mClient.clone();
             int timeoutMs = request.getTimeoutMs();
             client.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
@@ -127,10 +126,6 @@ public class OkHttpStack implements HttpStack {
 
 
             return response;
-        }
-        else {
-            return performMultiPartRequest(request, additionalHeaders);
-        }
 
 
     }
@@ -251,123 +246,4 @@ public class OkHttpStack implements HttpStack {
         return RequestBody.create(MediaType.parse(request.getBodyContentType()), body);
     }
 
-    public HttpResponse performMultiPartRequest(Request<?> request,
-                                                Map<String, String> additionalHeaders)  throws IOException, AuthFailureError {
-        HttpUriRequest httpRequest = createMultiPartRequest(request, additionalHeaders);
-        addHeaders(httpRequest, additionalHeaders);
-        addHeaders(httpRequest, request.getHeaders());
-        HttpParams httpParams = httpRequest.getParams();
-        int timeoutMs = request.getTimeoutMs();
-        // TODO: Reevaluate this connection timeout based on more wide-scale
-        // data collection and possibly different for wifi vs. 3G.
-        HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
-        HttpConnectionParams.setSoTimeout(httpParams, timeoutMs);
-
-
-        /* Make a thread safe connection manager for the client */
-        HttpClient httpClient = new DefaultHttpClient(httpParams);
-
-        return httpClient.execute(httpRequest);
-    }
-
-    private static void addHeaders(HttpUriRequest httpRequest, Map<String, String> headers) {
-        for (String key : headers.keySet()) {
-            httpRequest.setHeader(key, headers.get(key));
-        }
-    }
-
-    static HttpUriRequest createMultiPartRequest(Request<?> request,
-                                                 Map<String, String> additionalHeaders) throws AuthFailureError {
-        switch (request.getMethod()) {
-            case Request.Method.DEPRECATED_GET_OR_POST: {
-                // This is the deprecated way that needs to be handled for backwards compatibility.
-                // If the request's post body is null, then the assumption is that the request is
-                // GET.  Otherwise, it is assumed that the request is a POST.
-                byte[] postBody = request.getBody();
-                if (postBody != null) {
-                    HttpPost postRequest = new HttpPost(request.getUrl());
-                    if(request.getBodyContentType() != null)
-                        postRequest.addHeader(HEADER_CONTENT_TYPE, request.getBodyContentType());
-                    HttpEntity entity;
-                    entity = new ByteArrayEntity(postBody);
-                    postRequest.setEntity(entity);
-                    return postRequest;
-                } else {
-                    return new HttpGet(request.getUrl());
-                }
-            }
-            case Request.Method.GET:
-                return new HttpGet(request.getUrl());
-            case Request.Method.DELETE:
-                return new HttpDelete(request.getUrl());
-            case Request.Method.POST: {
-                HttpPost postRequest = new HttpPost(request.getUrl());
-                postRequest.addHeader(HEADER_CONTENT_TYPE, request.getBodyContentType());
-                setMultiPartBody(postRequest,request);
-                return postRequest;
-            }
-            case Request.Method.PUT: {
-                HttpPut putRequest = new HttpPut(request.getUrl());
-                if(request.getBodyContentType() != null)
-                    putRequest.addHeader(HEADER_CONTENT_TYPE, request.getBodyContentType());
-                setMultiPartBody(putRequest,request);
-                return putRequest;
-            }
-            // Added in source code of Volley libray.
-            case Request.Method.PATCH: {
-                HttpClientStack.HttpPatch patchRequest = new HttpClientStack.HttpPatch(request.getUrl());
-                if(request.getBodyContentType() != null)
-                    patchRequest.addHeader(HEADER_CONTENT_TYPE, request.getBodyContentType());
-                return patchRequest;
-            }
-            default:
-                throw new IllegalStateException("Unknown request method.");
-        }
-    }
-
-    /**
-     * If Request is MultiPartRequest type, then set MultipartEntity in the
-     * httpRequest object.
-     *
-     * @param httpRequest
-     * @param request
-     * @throws AuthFailureError
-     */
-    private static void setMultiPartBody(HttpEntityEnclosingRequestBase httpRequest,
-                                         Request<?> request) throws AuthFailureError {
-
-        // Return if Request is not MultiPartRequest
-        if (!(request instanceof MultiPartRequest)) {
-            return;
-        }
-
-        // MultipartEntity multipartEntity = new
-        // MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-
-        /* example for setting a HttpMultipartMode */
-        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-
-        // Iterate the fileUploads
-        Map<String, File> fileUpload = ((MultiPartRequest) request).getFileUploads();
-        for (Map.Entry<String, File> entry : fileUpload.entrySet()) {
-
-            builder.addPart(((String) entry.getKey()), new FileBody((File) entry.getValue()));
-        }
-
-        ContentType contentType = ContentType.create(HTTP.PLAIN_TEXT_TYPE, HTTP.UTF_8);
-        // Iterate the stringUploads
-        Map<String, String> stringUpload = ((MultiPartRequest) request).getStringUploads();
-        for (Map.Entry<String, String> entry : stringUpload.entrySet()) {
-            try {
-                builder.addPart(((String) entry.getKey()),
-                        new StringBody((String) entry.getValue(), contentType));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        httpRequest.setEntity(builder.build());
-    }
 }

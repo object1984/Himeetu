@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import com.himeetu.BuildConfig;
 import com.himeetu.app.Constants;
+import com.himeetu.app.MEETApplication;
+import com.himeetu.network.volley.PersistentCookieStore;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -33,6 +37,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.CookieStore;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -476,13 +484,14 @@ public class FileUtil {
     }
 
 
-
+    private static final MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
     public static String run(String url, String  type ,File file,String name) throws Exception {
 
         RequestBody requestBody = new MultipartBuilder()
                 .type(MultipartBuilder.FORM)
                 .addFormDataPart("type", type)
                 .addFormDataPart("name",name)
+                .addFormDataPart("file", file.getName(), RequestBody.create(MEDIA_TYPE_JPEG, file))
                 .addFormDataPart("size",file.length()+"")
                 .build();
 
@@ -499,6 +508,10 @@ public class FileUtil {
 
     private static OkHttpClient getClient() {
         OkHttpClient client = new OkHttpClient();
+        client.setCookieHandler(new CookieManager(
+                new PersistentCookieStore(MEETApplication.getInstance().getApplicationContext()),
+                CookiePolicy.ACCEPT_ALL));
+
         client.setConnectTimeout(5, TimeUnit.MINUTES);
         client.setReadTimeout(5, TimeUnit.MINUTES);
         return client;

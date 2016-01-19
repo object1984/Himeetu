@@ -15,12 +15,14 @@ import com.android.volley.toolbox.Volley;
 import com.himeetu.network.dic.UrlPatten;
 import com.himeetu.network.http.MultiPartStack;
 import com.himeetu.network.http.OkHttpStack;
+import com.himeetu.network.volley.PersistentCookieStore;
 import com.himeetu.util.FileUtil;
 import com.himeetu.util.LogUtil;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
 import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.CookieStore;
 import java.net.HttpCookie;
 import java.net.URI;
@@ -137,17 +139,22 @@ public class MEETApplication extends Application {
     private RequestQueue mRequestQueue;
 //    private RequestQueue mUploadQueue;
     public RequestQueue getVolleyRequestQueue() {
+        OkHttpClient okHttpClient =null;
         if (mRequestQueue == null)
         {
-            OkHttpClient okHttpClient = new OkHttpClient();
-            CookieManager cookieManager = new CookieManager();
+             okHttpClient = new OkHttpClient();
+//            CookieManager cookieManager = new CookieManager();
+//
+//            CookieStore cookieStore = cookieManager.getCookieStore();
+//                for(HttpCookie cookie :  cookieStore.getCookies()){
+//                    LogUtil.d("cookie", String.format("name=%s, value=%s", cookie.getName(), cookie.getValue()));
+//                }
+//
+//            okHttpClient.setCookieHandler(cookieManager);
 
-            CookieStore cookieStore = cookieManager.getCookieStore();
-                for(HttpCookie cookie :  cookieStore.getCookies()){
-                    LogUtil.d("cookie", String.format("name=%s, value=%s", cookie.getName(), cookie.getValue()));
-                }
-
-            okHttpClient.setCookieHandler(cookieManager);
+            okHttpClient.setCookieHandler(new CookieManager(
+                    new PersistentCookieStore(getApplicationContext()),
+                    CookiePolicy.ACCEPT_ALL));
 
             mRequestQueue = Volley.newRequestQueue(this, new OkHttpStack(okHttpClient));
         }

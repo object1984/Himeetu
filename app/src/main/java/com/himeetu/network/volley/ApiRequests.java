@@ -1,5 +1,6 @@
 package com.himeetu.network.volley;
 
+import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
@@ -9,7 +10,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.himeetu.model.GsonResult;
 import com.himeetu.network.dic.UrlPatten;
+import com.himeetu.util.FileUtil;
 import com.himeetu.util.LogUtil;
+
+import java.io.File;
 
 
 /**
@@ -305,8 +309,15 @@ public class ApiRequests {
      * @return
      */
     public static Request<?> uploadState(int activityId, Response.Listener listener, Response.ErrorListener errorListener) {
-        final String url = String.format(UrlPatten.URL_UPLOAD_STATE_, activityId);
-        return uploadFile(url, listener, errorListener);
+        final String url = String.format(UrlPatten.URL_UPLOAD_STATE, activityId);
+
+        File fileFolder = new File(Environment.getExternalStorageDirectory()
+                + "/himeetu/temp");
+        if (!fileFolder.exists()) {
+            fileFolder.mkdir();
+        }
+        File jpgFile = new File(fileFolder, "1.jpg");
+        return uploadFile(url, "file", jpgFile, listener, errorListener);
     }
 
 
@@ -329,21 +340,42 @@ public class ApiRequests {
 
     }
 
-    public static MultiPartGsonRequest<GsonResult> uploadFile(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
+//    public static MultiPartGsonRequest<GsonResult> uploadFile(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
+//
+//
+//        final Gson gson = new GsonBuilder()
+//                .registerTypeAdapter(GsonResult.class, new GsonResultDeserializer())
+//                .create();
+//
+//        return new MultiPartGsonRequest<GsonResult>
+//                (
+//                        url,
+//                        new TypeToken<GsonResult>() {
+//                        }.getType(),
+//                        gson,
+//                        listener,
+//                        errorListener
+//                );
+//
+//    }
+
+    public static MultipartRequest<GsonResult> uploadFile(@NonNull final String url, String stringPart, File file, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
 
 
         final Gson gson = new GsonBuilder()
                 .registerTypeAdapter(GsonResult.class, new GsonResultDeserializer())
                 .create();
 
-        return new MultiPartGsonRequest<GsonResult>
+        return new MultipartRequest<GsonResult>
                 (
                         url,
                         new TypeToken<GsonResult>() {
                         }.getType(),
                         gson,
                         listener,
-                        errorListener
+                        errorListener,
+                        stringPart,
+                        file
                 );
 
     }

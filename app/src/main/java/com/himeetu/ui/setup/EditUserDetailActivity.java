@@ -1,5 +1,6 @@
 package com.himeetu.ui.setup;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.himeetu.model.GsonResult;
 import com.himeetu.model.SelectData;
 import com.himeetu.model.User;
 import com.himeetu.model.service.UserService;
+import com.himeetu.network.dic.UrlPatten;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.util.FileUtil;
@@ -77,7 +79,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         super.init();
         initToolBar();
 
-//        testUpload();
+        testUpload();
     }
 
 
@@ -89,8 +91,13 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 
 //                FileUtil.uploadFile("http://123.57.167.135/sys/uploadimg","abc.png",file,"image/png");
                 try {
-
-                    String result = FileUtil.run("http://123.57.167.135/sys/uploadimg", "image/png", file, "abc.png");
+                    File fileFolder = new File(Environment.getExternalStorageDirectory()
+                            + "/himeetu/temp");
+                    if (!fileFolder.exists()) {
+                        fileFolder.mkdir();
+                    }
+                    File jpgFile = new File(fileFolder, "1.jpg");
+                    String result = FileUtil.run(UrlPatten.URL_UPLOAD_STATE, "image/jpeg", jpgFile, "1.jpg");
 
                     Log.d("lanzhihong", "result===" + result);
 

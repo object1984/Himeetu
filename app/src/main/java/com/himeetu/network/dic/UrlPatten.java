@@ -59,5 +59,5 @@ public class UrlPatten {
     public static final String URL_GET_AD = URL_API_BASE + "/advertisement/getlist";
 
     //上传图片
-    public static final String URL_UPLOAD_STATE_ = URL_API_BASE + "/photo/upload";
+    public static final String URL_UPLOAD_STATE = URL_API_BASE + "/photo/upload";
 }
