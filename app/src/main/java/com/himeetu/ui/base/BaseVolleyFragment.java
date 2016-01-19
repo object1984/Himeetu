@@ -17,7 +17,12 @@ public abstract class BaseVolleyFragment extends BaseFragment implements Respons
 
     @Override
     public void onResponse(GsonResult response, String tag) {
-        LogUtil.d("BaseVolleyFragment.onResponse tag＝" + tag, response.getJsonStr());
+        if(response == null){
+            LogUtil.d("BaseVolleyFragment.onResponse tag＝" + tag, "response=null");
+        }else {
+            LogUtil.d("BaseVolleyFragment.onResponse tag＝" + tag, response.getJsonStr());
+        }
+
     }
 
     @Override
