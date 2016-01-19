@@ -1,45 +1,41 @@
 package com.himeetu.ui.main;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.opengl.GLException;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.himeetu.R;
+import com.himeetu.adapter.AdAdapter;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.adapter.RecommendAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.app.Constants;
 import com.himeetu.app.NavHelper;
+import com.himeetu.model.Ad;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.HiEvent;
 import com.himeetu.model.Recommend;
-import com.himeetu.ui.base.BaseFragment;
-import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.base.BaseVolleyFragment;
-import com.himeetu.ui.base.StatusBarCompat;
 import com.himeetu.util.JsonUtil;
+import com.himeetu.view.ADViewPager;
+import com.himeetu.view.AutoScaleImageView;
 import com.himeetu.view.WrapContentLayoutManager;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,17 +44,13 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-
 
 public class HomeFragment extends BaseVolleyFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private static final String TAG = HomeFragment.class.getCanonicalName();
     private static final String TAG_API_GET_TOP_RECOMMEND = "TAG_API_GET_TOP_RECOMMEND";
     private static final String TAG_API_GET_FRIEND_TALK= "TAG_API_GET_FRIEND_TALK";
-
+    private static final String TAG_API_GET_AD= "TAG_API_GET_AD";
+    private LayoutInflater inflater;
 
     private List<Recommend> recommendList = new ArrayList<>();
 
@@ -67,6 +59,10 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     private RecyclerView mRecommendRecyclerView;
     private RecommendAdapter recommendAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private ADViewPager adViewPager;
+    private AdAdapter adAdapter;
+    private List<View> adViewList = new ArrayList<>();
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -102,22 +98,26 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
 
         init();
 
+        getAD();
         getTopRecommend();
         getFriendTalk();
+
+        uploadState();
         return rootView;
     }
 
     @Override
     protected void loadViews() {
         super.loadViews();
-
-
         mEventListView = (ListView)rootView.findViewById(R.id.list_event);
         mEventListView.setOnItemClickListener(this);
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
+         inflater = LayoutInflater.from(getActivity());
 
         View headerView = inflater.inflate(R.layout.header_home, mEventListView, false);
         View footerView = inflater.inflate(R.layout.item_list_footer_common, mEventListView, false);
+
+
+
         mEventListView.addHeaderView(headerView);
         mEventListView.addFooterView(footerView);
 
@@ -157,6 +157,12 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
                 }, 1000);
             }
         });
+
+        adViewPager = (ADViewPager)rootView.findViewById(R.id.pager_ad);
+
+
+        adAdapter = new AdAdapter(getActivity());
+        adViewPager.setAdapter(adAdapter);
     }
 
     @Override
@@ -201,10 +207,18 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         Api.getHotRecommend(TAG_API_GET_TOP_RECOMMEND, this, this);
     }
 
+    private void getAD(){
+        Api.getAD(TAG_API_GET_AD, this, this);
+    }
+
     private int pageNum = 0;
     private int pageSize = 20;
     private void getFriendTalk(){
         Api.getFriendTalk(TAG_API_GET_FRIEND_TALK, pageNum*pageSize, pageSize, this, this);
+    }
+
+    private void uploadState(){
+        Api.uploadState("TAG_UPLOAD_STATE", 1, this, this);
     }
 
     @Override
@@ -243,6 +257,44 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
 //            if(recommends != null){
 //                recommendAdapter.addAll(recommends);
 //            }
+        }
+
+        if(TAG_API_GET_AD.equals(tag)){
+            JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+
+            if(jsonObject == null){
+                return;
+            }
+
+            Type listType = new TypeToken<List<Ad>>() {
+            }.getType();
+
+            JSONArray  listJsonAry = JsonUtil.getJSONArray(jsonObject, "list");
+
+            if(listJsonAry == null){
+                return;
+            }
+
+            List<Ad> ads  = new Gson().fromJson(listJsonAry.toString(), listType);
+
+            if(ads != null){
+                for(int i=0; i<ads.size(); i++){
+                    View adView = inflater.inflate(R.layout.item_ad, null);
+                    AutoScaleImageView imageView = (AutoScaleImageView)adView.findViewById(R.id.img_ad);
+
+                    if(TextUtils.isEmpty(ads.get(i).getImg())){
+                        imageView.setImageResource(R.drawable.img_default);
+                    }else{
+                        String imgUrl = Constants.WEB_IMG_BASE + ads.get(i).getImg();
+                        Picasso.with(getActivity()).load(imgUrl).placeholder(R.drawable.img_default)
+                                .error(R.drawable.img_default).into(imageView);
+
+                    }
+                    adViewList.add(adView);
+                }
+
+                adAdapter.addAll(adViewList);
+            }
         }
     }
 

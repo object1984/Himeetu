@@ -1,5 +1,7 @@
 package com.himeetu.adapter;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +12,18 @@ import android.widget.TextView;
 import com.himeetu.R;
 import com.himeetu.model.ListItem;
 import com.himeetu.ui.my.ActivitysFragment;
+import com.himeetu.util.DateUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.ViewHolder> {
-
+    private Context mContext;
     private final List<ListItem> mValues;
     private final ActivitysFragment.OnListFragmentInteractionListener mListener;
 
-    public ActivitysAdapter(List<ListItem> items, ActivitysFragment.OnListFragmentInteractionListener listener) {
+    public ActivitysAdapter(Context context, List<ListItem> items, ActivitysFragment.OnListFragmentInteractionListener listener) {
+        mContext = context;
         mValues = items;
         mListener = listener;
     }
@@ -34,8 +39,11 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mIdView.setText(holder.mItem.getTime());
+        holder.mIdView.setText(DateUtils.format(DateUtils.parse(holder.mItem.getTime()), "dd/MM"));
         holder.mImageView.setImageResource(R.drawable.image1);
+
+        Picasso.with(mContext).load(holder.mItem.getImgPath()).placeholder(R.drawable.img_default)
+                .error(R.drawable.img_default).into( holder.mImageView);
 //        holder.mIdView.setText(mValues.get(position).id);
 //        holder.mImageView.setText(mValues.get(position).content);
 

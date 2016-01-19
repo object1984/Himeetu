@@ -25,6 +25,7 @@ import com.himeetu.model.User;
 import com.himeetu.model.service.Activitys;
 import com.himeetu.ui.base.BaseFragment;
 import com.himeetu.ui.base.BaseVolleyFragment;
+import com.himeetu.util.DateUtils;
 import com.himeetu.util.ToastUtil;
 
 import org.json.JSONException;
@@ -32,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.iwgang.familiarrecyclerview.FamiliarRecyclerView;
 
 /**
  * 我的界面 活动list
@@ -52,14 +55,16 @@ public class ActivitysFragment extends BaseVolleyFragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private RecyclerView recyclerView;
+    private FamiliarRecyclerView recyclerView;
     private final String TAG_GET_SELF = "TAG_GET_SELF";
     private final String TAG_GET_FRIENDS_IMG = "TAG_GET_FRIENDS_IMG";
     private int start = 0;
     private int limit = 10;
     private List<ListItem> lists = new ArrayList<>();
+    private List<FriendImgs.FriendImg> imgs = new ArrayList<>();
     private ActivitysAdapter adapter;
 
+    private View emptyView;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -115,8 +120,9 @@ public class ActivitysFragment extends BaseVolleyFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.item_list_activitys, container, false);
+        emptyView = inflater.inflate(R.layout.layout_empty_common, null);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        recyclerView = (FamiliarRecyclerView) view.findViewById(R.id.list);
 
         // Set the adapter
         Context context = view.getContext();
@@ -125,8 +131,10 @@ public class ActivitysFragment extends BaseVolleyFragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        adapter = new ActivitysAdapter(lists, mListener);
+        adapter = new ActivitysAdapter(getActivity(), lists, mListener);
+        recyclerView.setEmptyView(emptyView);
         recyclerView.setAdapter(adapter);
+
         return view;
     }
 
@@ -183,37 +191,37 @@ public class ActivitysFragment extends BaseVolleyFragment {
 
         if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
 
-        String json = "{\n" +
-                "    \"count\": \"1\",\n" +
-                "    \"list\": [\n" +
-                "        {\n" +
-                "            \"id\": 0,\n" +
-                "            \"name\": \"hh\",\n" +
-                "            \"address\": \"beijing\",\n" +
-                "            \"starttime\": \"10:10\",\n" +
-                "            \"endtime\": \"10:10\",\n" +
-                "            \"img\": \"imgmd5name.png\",\n" +
-                "            \"des\": \"…\",\n" +
-                "            \"state\": 2\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"id\": 1,\n" +
-                "            \"name\": \"test\",\n" +
-                "            \"address\": \"beijing\",\n" +
-                "            \"starttime\": \"10:10\",\n" +
-                "            \"endtime\": \"10:10\",\n" +
-                "            \"img\": \"imgmd5name.png\",\n" +
-                "            \"des\": \"…\",\n" +
-                "            \"state\": 2\n" +
-                "        }\n" +
-                "    ]\n" +
-                "}";
+//        String json = "{\n" +
+//                "    \"count\": \"1\",\n" +
+//                "    \"list\": [\n" +
+//                "        {\n" +
+//                "            \"id\": 0,\n" +
+//                "            \"name\": \"hh\",\n" +
+//                "            \"address\": \"beijing\",\n" +
+//                "            \"starttime\": \"10:10\",\n" +
+//                "            \"endtime\": \"10:10\",\n" +
+//                "            \"img\": \"imgmd5name.png\",\n" +
+//                "            \"des\": \"…\",\n" +
+//                "            \"state\": 2\n" +
+//                "        },\n" +
+//                "        {\n" +
+//                "            \"id\": 1,\n" +
+//                "            \"name\": \"test\",\n" +
+//                "            \"address\": \"beijing\",\n" +
+//                "            \"starttime\": \"10:10\",\n" +
+//                "            \"endtime\": \"10:10\",\n" +
+//                "            \"img\": \"imgmd5name.png\",\n" +
+//                "            \"des\": \"…\",\n" +
+//                "            \"state\": 2\n" +
+//                "        }\n" +
+//                "    ]\n" +
+//                "}";
 
 
         if (response.getCode() == 0) {
 
 //                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
-            Activitys activitys = new Gson().fromJson(json, Activitys.class);
+            Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
 
             List<Activitys.Activity> activityList = activitys.getActivitys();
             for (Activitys.Activity activity : activityList) {
@@ -232,28 +240,30 @@ public class ActivitysFragment extends BaseVolleyFragment {
         }
 
 
-//    }
-//
-//    else if(TAG_GET_FRIENDS_IMG.equals(tag))  {
-//
-//        if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
-//        if (response.getCode() == 0) {
-//            FriendImgs friends = new Gson().fromJson(response.getJsonStr(), FriendImgs.class);
-//
-//            List<FriendImgs.FriendImg> imgs = friends.getFriendImgs();
-//
-//            for (FriendImgs.FriendImg img : imgs) {
-//                ListItem item = new ListItem();
-//                item.setImgPath(img.getImg_path());
-//                item.setTime(img.getCtime());
-//                lists.add(item);
-//            }
-//            adapter.notifyDataSetChanged();
-//        } else {
-//
-//            ToastUtil.show(response.getMsg());
-//        }
-//    }
+     if(TAG_GET_FRIENDS_IMG.equals(tag))  {
+
+        if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
+        if (response.getCode() == 0) {
+            FriendImgs friends = new Gson().fromJson(response.getJsonStr(), FriendImgs.class);
+
+            if(friends == null || friends.getFriendImgs() == null){
+                return;
+            }
+
+            imgs.addAll(friends.getFriendImgs());
+
+            for (FriendImgs.FriendImg img : imgs) {
+                ListItem item = new ListItem();
+                item.setImgPath(img.getImg_path());
+                item.setTime(img.getCtime());
+                lists.add(item);
+            }
+            adapter.notifyDataSetChanged();
+        } else {
+
+            ToastUtil.show(response.getMsg());
+        }
+    }
 
 }
 

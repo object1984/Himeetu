@@ -253,6 +253,21 @@ public class ApiRequests {
     }
 
     /**
+     * 获取广告列表
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> getAD(
+            @NonNull final Response.Listener listener,
+            @NonNull final Response.ErrorListener errorListener) {
+
+        final String url = String.format(UrlPatten.URL_GET_AD);
+
+        return doGet(url, listener, errorListener);
+    }
+
+    /**
      * 获取消息提醒
      * @param listener
      * @param errorListener
@@ -282,6 +297,19 @@ public class ApiRequests {
     }
 
 
+    /**
+     * 上传图片 分享状态
+     * @param activityId
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> uploadState(int activityId, Response.Listener listener, Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_UPLOAD_STATE_, activityId);
+        return uploadFile(url, listener, errorListener);
+    }
+
+
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
 
 
@@ -290,6 +318,25 @@ public class ApiRequests {
                 .create();
 
         return new GsonGetRequest<GsonResult>
+                (
+                        url,
+                        new TypeToken<GsonResult>() {
+                        }.getType(),
+                        gson,
+                        listener,
+                        errorListener
+                );
+
+    }
+
+    public static MultiPartGsonRequest<GsonResult> uploadFile(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {
+
+
+        final Gson gson = new GsonBuilder()
+                .registerTypeAdapter(GsonResult.class, new GsonResultDeserializer())
+                .create();
+
+        return new MultiPartGsonRequest<GsonResult>
                 (
                         url,
                         new TypeToken<GsonResult>() {

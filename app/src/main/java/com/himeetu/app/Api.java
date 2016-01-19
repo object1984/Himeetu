@@ -151,4 +151,25 @@ public class Api {
     public static void joinInTheActivities(String tag, String activityId,  Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.joinInTheActivities(activityId,  listener, errorListener), tag);
     }
+
+    /**
+     * 获取广告列表
+     * @param tag
+     * @param listener
+     * @param errorListener
+     */
+    public static void getAD(String tag, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getAD(listener, errorListener), tag);
+    }
+
+    /**
+     * 分享状态 图片
+     * @param tag
+     * @param activityId
+     * @param listener
+     * @param errorListener
+     */
+    public static void uploadState(String tag, int activityId, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.uploadState(activityId, listener, errorListener), tag);
+    }
 }

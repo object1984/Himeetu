@@ -83,4 +83,6 @@
 
     <!--分享至-->
     <string name="share_to">分享至</string>
+
+    <string name="network_check_error">网络不给力\n点击屏幕重试</string>
 </resources>

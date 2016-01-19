@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ebaoyang.app.wallet.view.ErrorView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/error_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:visibility="invisible"
+    android:padding="20dp" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableTop="@drawable/err_warning"
+        android:gravity="center"
+        android:text="@string/network_check_error"
+        android:drawablePadding="20dp"
+        android:textColor="#706662"
+        android:textSize="20sp" />
+
+</com.ebaoyang.app.wallet.view.ErrorView>

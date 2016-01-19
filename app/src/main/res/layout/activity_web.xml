@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar_white_common_back" />
+
+    <WebView
+        android:scrollbars="none"
+	     android:id="@+id/web_view"
+        android:layout_above="@+id/toolbar"
+	     android:layout_width="match_parent"
+	     android:layout_height="match_parent"
+	     >
+    </WebView>
+    
+	
+    <include layout="@layout/network_error" 
+        android:layout_width="match_parent" 
+        android:layout_height="match_parent"
+        android:layout_above="@+id/toolbar"
+        />
+    
+    <include
+        android:layout_above="@+id/toolbar"
+        layout="@layout/layout_loading"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        />
+
+
+    <View
+        android:layout_above="@+id/toolbar"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:background="#99000000"
+        android:layout_width="match_parent"
+        android:layout_height="55dp" />
+</RelativeLayout>

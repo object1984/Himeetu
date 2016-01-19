@@ -36,7 +36,9 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     @Override
     public String getBodyContentType() {
         return String.format("application/x-www-form-urlencoded; charset=%s", PROTOCOL_CHARSET);
-    }public GsonPostRequest
+    }
+
+    public GsonPostRequest
     (
             @NonNull final String url,
             @NonNull final String body,
