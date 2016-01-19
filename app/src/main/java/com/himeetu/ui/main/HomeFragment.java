@@ -36,6 +36,7 @@ import com.himeetu.model.Talk;
 import com.himeetu.model.Word;
 import com.himeetu.ui.base.BaseVolleyFragment;
 import com.himeetu.ui.base.CommonWebActivity;
+import com.himeetu.util.DateUtils;
 import com.himeetu.util.DensityUtil;
 import com.himeetu.util.JsonUtil;
 import com.himeetu.util.RoundedTransformation;
@@ -49,6 +50,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -135,6 +137,11 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
             protected void convert(final BaseAdapterHelper helper, final Talk talk) {
 
                 helper.setText(R.id.text_name, talk.getRolename());
+
+                Date date = DateUtils.parse(talk.getCtime());
+                String timeStr = date.getTime() + "";
+                helper.setText(R.id.text_time, DateUtils.getStandardDate(timeStr));
+
                 helper.setText(R.id.text_zan_num, String.format("%d 赞", talk.getLikenum()));
 
 
