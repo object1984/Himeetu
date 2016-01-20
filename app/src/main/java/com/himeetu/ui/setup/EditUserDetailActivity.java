@@ -79,7 +79,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         super.init();
         initToolBar();
 
-        testUpload();
+//        testUpload();
     }
 
 

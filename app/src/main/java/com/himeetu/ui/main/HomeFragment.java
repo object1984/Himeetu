@@ -160,8 +160,8 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
                 helper.getView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        NavHelper.toTalkDetailPage(getActivity(), talk);
 
-                        NavHelper.toTalkDetailPage(getActivity());
                     }
                 });
 
@@ -173,7 +173,6 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
                     helper.setText(R.id.text_desc, talk.getDes());
                     helper.setVisible(R.id.text_desc, true);
                 }
-
                 List<View> wordViews = new ArrayList<>();
                 wordViews.add(helper.getView().findViewById(R.id.reply_1));
                 wordViews.add(helper.getView().findViewById(R.id.reply_2));
@@ -203,7 +202,6 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         mRecommendRecyclerView.setAdapter(recommendAdapter);
         recommendAdapter.notifyDataSetChanged();
         mTalkListView.setAdapter(mTalkAdapter);
-
         swipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.layout_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -259,7 +257,7 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        NavHelper.toTalkDetailPage(getActivity());
+//        NavHelper.toTalkDetailPage(getActivity());
     }
 
     private void getTopRecommend(){

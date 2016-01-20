@@ -14,6 +14,7 @@ public class Argument {
     public static final String COUNTRY_CODE = "country_code";
     public static final String HIACTIVITY = "HiActivity";
     public static final String PHOTO_URI = "photo_uri";
+    public static final String TALK= "talk";
 
 
 }

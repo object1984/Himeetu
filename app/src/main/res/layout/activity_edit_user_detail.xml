@@ -203,6 +203,7 @@
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:text="11111"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="45dp"
                 android:gravity="center"
@@ -459,7 +460,7 @@
             android:layout_height="50dp"
             android:paddingLeft="20dp"
             android:background="@null"
-            />
+            android:text="" />
 
         </LinearLayout>
         <LinearLayout

@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.himeetu.R;
 import com.himeetu.model.HiActivity;
+import com.himeetu.model.Talk;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.login.FindPasswordActivity;
 import com.himeetu.ui.login.LoginActivity;
@@ -98,9 +99,10 @@ public class NavHelper {
 //        forwardFadeInAnim(activity);
     }
 
-    public static void toTalkDetailPage(Activity activity) {
+    public static void toTalkDetailPage(Activity activity, Talk talk) {
         Intent intent = new Intent();
         intent.setClass(activity, TopicDetailsActivity.class);
+        intent.putExtra(Argument.TALK, talk);
         activity.startActivity(intent);
 //        forwardFadeInAnim(activity);
     }
