@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_head_topic_highlights"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_me"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:layout_alignParentRight="true"
+            android:background="@color/app_default"
+            android:paddingBottom="6dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="6dp"
+            android:text="官方活动"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_small"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignBottom="@+id/img_head_topic_highlights"
+            android:alpha="0.6"
+            android:background="#E0000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/item_header_tv_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="I Miss You 之夜"
+                android:textColor="@color/text_write"
+                android:textSize="@dimen/font_huge"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- time -->
+    <TextView
+        android:id="@+id/tv_head_topic_highlights_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="PM: 0:00"
+        android:textColor="@color/text_dark_black"
+        android:textSize="@dimen/font_big"/>
+    <!-- address -->
+    <TextView
+        android:id="@+id/tv_head_topic_highlights_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="14dp"
+        android:singleLine="true"
+        android:text="地址: 北京市朝阳区工人体育场"
+        android:textColor="@color/text_dark_black"
+        android:textSize="@dimen/font_big"/>
+    <!-- date -->
+    <TextView
+        android:id="@+id/tv_head_topic_highlights_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="14dp"
+        android:singleLine="true"
+        android:text="2016年01月01日"
+        android:textColor="@color/text_dark_black"
+        android:textSize="@dimen/font_big"/>
+
+</LinearLayout>
