@@ -6,55 +6,57 @@ import java.util.List;
  * Created by lanzhihong on 2016/1/4.
  */
 public class Friend {
+    private List<list> list;
 
-
-    /**
-     * count : 1
-     * list : [{"friend":"13","ctime":"2016-01-04 15:18:31"}]
-     */
-
-    private int count;
-    /**
-     * friend : 13
-     * ctime : 2016-01-04 15:18:31
-     */
-
-    private List<ListEntity> list;
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public void setList(List<ListEntity> list) {
-        this.list = list;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public List<ListEntity> getList() {
+    public List<Friend.list> getList() {
         return list;
     }
 
-    public static class ListEntity {
+    public void setList(List<Friend.list> list) {
+        this.list = list;
+    }
+
+    public class list {
         private String friend;
+
         private String ctime;
+
+        private String rolename;
+
+        private String portrait;
+
+        public String getPortrait() {
+            return portrait;
+        }
+
+        public void setPortrait(String portrait) {
+            this.portrait = portrait;
+        }
 
         public void setFriend(String friend) {
             this.friend = friend;
+        }
+
+        public String getFriend() {
+            return this.friend;
         }
 
         public void setCtime(String ctime) {
             this.ctime = ctime;
         }
 
-        public String getFriend() {
-            return friend;
+        public String getCtime() {
+            return this.ctime;
         }
 
-        public String getCtime() {
-            return ctime;
+        public void setRolename(String rolename) {
+            this.rolename = rolename;
+        }
+
+        public String getRolename() {
+            return this.rolename;
         }
     }
+
+
 }
