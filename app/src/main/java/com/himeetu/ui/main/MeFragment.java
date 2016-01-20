@@ -304,7 +304,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
 
         tvUsername.setText(user.getNickname());
 
-        Picasso.with(getActivity()).load(user.getPortrait()).placeholder(R.drawable.img_avatar_default)
+        Picasso.with(getActivity()).load(UserService.getUserImgPath()+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
                 .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(head);
 
     }

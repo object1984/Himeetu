@@ -189,4 +189,16 @@ public class Api {
     public static void getFansList(String tag, String uid,int start,int limit, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getFansList(uid, start,limit,listener, errorListener), tag);
     }
+
+
+    /**
+     * 上传用户头像
+     * @param tag
+     * @param pic
+     * @param listener
+     * @param errorListener
+     */
+    public static void uploadPic(String tag, String pic, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.uploadPic(pic, listener, errorListener), tag);
+    }
 }

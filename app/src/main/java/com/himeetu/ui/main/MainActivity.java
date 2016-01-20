@@ -250,7 +250,7 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
                 JSONObject json = null;
                 try {
                     json = new JSONObject(response.getJsonStr());
-                    String img = json.getString("img");
+                    String img = json.getString("portrait");
 
                     if (!TextUtils.isEmpty(img)) {
                         UserService.saveUserHeadPath(img);

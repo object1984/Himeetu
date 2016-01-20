@@ -322,6 +322,18 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    /**
+     * 上传用户头像
+     * @param pic
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> uploadPic(String pic ,Response.Listener listener, Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.UPLOAD_PIC,pic);
+        return doGet(url, listener, errorListener);
+    }
+
 
     /**
      * 上传图片 分享状态

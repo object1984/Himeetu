@@ -1,8 +1,14 @@
 package com.himeetu.ui.setup;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -44,8 +50,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import de.greenrobot.event.EventBus;
 
@@ -75,6 +88,11 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
     //    private EditText et_question,et_answer;
     private TextView tv_head_edit;
     private static final String TAG_UPDATE_DATA_DETAIL = "TAG_UPDATE_DATA_DETAIL";
+    private final static int GET_FROM_CAMERA = 1;
+    private final static int GET_FROM_ALBUM = 2;
+    private final static int REQUEST_CROP_IMAGE = 3;
+    private File file;
+    private final static String TAG_UPLOAD_PIC = "TAG_UPLOAD_PIC";
 
 
     @Override
@@ -84,37 +102,10 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         super.init();
         initToolBar();
 
-//        testUpload();
     }
 
 
-    private void testUpload() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File file = new File("/mnt/sdcard/abc.png");
 
-//                FileUtil.uploadFile("http://123.57.167.135/sys/uploadimg","abc.png",file,"image/png");
-                try {
-                    File fileFolder = new File(Environment.getExternalStorageDirectory()
-                            + "/himeetu/temp");
-                    if (!fileFolder.exists()) {
-                        fileFolder.mkdir();
-                    }
-                    File jpgFile = new File(fileFolder, "1.jpg");
-                    String result = FileUtil.run(UrlPatten.URL_UPLOAD_STATE, "image/jpeg", jpgFile, "1.jpg");
-
-                    Log.d("lanzhihong", "result===" + result);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        ;
-
-
-    }
 
 
     @Override
@@ -266,14 +257,113 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         menuWindow = new SelectPicPopupWindow(EditUserDetailActivity.this, new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+                    startActivityForResult(intent, GET_FROM_CAMERA);
 
+                } else {
+
+                }
+                menuWindow.dismiss();
             }
         }, datas);
 
         //显示窗口
         menuWindow.showAtLocation(EditUserDetailActivity.this.findViewById(R.id.tv_head_edit), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
 
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+
+            if (requestCode == GET_FROM_CAMERA) {
+
+                String name = new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date(System.currentTimeMillis())) + ".jpg";
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+
+                FileOutputStream b = null;
+
+                File folder = new File(Environment.getExternalStorageDirectory()
+                        + "/himeetu/temp");
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                }
+
+                file = new File(folder, name);
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    b = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, b);// 把数据写入文件
+
+                    cropImage(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (b != null) {
+                            b.flush();
+                            b.close();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if(requestCode == GET_FROM_ALBUM){  //相册
+
+            }else{
+
+                // 拿到剪切数据
+                Bitmap bmap = data.getParcelableExtra("data");
+                // 图像保存到文件中
+                FileOutputStream foutput = null;
+                try {
+                    foutput = new FileOutputStream(file);
+                    bmap.compress(Bitmap.CompressFormat.PNG, 100, foutput);
+
+                    UploadPic(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }finally{
+                    if(null != foutput){
+                        try {
+                            foutput.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 调用图片裁剪
+     */
+    private void cropImage(File file) {
+        Intent intent = new Intent();
+        intent.setAction("com.android.camera.action.CROP");
+        intent.setDataAndType(Uri.fromFile(file), "image/*");// mUri是已经选择的图片Uri
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", true);
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("output", Uri.parse("file:/" + file.getAbsolutePath()));
+        startActivityForResult(intent, REQUEST_CROP_IMAGE);
 
     }
 
@@ -360,6 +450,27 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
             UserService.save(user);
 
         }
+    }
+
+    private void UploadPic(final File file) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String result = FileUtil.run(UrlPatten.URL_UPLOAD_STATE, "image/jpeg", file, "abc.jpg");
+                    Log.d("lanzhihong", "result===" + result);
+
+                    JSONObject obj = new JSONObject(result);
+                    String path = obj.getString("msg");
+
+                    Api.uploadPic(TAG_UPLOAD_PIC,path,EditUserDetailActivity.this,EditUserDetailActivity.this);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
 
