@@ -41,7 +41,7 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        if(TextUtils.isEmpty(holder.mItem.getTime())){
+        if(TextUtils.isEmpty(holder.mItem.getTime()) || holder.mItem == null ){
             holder.mIdView.setText("00/00");
         }else {
             holder.mIdView.setText(DateUtils.format(DateUtils.parse(holder.mItem.getTime()), "dd/MM"));

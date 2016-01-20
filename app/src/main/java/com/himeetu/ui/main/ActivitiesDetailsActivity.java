@@ -66,6 +66,7 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     private final String TAG_GET_SELF = "TAG_GET_SELF";
     private static final String TAG_UPDATE_DATA_DETAIL = "TAG_UPDATE_DATA_DETAIL";
     private boolean IsJoin = false;
+    private ActiveDialog activeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +147,7 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
                 String phone = user.getTelphone();
                 if (TextUtils.isEmpty(phone)) {
 
-                    ActiveDialog activeDialog = new ActiveDialog(this, IsJoin);
+                    activeDialog = new ActiveDialog(this, IsJoin);
                     activeDialog.show();
 
                 } else {
@@ -189,6 +190,11 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
             }
         } else if (TAG_UPDATE_DATA_DETAIL.equals(tag)) {
             if (response.getCode() == 0) {
+
+                User user = UserService.get();
+                user.setTelphone(activeDialog.getPhone());
+                UserService.save(user);
+
                 joinTheActivity(hiActivity.getId() + "");
             } else {
                 ToastUtil.show(response.getMsg());
@@ -263,7 +269,6 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
             dialogWindow.setAttributes(lp);
 
             Button ok = (Button) findViewById(R.id.dialog_bnt_ok);
-
             EditText dialog_edit_user_name = (EditText) findViewById(R.id.dialog_edit_user_name);
             dialog_edit_user_name.setText(UserService.get().getNickname());
             dialog_edit_user_name.setEnabled(false);
@@ -272,7 +277,7 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
             ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String phone = userPhone.getText().toString();
+                    String phone = getPhone();
                     if (TextUtils.isEmpty(phone)) {
                         ToastUtil.show("请输入手机号");
                     } else {
@@ -289,6 +294,10 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
                 }
             });
 
+        }
+
+        public String getPhone() {
+            return userPhone.getText().toString();
         }
     }
 
