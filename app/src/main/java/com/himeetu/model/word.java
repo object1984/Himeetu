@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by object1984 on 16/1/19.
  */
-public class Word implements Serializable {
+public class word implements Serializable {
     @SerializedName("wid")
     private String wid;
     @SerializedName("id")
@@ -28,10 +28,12 @@ public class Word implements Serializable {
     @SerializedName("portrait")
     private Object portrait;
     @SerializedName("second_num")
+
     private String secondNum;
     @SerializedName("second_list")
-    private List<Word> secondList = new ArrayList<Word>();
+    private List<word> secondList = new ArrayList<word>();
 
+    //UPDATE
 
     public String getId() {
         return id;
@@ -105,11 +107,11 @@ public class Word implements Serializable {
         this.secondNum = secondNum;
     }
 
-    public List<Word> getSecondList() {
+    public List<word> getSecondList() {
         return secondList;
     }
 
-    public void setSecondList(List<Word> secondList) {
+    public void setSecondList(List<word> secondList) {
         this.secondList = secondList;
     }
 }
