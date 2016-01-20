@@ -37,7 +37,6 @@ import com.himeetu.model.Word;
 import com.himeetu.ui.base.BaseVolleyFragment;
 import com.himeetu.ui.base.CommonWebActivity;
 import com.himeetu.util.DateUtils;
-import com.himeetu.util.DensityUtil;
 import com.himeetu.util.JsonUtil;
 import com.himeetu.util.RoundedTransformation;
 import com.himeetu.view.ADViewPager;
