@@ -157,7 +157,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         et_birthday.setText(user.getBirthday());
         et_sex.setText("1".equals(user.getSex()) ? "女" : "男");
         et_email.setText(user.getEmail());
-        et_phone.setText(user.getTelPhone());
+        et_phone.setText(user.getTelphone());
 
     }
 
