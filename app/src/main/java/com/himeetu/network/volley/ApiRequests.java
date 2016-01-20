@@ -149,6 +149,14 @@ public class ApiRequests {
 
         return doGet(url, listener, errorListener);
     }
+    public static GsonGetRequest<GsonResult> commentPicture(@NonNull String imgid,
+                                                            @NonNull String words,
+                                                            @NonNull final Response.Listener<GsonResult> listener,
+                                                            @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_COMMENT_USERS_PICTURE,imgid, words);
+
+        return doGet(url, listener, errorListener);
+    }
     public static GsonGetRequest<GsonResult> commentNews(@NonNull int tid,
                                                          @NonNull String words,
                                                          @NonNull final Response.Listener<GsonResult> listener,

@@ -67,6 +67,10 @@ public class Api {
                                        Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.getTopicDetails(tid, start, limit, lastid, listener, errorListener),tag);
     }
+    public  static void commentPicture(String tag,String imgid, String words,
+                                       Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.commentPicture(imgid,words,listener, errorListener),tag);
+    }
     public static void commentNews(String tag, int tid, String words, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.commentNews(tid, words, listener, errorListener),tag);
     }
