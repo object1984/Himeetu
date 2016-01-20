@@ -154,7 +154,6 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
                     joinTheActivity(hiActivity.getId() + "");
 
                 }
-
                 break;
         }
     }

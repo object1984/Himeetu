@@ -17,10 +17,12 @@ import com.google.gson.Gson;
 import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.app.Api;
+import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.SelectData;
 import com.himeetu.model.User;
 import com.himeetu.model.service.UserService;
+import com.himeetu.network.dic.Argument;
 import com.himeetu.network.dic.UrlPatten;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
@@ -45,6 +47,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * 编辑用户资料   id   email  不能修改
  */
@@ -62,6 +66,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
     private TextView tvBirthday;
     private TextView tvId;
     private TextView tvEmail;
+    private static final String TAG_API_GET_SELF_INFO = "TAG_API_GET_SELF_INFO";
     //    private RelativeLayout rlQuestion;
 //    private TextView tvQuestion;
 //    private TextView tvAnswer;
@@ -281,6 +286,8 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 //            return;
 //        }
 
+        refreshView();
+
         String sex = "男".equals(et_sex.getText().toString()) ? "0" : "1";
 
         commit(UserService.get().getCountryCode() + "", sex, et_birthday.getText().toString(), et_phone.getText().toString(), et_email.getText().toString());
@@ -320,6 +327,10 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 
     }
 
+    private void getSelfInfo() {
+        Api.getSelfInfo(TAG_API_GET_SELF_INFO, this, this);
+    }
+
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
@@ -327,16 +338,30 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         if (TAG_UPDATE_DATA_DETAIL.equals(tag)) {
 
             if (response.getCode() == 0) {
+
                 ToastUtil.show(R.string.success);
-                refreshView();
+
+                getSelfInfo();
+
             } else {
 
                 ToastUtil.show(response.getMsg());
             }
 
 
+        } else if (TAG_API_GET_SELF_INFO.equals(tag)) {
+
+            User user = new Gson().fromJson(response.getJsonStr(), User.class);
+
+            if (user != null) {
+                user.setUsername(getIntent().getStringExtra(Argument.USERNAME));
+            }
+
+            UserService.save(user);
+
         }
     }
+
 
     @Override
     public void onErrorResponse(VolleyError error, String tag) {
