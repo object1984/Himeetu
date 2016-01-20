@@ -308,6 +308,20 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
+    /**
+     * 获取粉丝列表
+     * @param uid
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> getFansList(String uid, int start ,int limit ,Response.Listener listener, Response.ErrorListener errorListener) {
+        final String url = String.format(UrlPatten.URL_GET_FANSLIST,uid,start,limit );
+        return doGet(url, listener, errorListener);
+    }
+
 
     /**
      * 上传图片 分享状态

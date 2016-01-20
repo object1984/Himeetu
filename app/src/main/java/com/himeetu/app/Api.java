@@ -176,4 +176,17 @@ public class Api {
     public static void uploadState(String tag, int activityId, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.uploadState(activityId, listener, errorListener), tag);
     }
+
+    /**
+     * 获取粉丝列表
+     * @param tag
+     * @param uid
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     */
+    public static void getFansList(String tag, String uid,int start,int limit, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getFansList(uid, start,limit,listener, errorListener), tag);
+    }
 }

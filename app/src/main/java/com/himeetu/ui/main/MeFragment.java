@@ -320,14 +320,12 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
 
         if (TAG_GET_NUM.equals(tag)) {
 
-            if (BuildConfig.DEBUG)
-                Log.d("MeFragment", "response:" + TAG_GET_NUM + "=====" + response);
 
-            if( response  == null){
+            if (response == null) {
                 return;
             }
 
-            if ( response.getCode() == 0) {
+            if (response.getCode() == 0) {
                 JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
                 String friends_num = JsonUtil.getString(jsonObject, "friend_num");
                 String fans_num = JsonUtil.getString(jsonObject, "fans_num");
@@ -364,6 +362,12 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     @Override
     public void onErrorResponse(VolleyError error, String tag) {
         super.onErrorResponse(error, tag);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNum(user.getUid() + "");
     }
 
     /**

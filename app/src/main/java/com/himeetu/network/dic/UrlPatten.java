@@ -63,4 +63,7 @@ public class UrlPatten {
 
     //上传图片
     public static final String URL_UPLOAD_STATE = URL_API_BASE + "/photo/upload";
+
+    //获取粉丝列表
+    public static final String URL_GET_FANSLIST = URL_API_BASE + "/friend/getfanslist?uid=%s&start=%s&limit=%s";
 }

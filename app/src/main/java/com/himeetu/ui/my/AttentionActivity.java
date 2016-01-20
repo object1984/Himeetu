@@ -19,6 +19,7 @@ import com.himeetu.model.Friend;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
 import com.himeetu.model.UserImg;
+import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.main.MeFragment;
@@ -44,8 +45,11 @@ public class AttentionActivity extends BaseVolleyActivity {
     private final String TAG_GET_FRIENDS_LIST = "TAG_GET_FRIENDS_LIST";
     public static final String TAG_ADD_FRIEND = "TAG_ADD_FRIEND";
     private final String TAG_DEL_FRIEND = "TAG_DEL_FRIEND";
+    private final String TAG_GET_FANS_LIST = "TAG_GET_FANS_LIST";
     private QuickAdapter adapter;
     private List<Friend.list> friends;
+    private int start = 0;
+    private int limit = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,7 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         initData();
 
-//        addFriend("13");
+        addFriend("12");
 //        addFriend("14");
 //        addFriend("15");
 
@@ -93,10 +97,11 @@ public class AttentionActivity extends BaseVolleyActivity {
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
 
-//        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+//        if (tag == TAG_GET_FANS_LIST) { //我的粉丝
+//
 //
 //        } else
-        if (tag == TAG_GET_FRIENDS_LIST) {  //我的关注
+        if (tag == TAG_GET_FRIENDS_LIST || tag == TAG_GET_FANS_LIST) {  //我的关注
 
             Friend friend = new Gson().fromJson(response.getJsonStr(), Friend.class);
 
@@ -142,7 +147,7 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         if (type == MeFragment.AttentionType.ATTENTION.FANS) {
 
-
+            getFansList();
         } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
 
             getFriendsList();
@@ -155,6 +160,10 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         Api.getFriendsList(TAG_GET_FRIENDS_LIST, this, this);
 
+    }
+
+    private void getFansList() {
+        Api.getFansList(TAG_GET_FANS_LIST, UserService.get().getUid() + "", start, limit, this, this);
     }
 
     private void addFriend(String friendId) {
@@ -197,10 +206,12 @@ public class AttentionActivity extends BaseVolleyActivity {
                         if (position >= friends.size()) {
                             return;
                         }
-                        String uid = friends.get(position).getFriend() + "";
+
                         if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+                            String uid = friends.get(position).getUid() + "";
                             addFriend(uid);
                         } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
+                            String uid = friends.get(position).getFriend() + "";
                             delFriend(uid);
                         }
                     }
