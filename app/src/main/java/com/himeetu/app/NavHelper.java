@@ -18,6 +18,7 @@ import com.himeetu.ui.main.MeFragment;
 import com.himeetu.ui.main.SearchActivity;
 import com.himeetu.ui.main.ShareActivity;
 import com.himeetu.ui.main.TopicDetailsActivity;
+import com.himeetu.ui.main.TopicHighlightsActivity;
 import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.photo.PhotoMainActivity;
 import com.himeetu.ui.photo.TakePhotoActivity;
@@ -131,7 +132,7 @@ public class NavHelper {
 
     public static void toActivityTalksPage(Activity activity){
         Intent intent = new Intent();
-        intent.setClass(activity, ActivityTalksActivity.class);
+        intent.setClass(activity, TopicHighlightsActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
     }
