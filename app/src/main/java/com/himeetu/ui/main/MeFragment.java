@@ -38,6 +38,7 @@ import com.himeetu.ui.my.AttentionActivity;
 import com.himeetu.ui.setup.EditUserDetailActivity;
 import com.himeetu.ui.setup.SettingsActivity;
 import com.himeetu.util.DensityUtil;
+import com.himeetu.util.JsonUtil;
 import com.himeetu.util.RoundedTransformation;
 import com.himeetu.util.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -327,17 +328,12 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
             }
 
             if ( response.getCode() == 0) {
-                JSONObject json = null;
-                try {
-                    json = new JSONObject(response.getJsonStr());
-                    String friends_num = json.getString("friends_num");
-                    String fans_num = json.getString("fans_num");
+                JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+                String friends_num = JsonUtil.getString(jsonObject, "friend_num");
+                String fans_num = JsonUtil.getString(jsonObject, "fans_num");
 
-                    tvAttention.setText(String.format("关注 %s", friends_num));
-                    tvFans.setText(String.format("粉丝 %s", fans_num));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                tvAttention.setText(String.format("关注 %s", friends_num));
+                tvFans.setText(String.format("粉丝 %s", fans_num));
 
             } else {
                 ToastUtil.show(response.getMsg());

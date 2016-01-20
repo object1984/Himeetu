@@ -116,6 +116,12 @@
             android:screenOrientation="portrait"
             android:name=".ui.main.SearchActivity"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.base.CommonWebActivity"
+            android:theme="@style/AppTheme" />
+
         <activity android:name=".ui.setup.SettingsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.my.AttentionActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.setup.EditPassWordActivity" android:screenOrientation="portrait"/>

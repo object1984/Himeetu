@@ -23,10 +23,10 @@ public class ValidateUtil {
             result = false;
         }
 
-        if(!isEmail(username) &&  !isPhoneNumber(username)){
-            noticeId = R.string.notice_name_format;
-            result = false;
-        }
+//        if(!isEmail(username) &&  !isPhoneNumber(username)){
+//            noticeId = R.string.notice_name_format;
+//            result = false;
+//        }
 
         if (-1 != noticeId) {
             Toast.makeText(MEETApplication.getInstance(), MEETApplication.getInstance().getResources().getString(noticeId), Toast.LENGTH_SHORT).show();

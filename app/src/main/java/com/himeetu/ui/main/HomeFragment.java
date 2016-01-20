@@ -1,6 +1,7 @@
 package com.himeetu.ui.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.android.volley.VolleyError;
+import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.himeetu.R;
@@ -28,10 +31,15 @@ import com.himeetu.app.Constants;
 import com.himeetu.app.NavHelper;
 import com.himeetu.model.Ad;
 import com.himeetu.model.GsonResult;
-import com.himeetu.model.HiEvent;
 import com.himeetu.model.Recommend;
+import com.himeetu.model.Talk;
+import com.himeetu.model.Word;
 import com.himeetu.ui.base.BaseVolleyFragment;
+import com.himeetu.ui.base.CommonWebActivity;
+import com.himeetu.util.DateUtils;
+import com.himeetu.util.DensityUtil;
 import com.himeetu.util.JsonUtil;
+import com.himeetu.util.RoundedTransformation;
 import com.himeetu.view.ADViewPager;
 import com.himeetu.view.AutoScaleImageView;
 import com.himeetu.view.WrapContentLayoutManager;
@@ -42,6 +50,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -53,9 +62,10 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     private LayoutInflater inflater;
 
     private List<Recommend> recommendList = new ArrayList<>();
+    private List<Talk> talkList = new ArrayList<>();
 
-    private ListView mEventListView;
-    private QuickAdapter<HiEvent> mEventAdapter;
+    private ListView mTalkListView;
+    private QuickAdapter<Talk> mTalkAdapter;
     private RecyclerView mRecommendRecyclerView;
     private RecommendAdapter recommendAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -109,30 +119,80 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     @Override
     protected void loadViews() {
         super.loadViews();
-        mEventListView = (ListView)rootView.findViewById(R.id.list_event);
-        mEventListView.setOnItemClickListener(this);
+        mTalkListView = (ListView)rootView.findViewById(R.id.list_event);
+        mTalkListView.setOnItemClickListener(this);
          inflater = LayoutInflater.from(getActivity());
 
-        View headerView = inflater.inflate(R.layout.header_home, mEventListView, false);
-        View footerView = inflater.inflate(R.layout.item_list_footer_common, mEventListView, false);
+        View headerView = inflater.inflate(R.layout.header_home, mTalkListView, false);
+        View footerView = inflater.inflate(R.layout.item_list_footer_common, mTalkListView, false);
 
-
-
-        mEventListView.addHeaderView(headerView);
-        mEventListView.addFooterView(footerView);
+        mTalkListView.addHeaderView(headerView);
+        mTalkListView.addFooterView(footerView);
 
         mRecommendRecyclerView = (RecyclerView)headerView.findViewById(R.id.recycler_recommend);
         recommendAdapter = new RecommendAdapter(getActivity(), recommendList);
 
-        mEventAdapter = new QuickAdapter<HiEvent>(getActivity(), R.layout.item_list_event) {
+        mTalkAdapter = new QuickAdapter<Talk>(getActivity(), R.layout.item_list_talk) {
             @Override
-            protected void convert(BaseAdapterHelper helper, HiEvent item) {
+            protected void convert(final BaseAdapterHelper helper, final Talk talk) {
+
+                helper.setText(R.id.text_name, talk.getRolename());
+
+                Date date = DateUtils.parse(talk.getCtime());
+                String timeStr = date.getTime() + "";
+                helper.setText(R.id.text_time, DateUtils.getStandardDate(timeStr));
+
+                helper.setText(R.id.text_zan_num, String.format("%d 赞", talk.getLikenum()));
+
+
+                RoundedImageView headImageView = (RoundedImageView)helper.getView().findViewById(R.id.img_head);
+                ImageView countryImageView = (ImageView)helper.getView().findViewById(R.id.img_country);
+                ImageView talkImageView = (ImageView)helper.getView().findViewById(R.id.img_talk);
+
+                if(talk.getPortrait() != null){
+                    Picasso.with(context).load(talk.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                            .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(headImageView);
+                }
+                if(talk.getImgPath() != null){
+                    Picasso.with(context).load(talk.getImgPath().replace("sysimg", "img")).placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(talkImageView);
+                }
+
                 helper.getView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         NavHelper.toTalkDetailPage(getActivity());
                     }
                 });
+
+
+
+                if(TextUtils.isEmpty(talk.getDes())){
+                    helper.setVisible(R.id.text_desc, false);
+                }else {
+                    helper.setText(R.id.text_desc, talk.getDes());
+                    helper.setVisible(R.id.text_desc, true);
+                }
+
+                List<View> wordViews = new ArrayList<>();
+                wordViews.add(helper.getView().findViewById(R.id.reply_1));
+                wordViews.add(helper.getView().findViewById(R.id.reply_2));
+                wordViews.add(helper.getView().findViewById(R.id.reply_3));
+
+                for(int i=0; i< talk.getWordsList().size(); i++){
+                    Word word = talk.getWordsList().get(i);
+                    TextView wordView = (TextView) wordViews.get(i);
+                    wordView.setText(String.format("%s: %s", word.getRolename(), word.getWords()));
+                    wordView.setVisibility(View.VISIBLE);
+                }
+
+                if(talk.getWordsTotal() > 2){
+                    helper.setText(R.id.reply_more, String.format("显示全部%d条评论", talk.getWordsTotal()));
+                    helper.setVisible(R.id.reply_more, true);
+                }else {
+                    helper.setVisible(R.id.reply_more, false);
+                }
             }
         };
 
@@ -143,7 +203,7 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         mRecommendRecyclerView.setLayoutManager(linearLayoutManager);
         mRecommendRecyclerView.setAdapter(recommendAdapter);
         recommendAdapter.notifyDataSetChanged();
-        mEventListView.setAdapter(mEventAdapter);
+        mTalkListView.setAdapter(mTalkAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.layout_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -248,15 +308,15 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         }
 
         if(TAG_API_GET_FRIEND_TALK.equals(tag)){
-//            JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
-//
-//            Type listType = new TypeToken<List<Recommend>>() {
-//            }.getType();
-//            List<Recommend> recommends  = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
-//
-//            if(recommends != null){
-//                recommendAdapter.addAll(recommends);
-//            }
+            JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
+
+            Type listType = new TypeToken<List<Talk>>() {
+            }.getType();
+            List<Talk> talks  = new Gson().fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
+
+            if(talks != null) {
+                mTalkAdapter.addAll(talks);
+            }
         }
 
         if(TAG_API_GET_AD.equals(tag)){
@@ -279,6 +339,7 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
 
             if(ads != null){
                 for(int i=0; i<ads.size(); i++){
+                    final Ad ad = ads.get(i);
                     View adView = inflater.inflate(R.layout.item_ad, null);
                     AutoScaleImageView imageView = (AutoScaleImageView)adView.findViewById(R.id.img_ad);
 
@@ -290,12 +351,26 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
                                 .error(R.drawable.img_default).into(imageView);
 
                     }
+                    adView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.putExtra("url", ad.getUrl());
+                            intent.putExtra("title", ad.getWords());
+                            intent.setClass(getContext(), CommonWebActivity.class);
+                            startActivity(intent);
+                        }
+                    });
                     adViewList.add(adView);
                 }
 
                 adAdapter.addAll(adViewList);
             }
         }
+    }
+
+    private void renderTalkView(){
+
     }
 
     @Override

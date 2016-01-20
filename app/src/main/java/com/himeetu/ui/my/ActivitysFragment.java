@@ -191,52 +191,31 @@ public class ActivitysFragment extends BaseVolleyFragment {
 
         if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
 
-//        String json = "{\n" +
-//                "    \"count\": \"1\",\n" +
-//                "    \"list\": [\n" +
-//                "        {\n" +
-//                "            \"id\": 0,\n" +
-//                "            \"name\": \"hh\",\n" +
-//                "            \"address\": \"beijing\",\n" +
-//                "            \"starttime\": \"10:10\",\n" +
-//                "            \"endtime\": \"10:10\",\n" +
-//                "            \"img\": \"imgmd5name.png\",\n" +
-//                "            \"des\": \"…\",\n" +
-//                "            \"state\": 2\n" +
-//                "        },\n" +
-//                "        {\n" +
-//                "            \"id\": 1,\n" +
-//                "            \"name\": \"test\",\n" +
-//                "            \"address\": \"beijing\",\n" +
-//                "            \"starttime\": \"10:10\",\n" +
-//                "            \"endtime\": \"10:10\",\n" +
-//                "            \"img\": \"imgmd5name.png\",\n" +
-//                "            \"des\": \"…\",\n" +
-//                "            \"state\": 2\n" +
-//                "        }\n" +
-//                "    ]\n" +
-//                "}";
+        if(TAG_GET_SELF.equals(tag))  {
+            if (response.getCode() == 0) {
+
+    //                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
+                Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
+
+                List<Activitys.Activity> activityList = activitys.getActivitys();
+                for (Activitys.Activity activity : activityList) {
+                    ListItem item = new ListItem();
+
+                    if(!TextUtils.isEmpty(activity.getImg())){
+                        item.setImgPath(activity.getImg());
+                    }
+
+                    item.setTime(activity.getStarttime());
+    //                                + "--" + activity.getEndtime());
+                    lists.add(item);
+                }
+                adapter.notifyDataSetChanged();
 
 
-        if (response.getCode() == 0) {
+            } else {
 
-//                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
-            Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
-
-            List<Activitys.Activity> activityList = activitys.getActivitys();
-            for (Activitys.Activity activity : activityList) {
-                ListItem item = new ListItem();
-                item.setImgPath(activity.getImg());
-                item.setTime(activity.getStarttime());
-//                                + "--" + activity.getEndtime());
-                lists.add(item);
+                ToastUtil.show(response.getMsg());
             }
-            adapter.notifyDataSetChanged();
-
-
-        } else {
-
-            ToastUtil.show(response.getMsg());
         }
 
 
@@ -254,7 +233,12 @@ public class ActivitysFragment extends BaseVolleyFragment {
 
             for (FriendImgs.FriendImg img : imgs) {
                 ListItem item = new ListItem();
-                item.setImgPath(img.getImg_path());
+
+                if(!TextUtils.isEmpty(img.getImg_path())){
+                    String imgPath = img.getImg_path().replace("sysimg", "img");
+                    item.setImgPath(imgPath);
+                }
+
                 item.setTime(img.getCtime());
                 lists.add(item);
             }

@@ -9,7 +9,7 @@
     <WebView
         android:scrollbars="none"
 	     android:id="@+id/web_view"
-        android:layout_above="@+id/toolbar"
+        android:layout_below="@+id/toolbar"
 	     android:layout_width="match_parent"
 	     android:layout_height="match_parent"
 	     >
@@ -19,11 +19,10 @@
     <include layout="@layout/network_error" 
         android:layout_width="match_parent" 
         android:layout_height="match_parent"
-        android:layout_above="@+id/toolbar"
+        android:layout_below="@+id/toolbar"
         />
     
     <include
-        android:layout_above="@+id/toolbar"
         layout="@layout/layout_loading"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -33,7 +32,7 @@
 
 
     <View
-        android:layout_above="@+id/toolbar"
+        android:layout_below="@+id/toolbar"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:background="#99000000"

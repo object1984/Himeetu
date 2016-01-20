@@ -117,7 +117,7 @@ public class WebActivity extends BaseActivity implements ErrorView.IErrorViewLis
     }
 
     public String getLoadUrl() {
-        return this.getIntent().getStringExtra("loadUrl");
+        return this.getIntent().getStringExtra("url");
     }
 
 
