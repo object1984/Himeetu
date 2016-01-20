@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#F5F5F5"
+              android:orientation="vertical">
+    <!-- 分隔线 -->
+    <View
+        android:id="@+id/line_topic_highlights_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:visibility="gone"
+        android:background="#C8C8C8"/>
+    <!-- lift -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/item_layout_highlights_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/item_img_highlights_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@drawable/image1"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_highlights_back_frame">
+
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:id="@+id/item_img_highlights_left_head_portrait"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/image1"
+                    app:siRadius="90dp"
+                    app:siSquare="true"/>
+
+                <TextView
+                    android:id="@+id/item_tv_highlights_left_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/item_img_highlights_left_head_portrait"
+                    android:text="用户名"
+                    android:textColor="@color/text_dark_black"
+                    android:textSize="@dimen/fab_margin"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+        <!-- right -->
+        <LinearLayout
+            android:id="@+id/item_layout_highlights_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/item_img_highlights_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@drawable/image1"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_highlights_back_frame">
+
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:id="@+id/item_img_highlights_right_head_portrait"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/image1"
+                    app:siRadius="90dp"
+                    app:siSquare="true"/>
+
+                <TextView
+                    android:id="@+id/item_tv_highlights_right_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/item_img_highlights_right_head_portrait"
+                    android:text="用户名"
+                    android:textColor="@color/text_dark_black"
+                    android:textSize="@dimen/fab_margin"
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
