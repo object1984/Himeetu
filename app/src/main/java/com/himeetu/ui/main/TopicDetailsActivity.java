@@ -184,7 +184,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
 
     private void getCommentList() {
         //网络请求---评论列表
-        Api.getTopicDetails(TAG_API_TOPICDETAILS, Integer.parseInt(talk.getImgid()), pageIndex, pageSize, Integer.parseInt(talk.getUid()), this, this);
+        Api.getTopicDetails(TAG_API_TOPICDETAILS, Integer.parseInt(talk.getImgid()), pageIndex, pageSize, this, this);
     }
 
     @Override

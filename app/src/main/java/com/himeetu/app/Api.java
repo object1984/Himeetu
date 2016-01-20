@@ -63,9 +63,9 @@ public class Api {
         MEETApplication.addRequest(ApiRequests.getFriendsImg( start,limit,listener, errorListener), tag);
     }
 
-    public static void getTopicDetails(String tag,int tid, int start, int limit, int lastid,
+    public static void getTopicDetails(String tag,int imgid, int start, int limit,
                                        Response.Listener listener, Response.ErrorListener errorListener){
-        MEETApplication.addRequest(ApiRequests.getTopicDetails(tid, start, limit, lastid, listener, errorListener),tag);
+        MEETApplication.addRequest(ApiRequests.getTopicDetails(imgid, start, limit, listener, errorListener),tag);
     }
     public  static void commentPicture(String tag,String imgid, String words,
                                        Response.Listener listener, Response.ErrorListener errorListener){

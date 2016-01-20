@@ -126,10 +126,10 @@ public class ApiRequests {
 
         return doGet(url, listener, errorListener);
     }
-    public static GsonGetRequest<GsonResult> getTopicDetails(@NonNull int tid,@NonNull int start, @NonNull int limit,@NonNull int lastid,
+    public static GsonGetRequest<GsonResult> getTopicDetails(@NonNull int imgid,@NonNull int start, @NonNull int limit,
                                                             @NonNull Response.Listener<GsonResult> listener,
                                                              @NonNull  Response.ErrorListener errorListener){
-        final String url = String.format(UrlPatten.URL_GET_TOPICDETAILS, tid, start, limit ,lastid);
+        final String url = String.format(UrlPatten.URL_GET_TOPICDETAILS, imgid, start, limit);
         return doGet(url, listener, errorListener);
     }
 
