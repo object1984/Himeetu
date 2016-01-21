@@ -1,6 +1,7 @@
 package com.himeetu.ui.setup;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -23,6 +24,7 @@ import com.google.gson.Gson;
 import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.app.Api;
+import com.himeetu.app.Constants;
 import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.SelectData;
@@ -33,6 +35,7 @@ import com.himeetu.network.dic.UrlPatten;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.util.FileUtil;
+import com.himeetu.util.RoundedTransformation;
 import com.himeetu.util.ToastUtil;
 import com.himeetu.view.SelectPicPopupWindow;
 
@@ -41,6 +44,7 @@ import android.app.Activity;
 import android.widget.RelativeLayout;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -93,6 +97,7 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
     private final static int REQUEST_CROP_IMAGE = 3;
     private File file;
     private final static String TAG_UPLOAD_PIC = "TAG_UPLOAD_PIC";
+    private String uploadPath;
 
 
     @Override
@@ -103,9 +108,6 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         initToolBar();
 
     }
-
-
-
 
 
     @Override
@@ -154,6 +156,8 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         et_sex.setText("1".equals(user.getSex()) ? "女" : "男");
         et_email.setText(user.getEmail());
         et_phone.setText(user.getTelphone());
+        Picasso.with(this).load(Constants.HEAD_IMG_BASE+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(riv_user_head_edit);
 
     }
 
@@ -263,7 +267,10 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
                     startActivityForResult(intent, GET_FROM_CAMERA);
 
                 } else {
+                    Intent i = new Intent(
+                            Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
+                    startActivityForResult(i, GET_FROM_ALBUM);
                 }
                 menuWindow.dismiss();
             }
@@ -319,9 +326,23 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
                         e.printStackTrace();
                     }
                 }
-            } else if(requestCode == GET_FROM_ALBUM){  //相册
+            } else if (requestCode == GET_FROM_ALBUM) {  //相册
 
-            }else{
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                file = new File(picturePath);
+                cropImage(file);
+
+            } else {
 
                 // 拿到剪切数据
                 Bitmap bmap = data.getParcelableExtra("data");
@@ -331,11 +352,14 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
                     foutput = new FileOutputStream(file);
                     bmap.compress(Bitmap.CompressFormat.PNG, 100, foutput);
 
-                    UploadPic(file);
+                    Picasso.with(this).load(file).placeholder(R.drawable.img_avatar_default)
+                            .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(riv_user_head_edit);
+
+//                    UploadPic(file);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                }finally{
-                    if(null != foutput){
+                } finally {
+                    if (null != foutput) {
                         try {
                             foutput.close();
                         } catch (IOException e) {
@@ -381,6 +405,10 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
         String sex = "男".equals(et_sex.getText().toString()) ? "0" : "1";
 
         commit(UserService.get().getCountryCode() + "", sex, et_birthday.getText().toString(), et_phone.getText().toString(), et_email.getText().toString());
+
+        if(file != null){
+            UploadPic(file);
+        }
 
     }
 
@@ -449,6 +477,9 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
 
             UserService.save(user);
 
+            Picasso.with(this).load(Constants.HEAD_IMG_BASE+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                    .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(rivUserHead);
+
         }
     }
 
@@ -458,12 +489,10 @@ public class EditUserDetailActivity extends BaseVolleyActivity implements View.O
             public void run() {
                 try {
                     String result = FileUtil.run(UrlPatten.URL_UPLOAD_STATE, "image/jpeg", file, "abc.jpg");
-                    Log.d("lanzhihong", "result===" + result);
 
                     JSONObject obj = new JSONObject(result);
-                    String path = obj.getString("msg");
-
-                    Api.uploadPic(TAG_UPLOAD_PIC,path,EditUserDetailActivity.this,EditUserDetailActivity.this);
+                    uploadPath = obj.getString("msg");
+                    Api.uploadPic(TAG_UPLOAD_PIC, uploadPath, EditUserDetailActivity.this, EditUserDetailActivity.this);
 
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -25,6 +25,7 @@ import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.MePagerAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.app.Constants;
 import com.himeetu.app.NavHelper;
 import com.himeetu.event.UserInfoRefreshEvent;
 import com.himeetu.model.GsonResult;
@@ -46,6 +47,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -304,7 +306,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
 
         tvUsername.setText(user.getNickname());
 
-        Picasso.with(getActivity()).load(UserService.getUserImgPath()+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
+        Picasso.with(getActivity()).load(Constants.HEAD_IMG_BASE+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
                 .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(head);
 
     }
@@ -368,6 +370,8 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
         getNum(user.getUid() + "");
+        Picasso.with(getActivity()).load(Constants.HEAD_IMG_BASE+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(head);
     }
 
     /**

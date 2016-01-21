@@ -6,6 +6,7 @@ public class Constants {
     public static final String WEB_SERVER_ACCOUNT_DOMAIN = "www.himeetu.com:8888";
     public static final String WEB_SERVER_DOMAIN = "www.himeetu.com";
     public static final String WEB_IMG_BASE = "http://www.himeetu.com/sysimg/";
+    public static final String HEAD_IMG_BASE = "http://www.himeetu.com/img/";
 
     public static final String CONFIG_FILE_NAME = "config";
     public static final String CONFIG_TEMPLATE_INIT = "config_template_init";

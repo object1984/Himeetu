@@ -2,6 +2,7 @@ package com.himeetu.ui.my;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -15,6 +16,7 @@ import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.app.Constants;
 import com.himeetu.model.Friend;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
@@ -97,10 +99,6 @@ public class AttentionActivity extends BaseVolleyActivity {
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
 
-//        if (tag == TAG_GET_FANS_LIST) { //我的粉丝
-//
-//
-//        } else
         if (tag == TAG_GET_FRIENDS_LIST || tag == TAG_GET_FANS_LIST) {  //我的关注
 
             Friend friend = new Gson().fromJson(response.getJsonStr(), Friend.class);
@@ -124,6 +122,9 @@ public class AttentionActivity extends BaseVolleyActivity {
 
                 initData();
             } else {
+                if(response == null || TextUtils.isEmpty(response.getMsg())){
+                    return;
+                }
                 ToastUtil.show(response.getMsg());
             }
 
@@ -187,7 +188,7 @@ public class AttentionActivity extends BaseVolleyActivity {
 
                 ImageView headImageView = helper.getView(R.id.im_head);
 
-                Picasso.with(context).load(item.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                Picasso.with(context).load(Constants.HEAD_IMG_BASE+item.getPortrait()).placeholder(R.drawable.img_avatar_default)
                         .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(headImageView);
 
                 final int position = helper.getPosition();
