@@ -22,12 +22,10 @@ import java.util.List;
 public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.ViewHolder> {
     private Context mContext;
     private final List<ListItem> mValues;
-    private final ActivitysFragment.OnListFragmentInteractionListener mListener;
 
-    public ActivitysAdapter(Context context, List<ListItem> items, ActivitysFragment.OnListFragmentInteractionListener listener) {
+    public ActivitysAdapter(Context context, List<ListItem> items) {
         mContext = context;
         mValues = items;
-        mListener = listener;
     }
 
     @Override

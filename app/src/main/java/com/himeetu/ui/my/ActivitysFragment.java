@@ -54,7 +54,6 @@ public class ActivitysFragment extends BaseVolleyFragment {
     private static final String TYPE = "type";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
     private FamiliarRecyclerView recyclerView;
     private final String TAG_GET_SELF = "TAG_GET_SELF";
     private final String TAG_GET_FRIENDS_IMG = "TAG_GET_FRIENDS_IMG";
@@ -131,7 +130,7 @@ public class ActivitysFragment extends BaseVolleyFragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        adapter = new ActivitysAdapter(getActivity(), lists, mListener);
+        adapter = new ActivitysAdapter(getActivity(), lists);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setAdapter(adapter);
 
@@ -142,18 +141,12 @@ public class ActivitysFragment extends BaseVolleyFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     /**

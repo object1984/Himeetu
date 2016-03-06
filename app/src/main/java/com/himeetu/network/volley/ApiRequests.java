@@ -335,6 +335,20 @@ public class ApiRequests {
     }
 
 
+    /***
+     * 对图片点赞
+     * @param imgId
+     * @param type
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> setImgZAN(String imgId, int type, Response.Listener listener, Response.ErrorListener errorListener) {
+        String url = String.format(UrlPatten.URL_IMG_ZAN, imgId, type);
+        return doGet(url, listener, errorListener);
+    }
+
+
     /**
      * 上传图片 分享状态
      * @param activityId
@@ -352,6 +366,64 @@ public class ApiRequests {
         }
         File jpgFile = new File(fileFolder, "1.jpg");
         return uploadFile(url, "file", jpgFile, listener, errorListener);
+    }
+
+
+    /**
+     * 查询用户
+     * @param user
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> searchUser(
+            @NonNull final String user,
+            @NonNull final int start,
+            @NonNull final int limit,
+            @NonNull final Response.Listener listener,
+            @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_SEARCH_USER, user, start, limit);
+        return doGet(url, listener, errorListener);
+    }
+
+    /**
+     * 查询活动
+     * @param activity
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> searchActivity(
+            @NonNull final String activity,
+            @NonNull final int start,
+            @NonNull final int limit,
+            @NonNull final Response.Listener listener,
+            @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_SEARCH_ACTIVITY, activity, start, limit);
+        return doGet(url, listener, errorListener);
+    }
+
+    /**
+     * 查询动态
+     * @param talk
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> searchTalk(
+            @NonNull final String talk,
+            @NonNull final int start,
+            @NonNull final int limit,
+            @NonNull final Response.Listener listener,
+            @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_SEARCH_TALK, talk, start, limit);
+        return doGet(url, listener, errorListener);
     }
 
 

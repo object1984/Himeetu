@@ -125,6 +125,8 @@ public class RegisterActivity extends BaseVolleyActivity implements View.OnClick
                 }
             }
         });
+
+        findViewById(R.id.layout_has_account).setOnClickListener(this);
     }
 
     @Override
@@ -173,7 +175,15 @@ public class RegisterActivity extends BaseVolleyActivity implements View.OnClick
             case R.id.btn_next:
                 toCountryChoose();
                 break;
+            case R.id.layout_has_account:
+                toLoginPage();
+                break;
         }
+    }
+
+    private void toLoginPage(){
+        NavHelper.toLoginPage(this);
+        finish();
     }
 
     private void clearUserName() {

@@ -15,6 +15,7 @@ import com.himeetu.R;
 import com.himeetu.app.Api;
 import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
+import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.register.InvitationCodeActivity;
@@ -44,6 +45,10 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
         setContentView(R.layout.activity_login);
 
         init();
+
+        if(UserService.isLogin()){
+            onLoginSuccess();
+        }
     }
 
     @Override
@@ -103,6 +108,10 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
         LogUtil.d(TAG, "onNewIntent");
 
 
+    }
+
+    private void toMain() {
+        NavHelper.toMainPage(this);
     }
 
     @Override
@@ -165,7 +174,7 @@ public class LoginActivity extends BaseVolleyActivity implements View.OnClickLis
     }
 
     private void onLoginSuccess(){
-        NavHelper.toMainPage(this, username);
+        toMain();
         finish();
     }
 }

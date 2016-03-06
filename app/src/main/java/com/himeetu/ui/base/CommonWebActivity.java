@@ -25,6 +25,7 @@ public class CommonWebActivity extends WebActivity  {
         super.onCreate(arg0);
 
         setContentView(R.layout.activity_web);
+        setStatusBarColor(R.color.black);
         initWebView(WebSettings.LOAD_NO_CACHE);
         url = getIntent().getStringExtra("url");
 
@@ -46,13 +47,13 @@ public class CommonWebActivity extends WebActivity  {
     }
 
 
-    @Override
-    public boolean myShouldOverrideUrlLoading(WebView view, String url) {
-       LogUtil.d("CommonWebActivity", "myShouldOverrideUrlLoading");
-        loadingView.setVisibility(View.INVISIBLE);
-
-        return true;
-    }
+//    @Override
+//    public boolean myShouldOverrideUrlLoading(WebView view, String url) {
+//       LogUtil.d("CommonWebActivity", "myShouldOverrideUrlLoading");
+//        loadingView.setVisibility(View.INVISIBLE);
+//
+//        return true;
+//    }
 
 
 

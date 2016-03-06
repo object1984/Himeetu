@@ -109,6 +109,8 @@ public class CountryChooseActivity extends BaseActivity implements View.OnClickL
     protected void setupListeners() {
         super.setupListeners();
         nextButton.setOnClickListener(this);
+
+        findViewById(R.id.layout_has_account).setOnClickListener(this);
     }
 
     @Override
@@ -123,6 +125,9 @@ public class CountryChooseActivity extends BaseActivity implements View.OnClickL
             case R.id.btn_next:
                 goNext();
                 break;
+            case R.id.layout_has_account:
+                toLoginPage();
+                break;
         }
     }
 
@@ -131,5 +136,10 @@ public class CountryChooseActivity extends BaseActivity implements View.OnClickL
         String username = getIntent().getStringExtra(Argument.USERNAME);
         String password = getIntent().getStringExtra(Argument.PASSWORD);
         NavHelper.toIdentityPage(this, username, password, countryCode);
+    }
+
+    private void toLoginPage(){
+        NavHelper.toLoginPage(this);
+        finish();
     }
 }

@@ -68,4 +68,16 @@ public class UrlPatten {
     public static final String URL_GET_FANSLIST = URL_API_BASE + "/friend/getfanslist?uid=%s&start=%s&limit=%s";
 
     public static final String UPLOAD_PIC = URL_API_BASE + "/portrait/set?img=%s";
+
+    //对图片点赞
+    public static final String URL_IMG_ZAN = URL_API_BASE + "/photo/setlike?imgid=%s&type=%d";
+
+    //查询用户
+    public static final String URL_SEARCH_USER = URL_API_BASE + "/userdata/getlist?rolename=%s&start=%d&limit=%d";
+
+    //查询活动
+    public static final String URL_SEARCH_ACTIVITY = URL_API_BASE + "/activity/search?searchname=%s&start=%d&limit=%d";
+
+    //查询动态
+    public static final String URL_SEARCH_TALK = URL_API_BASE + "/photo/search?des=%s&start=%d&limit=%d";
 }

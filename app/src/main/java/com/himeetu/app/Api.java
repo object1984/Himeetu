@@ -201,4 +201,55 @@ public class Api {
     public static void uploadPic(String tag, String pic, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.uploadPic(pic, listener, errorListener), tag);
     }
+
+    /**
+     * 对图片点赞
+     * @param tag
+     * @param imgId
+     * @param type
+     * @param listener
+     * @param errorListener
+     */
+    public static void setImgZAN(String tag,  String imgId, int type, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.setImgZAN(imgId, type, listener, errorListener), tag);
+    }
+
+    /**
+     * 查询用户
+     * @param tag
+     * @param user
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     */
+    public static void searchUser(String tag,  String user, int start,int limit, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.searchUser(user, start, limit, listener, errorListener), tag);
+    }
+
+    /**
+     * 查询活动
+     * @param tag
+     * @param activity
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     */
+    public static void searchActivity(String tag,  String activity, int start,int limit, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.searchActivity(activity, start, limit, listener, errorListener), tag);
+    }
+
+    /**
+     * 查询动态
+     * @param tag
+     * @param talk
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     */
+    public static void searchTalk(String tag,  String talk, int start,int limit, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.searchTalk(talk, start, limit, listener, errorListener), tag);
+    }
 }

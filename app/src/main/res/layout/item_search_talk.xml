@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:paddingLeft="15dp"
+    android:background="@color/white"
+    android:paddingTop="10dp"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/img_talk"
+        android:src="@drawable/img_default"
+        android:layout_width="60dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="60dp" />
+    <TextView
+        android:layout_toRightOf="@+id/img_talk"
+        android:id="@+id/text_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginRight="15dp"
+        style="@style/Hi.Text.Small.Grey"
+        android:text="我是内容我是你内容我是内容我是你内容我是内容我是你内容我是内容我是你内容我是内容我是你内容我是内容我是你内容"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:drawableLeft="@drawable/ic_search_zan"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="15dp"
+        android:drawablePadding="5dp"
+        android:layout_below="@+id/text_content"
+        android:layout_toRightOf="@+id/img_talk"
+        android:id="@+id/text_title"
+        android:text="344 攒"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_below="@+id/img_talk"
+        android:layout_marginTop="10dp"
+        android:background="#C8C8C8"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+</RelativeLayout>

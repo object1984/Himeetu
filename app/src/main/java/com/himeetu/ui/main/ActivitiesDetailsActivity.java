@@ -71,8 +71,8 @@ public class ActivitiesDetailsActivity extends BaseVolleyActivity implements Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
         setContentView(R.layout.activity_details_activies);
+        setStatusBarColor(R.color.black);
         setupToolbar(true, R.string.home_detail_title);//设置标题栏
         init();
     }

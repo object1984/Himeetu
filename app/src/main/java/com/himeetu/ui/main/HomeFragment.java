@@ -36,9 +36,11 @@ import com.himeetu.model.Talk;
 import com.himeetu.model.Word;
 import com.himeetu.ui.base.BaseVolleyFragment;
 import com.himeetu.ui.base.CommonWebActivity;
+import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.util.DateUtils;
 import com.himeetu.util.JsonUtil;
 import com.himeetu.util.RoundedTransformation;
+import com.himeetu.util.ToastUtil;
 import com.himeetu.view.ADViewPager;
 import com.himeetu.view.AutoScaleImageView;
 import com.himeetu.view.WrapContentLayoutManager;
@@ -48,6 +50,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,6 +62,8 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     private static final String TAG_API_GET_TOP_RECOMMEND = "TAG_API_GET_TOP_RECOMMEND";
     private static final String TAG_API_GET_FRIEND_TALK= "TAG_API_GET_FRIEND_TALK";
     private static final String TAG_API_GET_AD= "TAG_API_GET_AD";
+    private static final String TAG_API_IMG_SET_ZAN= "TAG_API_IMG_SET_ZAN";
+    private static final String TAG_API_IMG_CANCEL_ZAN= "TAG_API_IMG_CANCEL_ZAN";
     private LayoutInflater inflater;
 
     private List<Recommend> recommendList = new ArrayList<>();
@@ -111,7 +117,7 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         getTopRecommend();
         getFriendTalk();
 
-        uploadState();
+//        uploadState();
         return rootView;
     }
 
@@ -123,7 +129,7 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
          inflater = LayoutInflater.from(getActivity());
 
         View headerView = inflater.inflate(R.layout.header_home, mTalkListView, false);
-        View footerView = inflater.inflate(R.layout.item_list_footer_common, mTalkListView, false);
+        final View footerView = inflater.inflate(R.layout.item_list_footer_common, mTalkListView, false);
 
         mTalkListView.addHeaderView(headerView);
         mTalkListView.addFooterView(footerView);
@@ -157,20 +163,48 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
                             .error(R.drawable.img_default).into(talkImageView);
                 }
 
-                helper.getView().setOnClickListener(new View.OnClickListener() {
+                headImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), UserActivity.class);
+                        intent.putExtra("uid", talk.getUid());
+
+                        startActivity(intent);
+                    }
+                });
+
+                helper.getView(R.id.btn_event_comment).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         NavHelper.toTalkDetailPage(getActivity(), talk);
+                    }
+                });
+
+                if(talk.getIstouched() == -1){
+                    helper.getView(R.id.btn_event_zan).setSelected(false);
+                }else {
+                    helper.getView(R.id.btn_event_zan).setSelected(true);
+                }
+
+                helper.getView(R.id.btn_event_zan).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //点赞，取消点赞
+                        if(talk.getIstouched() == -1){
+                            setImgZan(helper.getPosition(), talk.getImgid());
+                        }else {
+                            setImgZanCancel(helper.getPosition(), talk.getImgid());
+                        }
 
                     }
                 });
 
 
-
                 if(TextUtils.isEmpty(talk.getDes())){
                     helper.setVisible(R.id.text_desc, false);
                 }else {
-                    helper.setText(R.id.text_desc, talk.getDes());
+                    helper.setText(R.id.text_desc, URLDecoder.decode(talk.getDes()));
                     helper.setVisible(R.id.text_desc, true);
                 }
                 List<View> wordViews = new ArrayList<>();
@@ -179,10 +213,23 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
                 wordViews.add(helper.getView().findViewById(R.id.reply_3));
 
                 for(int i=0; i< talk.getWordsList().size(); i++){
-                    Word word = talk.getWordsList().get(i);
-                    TextView wordView = (TextView) wordViews.get(i);
-                    wordView.setText(String.format("%s: %s", word.getRolename(), word.getWords()));
-                    wordView.setVisibility(View.VISIBLE);
+                    View replayView = wordViews.get(i);
+                    final Word word = talk.getWordsList().get(i);
+
+                    TextView nicknameView = (TextView) replayView.findViewById(R.id.text_nickname);
+                    nicknameView.setText(String.format("%s: ", word.getRolename()));
+
+                    TextView wordView = (TextView) replayView.findViewById(R.id.text_words);
+                    wordView.setText(String.format("%s", URLDecoder.decode(word.getWords())));
+
+                    replayView.setVisibility(View.VISIBLE);
+
+                    nicknameView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            NavHelper.toUserActivity(getActivity(), word.getUid());
+                        }
+                    });
                 }
 
                 if(talk.getWordsTotal() > 2){
@@ -274,6 +321,14 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         Api.getFriendTalk(TAG_API_GET_FRIEND_TALK, pageNum*pageSize, pageSize, this, this);
     }
 
+    private void setImgZan(int positioin, String imgId){
+        Api.setImgZAN(TAG_API_IMG_SET_ZAN+positioin, imgId, 1, this, this);
+    }
+
+    private void setImgZanCancel(int positioin, String imgId){
+        Api.setImgZAN(TAG_API_IMG_CANCEL_ZAN+positioin, imgId, 0, this, this);
+    }
+
     private void uploadState(){
         Api.uploadState("TAG_UPLOAD_STATE", 1, this, this);
     }
@@ -281,6 +336,10 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
+
+        if (!isLogin){
+            return;
+        }
 
         if(TAG_API_GET_TOP_RECOMMEND.equals(tag)){
             JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
@@ -314,6 +373,58 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
             if(talks != null) {
                 mTalkAdapter.addAll(talks);
             }
+        }
+
+        if(tag.startsWith(TAG_API_IMG_SET_ZAN)){
+            int position = Integer.valueOf(tag.split(TAG_API_IMG_SET_ZAN)[1]);
+
+            int code = response.getCode();
+           //Result： 0 表示成功，1 参数错误，2 未登录，3 权限不够，4 重复操作
+            switch (code){
+                case 0:
+                    mTalkAdapter.getItem(position).setIstouched(1);
+                    mTalkAdapter.notifyDataSetChanged();
+                    break;
+                case 1:
+                    ToastUtil.show("参数错误");
+                    break;
+                case 2:
+                    ToastUtil.show("未登录");
+                    break;
+                case 3:
+                    ToastUtil.show("权限不够");
+                    break;
+                case 4:
+                    ToastUtil.show("重复操作");
+                    break;
+            }
+
+        }
+
+        if(tag.startsWith(TAG_API_IMG_CANCEL_ZAN)){
+            int position = Integer.valueOf(tag.split(TAG_API_IMG_CANCEL_ZAN)[1]);
+
+            int code = response.getCode();
+            //Result： 0 表示成功，1 参数错误，2 未登录，3 权限不够，4 重复操作
+            switch (code){
+                case 0:
+                    mTalkAdapter.getItem(position).setIstouched(-1);
+                    mTalkAdapter.notifyDataSetChanged();
+                    break;
+                case 1:
+                    ToastUtil.show("参数错误");
+                    break;
+                case 2:
+                    ToastUtil.show("未登录");
+                    break;
+                case 3:
+                    ToastUtil.show("权限不够");
+                    break;
+                case 4:
+                    ToastUtil.show("重复操作");
+                    break;
+            }
+
         }
 
         if(TAG_API_GET_AD.equals(tag)){

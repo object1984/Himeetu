@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:visibility="gone"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_marginRight="15dp"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:visibility="gone"      android:layout_marginRight="15dp" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="10dp">
+<TextView
+    android:id="@+id/text_nickname"
+    android:orientation="vertical" android:layout_width="wrap_content"
     android:includeFontPadding="false"
     android:textSize="@dimen/font_small"
-    android:textColor="@color/text_dark_black"
-    android:text="蛋蛋： 天天都美美哒 美美哒"
+    android:textColor="@color/app_default"
+    android:text="蛋蛋："
     android:layout_height="wrap_content">
 
 </TextView>
+
+    <TextView
+        android:id="@+id/text_words"
+        android:layout_toRightOf="@+id/text_nickname"
+        android:orientation="vertical" android:layout_width="wrap_content"
+        android:includeFontPadding="false"
+        android:textSize="@dimen/font_small"
+        android:textColor="@color/text_dark_black"
+        android:text=" 天天都美美哒 美美哒"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+</RelativeLayout>

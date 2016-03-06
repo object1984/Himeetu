@@ -1,10 +1,13 @@
 package com.himeetu.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -21,6 +24,7 @@ import com.himeetu.model.service.UserService;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
+import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.my.ActivitysFragment;
 import com.himeetu.ui.my.ActivitysFragment.OnListFragmentInteractionListener;
 import com.himeetu.util.JsonUtil;
@@ -50,7 +54,7 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     private MainBottomBar mMainBottomBar;
     private User user;
     private String userHeadPath;
-
+    protected boolean isLogin = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,6 +222,34 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
+
+        if(!isLogin){
+            return;
+        }
+        int code = response.getCode();
+        //Result： 0 表示成功，1 参数错误，2 未登录，3 权限不够，4 重复操作
+        switch (code){
+            case 0:
+                break;
+            case 1:
+                ToastUtil.show("参数错误");
+                break;
+            case 2:
+                isLogin = false;
+                UserService.logout();
+                ToastUtil.show("未登录");
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            case 3:
+                ToastUtil.show("权限不够");
+                break;
+            case 4:
+                ToastUtil.show("重复操作");
+                break;
+        }
+
         if (TAG_API_GET_SELF_INFO.equals(tag)) {
 
             user = new Gson().fromJson(response.getJsonStr(), User.class);
@@ -225,9 +257,8 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
             if (user != null) {
                 user.setUsername(getIntent().getStringExtra(Argument.USERNAME));
                 EventBus.getDefault().post(new UserInfoRefreshEvent(user));
+                UserService.save(user);
             }
-
-            UserService.save(user);
 
         } else if (GET_IMG_PATH_TAG.equals(tag)) {
 
@@ -302,5 +333,37 @@ public class MainActivity extends BaseVolleyActivity implements MainBottomBar.On
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode == 100){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+            finish();
+        }
+    }
+
+    //上次按下返回键的系统时间
+    private long lastBackTime = 0;
+    //当前按下返回键的系统时间
+    private long currentBackTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //捕获返回键按下的事件
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            //获取当前系统时间的毫秒数
+            currentBackTime = System.currentTimeMillis();
+            //比较上次按下返回键和当前按下返回键的时间差，如果大于2秒，则提示再按一次退出
+            if(currentBackTime - lastBackTime > 2 * 1000){
+                Toast.makeText(this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+                lastBackTime = currentBackTime;
+            }else{ //如果两次按下的时间差小于2秒，则退出程序
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

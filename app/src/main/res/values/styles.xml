@@ -51,7 +51,13 @@
         <item name="android:layout_height">wrap_content</item>
         </style>
 
-    <style name="Hi.Text.Big" />
+    <style name="Hi.Text.Big" >
+        <item name="android:textSize">@dimen/font_big</item>
+    </style>
+    <style name="Hi.Text.Big.Grey"  parent="Hi.Text.Big">
+
+        <item name="android:textColor">@color/text_grey</item>
+    </style>
 
     <style name="Hi.Text.Small" >
         <item name="android:textSize">@dimen/font_small</item>
@@ -59,7 +65,11 @@
 
     <style name="Hi.Text.Small.Dark"  parent="Hi.Text.Small">
 
-        <item name="android:textColor">@color/text_dark_black</item>
+    <item name="android:textColor">@color/text_dark_black</item>
+</style>
+    <style name="Hi.Text.Small.Grey"  parent="Hi.Text.Small">
+
+        <item name="android:textColor">@color/text_grey</item>
     </style>
     <style name="Hi.Text.Normal" >
         <item name="android:textSize">@dimen/font_normal</item>
@@ -74,6 +84,7 @@
 
         <item name="android:textColor">@color/text_grey</item>
     </style>
+
 
     <style name="custom_tab">
         <item name="android:layout_width">0dp</item>

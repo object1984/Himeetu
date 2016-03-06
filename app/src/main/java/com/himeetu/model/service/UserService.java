@@ -24,7 +24,12 @@ public class UserService {
     }
 
     public static User get(){
-        return new Gson().fromJson(ConfigUtil.getStringValue(Constants.CONFIG_USER), User.class);
+        User user = new Gson().fromJson(ConfigUtil.getStringValue(Constants.CONFIG_USER), User.class);
+        return user;
+    }
+
+    public static void  logout(){
+        ConfigUtil.remove(Constants.CONFIG_USER);
     }
 
     public static void saveUserImgPath(String path){
@@ -46,6 +51,6 @@ public class UserService {
     }
 
     public static boolean isLogin(){
-        return get() == null;
+        return get() != null;
     }
 }

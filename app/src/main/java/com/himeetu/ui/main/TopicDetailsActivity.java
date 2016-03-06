@@ -37,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -70,8 +71,8 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
         setContentView(R.layout.activity_details_topic);
+        setStatusBarColor(R.color.black);
         init();
     }
 
@@ -79,7 +80,6 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     protected void loadViews() {
         super.loadViews();
         setupToolbar(true, 0);
-        setToolbarTitle("状态照片");
         lv_details_topic = (ListView) findViewById(R.id.lv_details_topic);
         LayoutInflater inflater = LayoutInflater.from(this);
         View headerView = inflater.inflate(R.layout.item_list_header_topic, lv_details_topic, false);
@@ -107,7 +107,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         Date date = DateUtils.parse(talk.getCtime());
         String timeStr = date.getTime() + "";
         tv_details_publication_time.setText(DateUtils.getStandardDate(timeStr));
-        text_details_content.setText(talk.getDes());//话题内容
+        text_details_content.setText(URLDecoder.decode(talk.getDes()));//话题内容
         if (talk.getPortrait() != null) { //头像
             Picasso.with(this).load(talk.getPortrait()).placeholder(R.drawable.img_avatar_default)
                     .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(img_head_portrait);
@@ -125,7 +125,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
                     helper.setVisible(R.id.line_topic_top, false);
                 }
                 if (item.getWords() != null)
-                    helper.setText(R.id.item_tv_comments_content, item.getWords());//内容
+                    helper.setText(R.id.item_tv_comments_content, URLDecoder.decode(item.getWords()));//内容
                 if (item.getCtime() != null)
                     helper.setText(R.id.item_tv_comments_time, item.getCtime());//时间
                 //没有头像链接 & 用户名

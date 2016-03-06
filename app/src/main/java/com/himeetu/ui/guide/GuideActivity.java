@@ -22,7 +22,7 @@ public class GuideActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                NavHelper.toMainPage(GuideActivity.this, "");
+                NavHelper.toMainPage(GuideActivity.this);
                 finish();
             }
         }, 1000);

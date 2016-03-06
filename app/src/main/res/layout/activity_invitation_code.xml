@@ -154,9 +154,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:gravity="center"
+        android:id="@+id/layout_has_account"
         android:layout_height="50dp">
             <TextView
-                android:id="@+id/text_has_account"
                 android:padding="10dp"
                 android:text="@string/register_has_account"
                 style="@style/Hi.Text.Small.Dark" />

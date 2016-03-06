@@ -1,19 +1,9 @@
 package com.himeetu.adapter;
 
 import android.content.Context;
-import android.support.v17.leanback.widget.GuidedActionEditText;
 import android.support.v4.view.PagerAdapter;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.himeetu.R;
-import com.himeetu.app.Constants;
-import com.himeetu.model.Ad;
-import com.himeetu.util.LogUtil;
-import com.himeetu.view.AutoScaleImageView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;

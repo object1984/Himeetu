@@ -28,6 +28,7 @@ public class TopicHighlightsActivity extends BaseVolleyActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_highlights);
+        setStatusBarColor(R.color.black);
         init();
     }
 

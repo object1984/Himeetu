@@ -199,7 +199,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
             }
         });
 
-
+        initData();
     }
 
     /**
@@ -369,9 +369,13 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-        getNum(user.getUid() + "");
-        Picasso.with(getActivity()).load(Constants.HEAD_IMG_BASE+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
-                .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(head);
+
+        if(user != null){
+            getNum(user.getUid() + "");
+            Picasso.with(getActivity()).load(Constants.HEAD_IMG_BASE+user.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                    .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(head);
+        }
+
     }
 
     /**

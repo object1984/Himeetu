@@ -11,6 +11,7 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.himeetu.R;
 import com.himeetu.app.Api;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseActivity;
@@ -92,6 +93,8 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
                 sexTextView.setText(sexItems.get(options1));
             }
         });
+
+        findViewById(R.id.layout_has_account).setOnClickListener(this);
     }
 
     private void checkNickName(String nickname) {
@@ -130,7 +133,16 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
                  break;
              case R.id.btn_next:
                  doRegister();
+                 break;
+             case R.id.layout_has_account:
+                 toLoginPage();
+                 break;
          }
+    }
+
+    private void toLoginPage(){
+        NavHelper.toLoginPage(this);
+        finish();
     }
 
    private void  doRegister(){
@@ -144,7 +156,7 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
         String safeCode = safeQuestionEditText.getText().toString().trim() + safeAnswerEditText.getText().toString().trim();
 
        try {
-           Api.userRegister(TAG_API_USER_REGISTER, username, password, "",  URLEncoder.encode(safeCode, "utf-8"), nickName, birthday, countryCode, sex, this, this);
+           Api.userRegister(TAG_API_USER_REGISTER, username, password, username,  URLEncoder.encode(safeCode, "utf-8"), nickName, birthday, countryCode, sex, this, this);
        } catch (UnsupportedEncodingException e) {
            e.printStackTrace();
        }
@@ -162,7 +174,7 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
             }
         }
 
-        if(TAG_API_CHECK_NICKNAME.equals(tag)){
+        if(TAG_API_USER_REGISTER.equals(tag)){
             //参数说明：0 表示成功，2 表示角色名已存在，3 表示账号名已存在，-1 表示系统故障
             int code = response.getCode();
             switch (code){
@@ -183,7 +195,9 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
     }
 
     private void onRegisterSuccess(){
-
+        ToastUtil.show("注册成功");
+        NavHelper.toMainPage(this);
+        finish();
     }
 
     @Override
@@ -193,8 +207,8 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
             nextButton.setEnabled(false);
         }
 
-        if(TAG_API_CHECK_NICKNAME.equals(tag)){
-
+        if(TAG_API_USER_REGISTER.equals(tag)){
+            ToastUtil.show("注册失败");
         }
     }
 }

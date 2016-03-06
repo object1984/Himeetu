@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
     <!--标题栏-->
     <include
-        android:id="@+id/toolbar_details"
         layout="@layout/toolbar_white_activity_back" />
 
 
@@ -15,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/layout_send"
-        android:layout_below="@+id/toolbar_details"
+        android:layout_below="@+id/toolbar"
         android:descendantFocusability="blocksDescendants">
 
         <ListView

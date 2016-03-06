@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Himeetu</string>
+    <string name="app_name">HiMeet</string>
     <string name="action_settings">Settings</string>
 
 
@@ -85,4 +85,7 @@
     <string name="share_to">分享至</string>
 
     <string name="network_check_error">网络不给力\n点击屏幕重试</string>
+
+    <!--搜索-->
+    <string name="search">搜索</string>
 </resources>

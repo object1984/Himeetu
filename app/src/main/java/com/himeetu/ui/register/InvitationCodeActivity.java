@@ -38,11 +38,9 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setThemeTranslucent();
-        setContentView(R.layout.activity_invitation_code1);
+        setContentView(R.layout.activity_invitation_code);
         init();
 
-       final SoftKeyboardStateHelper softKeyboardStateHelper = new SoftKeyboardStateHelper(findViewById(R.id.main));
-        softKeyboardStateHelper.addSoftKeyboardStateListener(this);
     }
 
     @Override
@@ -60,7 +58,7 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
         invitationEditText.addTextChangedListener(this);
         startButton.setOnClickListener(this);
         clearImageButton.setOnClickListener(this);
-        findViewById(R.id.text_has_account).setOnClickListener(this);
+        findViewById(R.id.layout_has_account).setOnClickListener(this);
     }
 
     @Override
@@ -98,7 +96,7 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
             case R.id.btn_code_clear:
                 clearCode();
                 break;
-            case R.id.text_has_account:
+            case R.id.layout_has_account:
                 toLoginPage();
                 break;
         }

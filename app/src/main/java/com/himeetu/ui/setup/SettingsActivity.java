@@ -31,7 +31,9 @@ import android.widget.TextView;
 import com.himeetu.R;
 import com.himeetu.app.NavHelper;
 import com.himeetu.model.SelectData;
+import com.himeetu.model.service.UserService;
 import com.himeetu.ui.base.BaseActivity;
+import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.main.MainActivity;
 import com.himeetu.view.SelectPicPopupWindow;
 
@@ -157,6 +159,14 @@ public class SettingsActivity extends BaseActivity implements OnClickListener {
                 menuWindow.dismiss();
                 //退出登录
 
+
+                if(position == 0){
+                    UserService.logout();
+
+                    setResult(100);
+
+                    finish();
+                }
             }
         },datas);
 

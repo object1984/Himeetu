@@ -12,8 +12,8 @@ public class ActivityTalksActivity extends BaseVolleyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
         setContentView(R.layout.activity_activity_talks);
+        setStatusBarColor(R.color.black);
         setupToolbar(true, 0);
         init();
     }

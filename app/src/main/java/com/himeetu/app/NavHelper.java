@@ -12,10 +12,11 @@ import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.login.FindPasswordActivity;
 import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.main.ActivitiesDetailsActivity;
-import com.himeetu.ui.main.ActivityTalksActivity;
 import com.himeetu.ui.main.MainActivity;
 import com.himeetu.ui.main.MeFragment;
-import com.himeetu.ui.main.SearchActivity;
+import com.himeetu.ui.search.SearchMoreUserActivity;
+import com.himeetu.ui.main.UserActivity;
+import com.himeetu.ui.search.SearchActivity;
 import com.himeetu.ui.main.ShareActivity;
 import com.himeetu.ui.main.TopicDetailsActivity;
 import com.himeetu.ui.main.TopicHighlightsActivity;
@@ -31,7 +32,6 @@ import com.himeetu.ui.setup.EditPassWordActivity;
 import com.himeetu.ui.setup.EditUserDetailActivity;
 import com.himeetu.ui.setup.InviteFriendsActivity;
 import com.himeetu.ui.setup.SettingsActivity;
-import com.himeetu.util.LogUtil;
 
 
 public class NavHelper {
@@ -50,9 +50,8 @@ public class NavHelper {
         forwardAnim(activity);
     }
 
-    public static void toMainPage(Activity activity, String username) {
+    public static void toMainPage(Activity activity) {
         Intent intent = new Intent();
-        intent.putExtra(Argument.USERNAME, username);
         intent.setClass(activity, MainActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
@@ -159,6 +158,22 @@ public class NavHelper {
         forwardAnim(activity);
     }
 
+    public static void toUserActivity(Activity activity, String uid){
+        Intent intent = new Intent();
+        intent.setClass(activity, UserActivity.class);
+        intent.putExtra("uid", uid);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
+    public static void toSearchMoreUser(Activity activity, String user){
+        Intent intent = new Intent();
+        intent.setClass(activity, SearchMoreUserActivity.class);
+        intent.putExtra("user", user);
+        activity.startActivity(intent);
+        forwardAnim(activity);
+    }
+
     public static void toInvitationCodeActivity(Activity activity){
         Intent intent = new Intent();
         intent.setClass(activity, InvitationCodeActivity.class);
@@ -169,7 +184,7 @@ public class NavHelper {
     public static void toSettingsActivity(Activity activity){
         Intent intent = new Intent();
         intent.setClass(activity, SettingsActivity.class);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, 10);
         forwardAnim(activity);
     }
 
