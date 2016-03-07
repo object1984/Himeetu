@@ -37,8 +37,9 @@
                         android:text="注册即表明你同意我们的"
                         style="@style/Hi.Text.Normal.Dark"/>
                     <TextView
+                        android:id="@+id/text_clause"
                         android:text="@string/register_invitation_text_1"
-                        style="@style/Hi.Text.Normal.Dark" />
+                        style="@style/Hi.Text.Normal.App" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginBottom="9dp"
@@ -51,8 +52,9 @@
                         android:text="且已通读"
                         style="@style/Hi.Text.Normal.Dark"/>
                     <TextView
+                        android:id="@+id/text_privacy"
                         android:text="@string/register_invitation_text_2"
-                        style="@style/Hi.Text.Normal.Dark"/>
+                        style="@style/Hi.Text.Normal.App"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginBottom="9dp"
@@ -65,8 +67,9 @@
                         android:text="包括"
                         style="@style/Hi.Text.Normal.Dark" />
                     <TextView
+                        android:id="@+id/text_cookie"
                         android:text="@string/register_invitation_text_3"
-                        style="@style/Hi.Text.Normal.Dark" />
+                        style="@style/Hi.Text.Normal.App" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginBottom="9dp"

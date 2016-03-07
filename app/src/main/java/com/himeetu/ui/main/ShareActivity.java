@@ -17,8 +17,8 @@ public class ShareActivity extends BaseVolleyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
         setContentView(R.layout.activity_share);
+        setStatusBarColor(R.color.black);
         setupToolbar(true, R.string.share_to);
 
         photoUri = (Uri) getIntent().getExtras().get(Argument.PHOTO_URI);

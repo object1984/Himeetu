@@ -138,7 +138,13 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".ui.main.ActivitiesDetailsActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.login.FindPasswordActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.login.LoginActivity"

@@ -11,6 +11,7 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.himeetu.R;
 import com.himeetu.app.Api;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
 import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseVolleyActivity;
@@ -37,8 +38,8 @@ public class FindPasswordActivity extends BaseVolleyActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
         setContentView(R.layout.activity_find_password);
+        setStatusBarColor(R.color.black);
         setupToolbar(true, R.string.find_password);
         init();
     }
@@ -58,7 +59,7 @@ public class FindPasswordActivity extends BaseVolleyActivity implements View.OnC
     protected void setupListeners() {
         super.setupListeners();
         nextButton.setOnClickListener(this);
-
+        findViewById(R.id.layout_has_account).setOnClickListener(this);
     }
 
     @Override
@@ -71,7 +72,16 @@ public class FindPasswordActivity extends BaseVolleyActivity implements View.OnC
          switch (v.getId()){
              case R.id.btn_next:
                  doRegister();
+                 break;
+             case R.id.layout_has_account:
+                 toLoginPage();
+                 break;
          }
+    }
+
+    private void toLoginPage(){
+        NavHelper.toLoginPage(this);
+        finish();
     }
 
    private void  doRegister(){

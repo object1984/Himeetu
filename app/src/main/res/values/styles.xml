@@ -80,6 +80,11 @@
         <item name="android:textColor">@color/text_dark_black</item>
     </style>
 
+    <style name="Hi.Text.Normal.App"  parent="Hi.Text.Normal">
+
+        <item name="android:textColor">@color/app_default</item>
+    </style>
+
     <style name="Hi.Text.Normal.Grey"  parent="Hi.Text.Normal">
 
         <item name="android:textColor">@color/text_grey</item>

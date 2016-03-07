@@ -37,8 +37,8 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
         setContentView(R.layout.activity_invitation_code);
+        setStatusBarColor(R.color.black);
         init();
 
     }
@@ -50,6 +50,7 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
         invitationEditText = (EditText)findViewById(R.id.edit_invitation);
         clearImageButton = (ImageButton)findViewById(R.id.btn_code_clear);
         startButton = (Button)findViewById(R.id.btn_start);
+
     }
 
     @Override
@@ -59,6 +60,9 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
         startButton.setOnClickListener(this);
         clearImageButton.setOnClickListener(this);
         findViewById(R.id.layout_has_account).setOnClickListener(this);
+        findViewById(R.id.text_clause).setOnClickListener(this);
+        findViewById(R.id.text_privacy).setOnClickListener(this);
+        findViewById(R.id.text_cookie).setOnClickListener(this);
     }
 
     @Override
@@ -98,6 +102,12 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
                 break;
             case R.id.layout_has_account:
                 toLoginPage();
+                break;
+            case R.id.text_clause:
+                break;
+            case R.id.text_privacy:
+                break;
+            case R.id.text_cookie:
                 break;
         }
     }
