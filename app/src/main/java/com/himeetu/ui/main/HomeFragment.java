@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -110,15 +112,18 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         init();
 
         getAD();
         getTopRecommend();
         getFriendTalk();
-
-//        uploadState();
-        return rootView;
     }
 
     @Override
@@ -140,7 +145,6 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         mTalkAdapter = new QuickAdapter<Talk>(getActivity(), R.layout.item_list_talk) {
             @Override
             protected void convert(final BaseAdapterHelper helper, final Talk talk) {
-
                 helper.setText(R.id.text_name, talk.getRolename());
 
                 Date date = DateUtils.parse(talk.getCtime());
@@ -153,6 +157,12 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
                 RoundedImageView headImageView = (RoundedImageView)helper.getView().findViewById(R.id.img_head);
                 ImageView countryImageView = (ImageView)helper.getView().findViewById(R.id.img_country);
                 ImageView talkImageView = (ImageView)helper.getView().findViewById(R.id.img_talk);
+
+                talkImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NavHelper.toImageShowActivity(getActivity(), talk.getImgPath());
+                }});
 
                 if(talk.getPortrait() != null){
                     Picasso.with(context).load(talk.getPortrait()).placeholder(R.drawable.img_avatar_default)
@@ -241,7 +251,7 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
             }
         };
 
-        WrapContentLayoutManager linearLayoutManager = new WrapContentLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         mRecommendRecyclerView.setHasFixedSize(true);

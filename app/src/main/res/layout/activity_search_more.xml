@@ -9,6 +9,7 @@
     <include layout="@layout/toolbar_white_common_back" />
 
     <ListView
+        android:divider="@null"
         android:layout_below="@+id/toolbar"
         android:id="@+id/list_search"
         android:layout_width="match_parent"

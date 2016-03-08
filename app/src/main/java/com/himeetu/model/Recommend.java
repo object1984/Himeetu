@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Recommend implements Serializable {
     private int id;
     private int type;
-    @SerializedName("dateid")
+    @SerializedName("dataid")
     private int dataId;
     @SerializedName("name")
     private String title;

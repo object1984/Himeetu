@@ -22,6 +22,7 @@ import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.app.Api;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.Talk;
 import com.himeetu.model.TopicComments;
@@ -116,6 +117,12 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
             Picasso.with(this).load(talk.getImgPath().replace("sysimg", "img")).placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(img_details_content);
         }
+
+        img_details_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHelper.toImageShowActivity(TopicDetailsActivity.this, talk.getImgPath());
+            }});
         quickAdapter = new QuickAdapter<TopicComments.TopicCommentsItem>(this, R.layout.item_list_details_topic) {
             @Override
             protected void convert(BaseAdapterHelper helper, TopicComments.TopicCommentsItem item) {

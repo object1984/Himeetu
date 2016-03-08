@@ -3,6 +3,7 @@ package com.himeetu.ui.main;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -82,10 +83,16 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
        rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
 
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         init();
         getOnGoingActivity();
         geEndActivity();
-        return rootView;
     }
 
     private ClipViewPager mViewPager;

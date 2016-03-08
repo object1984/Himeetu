@@ -22,6 +22,8 @@ public class WrapContentLayoutManager extends LinearLayoutManager {
         final int heightSize = View.MeasureSpec.getSize(heightSpec);
         int width = 0;
         int height = 0;
+
+        if (getItemCount() == 0 ) return;
         for (int i = 0; i < getItemCount(); i++) {
             measureScrapChild(recycler, i,
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),

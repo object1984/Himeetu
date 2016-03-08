@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.ViewUtils;
 import android.text.TextUtils;
@@ -55,10 +56,11 @@ import de.greenrobot.event.EventBus;
 
 public class MeFragment extends BaseVolleyFragment implements View.OnClickListener {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_TYPE= "ARG_TYPE";
+
+    public static final String TYPE_USER_SELF = "TYPE_USER_SELF";
+    public static final  String TYPE_USER_OTHER = "TYPE_USER_OTHER";
+    public   String userType;
     private RadioGroup radioGroup;
     private ViewPager viewPager;
     private MePagerAdapter pagerAdapter;
@@ -69,7 +71,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     private TextView tvUsername;
     private TextView tvAttention;
     private TextView tvFans;
-    public static final String TYPE = "type";
+
     public static final String TAG_GET_NUM = "TAG_GET_NUM";
     public static final String TAG_GET_USER_DATA = "TAG_GET_USER_DATA";
     private String path;
@@ -91,11 +93,10 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     }
 
 
-    public static MeFragment newInstance(String param1, String param2, String uid) {
+    public static MeFragment newInstance(String userType,  String uid) {
         MeFragment fragment = new MeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_TYPE, userType);
         args.putString("uid", uid);
         fragment.setArguments(args);
         return fragment;
@@ -105,8 +106,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            userType = getArguments().getString(ARG_TYPE);
             uid = getArguments().getString("uid");
         }
 
@@ -117,10 +117,14 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_me, container, false);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         init();
-
-        return rootView;
     }
 
     @Override
@@ -260,10 +264,9 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
 
 
             case R.id.rl_logo:
-
-
-                NavHelper.toEditUserDetailActivity(getActivity());
-
+                if(userType.equals(TYPE_USER_SELF)){
+                    NavHelper.toEditUserDetailActivity(getActivity());
+                }
                 break;
 
             case R.id.tv_atten: //关注别人

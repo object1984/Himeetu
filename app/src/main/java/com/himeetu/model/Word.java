@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 import java.io.Serializable;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +85,7 @@ public class Word implements Serializable {
     }
 
     public String getRolename() {
-        return rolename;
+        return URLDecoder.decode(this.rolename);
     }
 
     public void setRolename(String rolename) {

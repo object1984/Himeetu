@@ -146,6 +146,11 @@
             android:screenOrientation="portrait"
             android:name=".ui.login.FindPasswordActivity"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.photo.ImageShowActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:launchMode="singleTask"

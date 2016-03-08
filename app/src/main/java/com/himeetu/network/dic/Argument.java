@@ -15,6 +15,6 @@ public class Argument {
     public static final String HIACTIVITY = "HiActivity";
     public static final String PHOTO_URI = "photo_uri";
     public static final String TALK= "talk";
-
+    public static final String ATTENTION_TYPE = "ATTENTION_TYPE";
 
 }

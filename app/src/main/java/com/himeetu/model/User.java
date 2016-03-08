@@ -3,6 +3,7 @@ package com.himeetu.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.net.URLDecoder;
 
 /**
  * Created by object1984 on 15/12/19.
@@ -30,7 +31,7 @@ public class User implements Serializable {
     }
 
     public String getNickname() {
-        return nickname;
+        return URLDecoder.decode(this.nickname);
     }
 
     public void setNickname(String nickname) {

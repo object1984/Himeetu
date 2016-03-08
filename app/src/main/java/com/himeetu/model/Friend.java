@@ -1,5 +1,6 @@
 package com.himeetu.model;
 
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -64,7 +65,7 @@ public class Friend {
         }
 
         public String getRolename() {
-            return this.rolename;
+            return URLDecoder.decode(this.rolename);
         }
     }
 

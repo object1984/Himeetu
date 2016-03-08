@@ -14,6 +14,7 @@ import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.ui.main.ActivitiesDetailsActivity;
 import com.himeetu.ui.main.MainActivity;
 import com.himeetu.ui.main.MeFragment;
+import com.himeetu.ui.photo.ImageShowActivity;
 import com.himeetu.ui.search.SearchMoreUserActivity;
 import com.himeetu.ui.main.UserActivity;
 import com.himeetu.ui.search.SearchActivity;
@@ -188,11 +189,19 @@ public class NavHelper {
         forwardAnim(activity);
     }
 
+    public static void toImageShowActivity(Activity activity,String img){
+        Intent intent = new Intent();
+        intent.setClass(activity, ImageShowActivity.class);
+        intent.putExtra("img", img);
+        activity.startActivity(intent);
+        forwardFadeInAnim(activity);
+    }
+
     public static void toAttentionActivity(Activity activity,String id,MeFragment.AttentionType type){
         Intent intent = new Intent();
         intent.setClass(activity, AttentionActivity.class);
         intent.putExtra("id", id);
-        intent.putExtra("type", type);
+        intent.putExtra(Argument.ATTENTION_TYPE, type);
         activity.startActivity(intent);
         forwardAnim(activity);
     }
@@ -223,6 +232,14 @@ public class NavHelper {
         forwardAnim(activity, R.anim.inktv_mysonglist_anim_show_in, R.anim.inktv_mysonglist_anim_show_out);
     }
 
+    public static void forwardAnimShow(Activity activity) {
+        forwardAnim(activity, R.anim.inktv_mysonglist_anim_show_in, R.anim.inktv_mysonglist_anim_show_out);
+    }
+
+    public static void forwardAnimHide(Activity activity) {
+        forwardAnim(activity, R.anim.inktv_mysonglist_anim_show_in, R.anim.inktv_mysonglist_anim_show_out);
+    }
+
     public static void backAnim(Activity activity){
         activity.overridePendingTransition(R.anim.inktv_mysonglist_anim_hide_in, R.anim.inktv_mysonglist_anim_hide_out);
     }
@@ -241,9 +258,17 @@ public class NavHelper {
     public static void finish(Context context) {
         ((Activity) context).finish();
     }
+    public static void finishWithAnimHideOut(Activity activity) {
+        activity.finish();
+        forwardFadeOutAnim(activity);
+    }
 
     public static void forwardFadeInAnim(Activity activity) {
         forwardAnim(activity, R.anim.fade_in, 0);
+    }
+
+    public static void forwardFadeOutAnim(Activity activity) {
+        forwardAnim(activity, 0, R.anim.fade_out);
     }
 
     public static void forwardBottomInAnim(Activity activity) {

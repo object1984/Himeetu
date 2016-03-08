@@ -1,18 +1,18 @@
 package com.himeetu.ui.main;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -22,32 +22,34 @@ import com.himeetu.adapter.QuickAdapter;
 import com.himeetu.app.Api;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.HiActivity;
-import com.himeetu.model.UserImg;
-import com.himeetu.network.volley.PersistentCookieStore;
-import com.himeetu.ui.base.BaseFragment;
+import com.himeetu.model.Message;
 import com.himeetu.ui.base.BaseVolleyFragment;
-import com.himeetu.ui.base.StatusBarCompat;
+import com.himeetu.util.DateUtils;
 import com.himeetu.util.JsonUtil;
+import com.himeetu.util.RoundedTransformation;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
-public class MessageFragment extends BaseVolleyFragment implements View.OnClickListener{
+public class MessageFragment extends BaseVolleyFragment implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
     private static final String TAG = MessageFragment.class.getCanonicalName();
     private static final String TAG_API_GET_MESSAGE = "TAG_API_GET_MESSAGE";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
 
     private ListView messageListView;
-    private SwipeRefreshLayout messageRefreshLayout;
+    private SwipeToLoadLayout swipeToLoadLayout;
+
     private QuickAdapter<Message>  messageAdapter;
     private List<Message> messageList = new ArrayList<>();
+
+
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -73,8 +75,6 @@ public class MessageFragment extends BaseVolleyFragment implements View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setStatusBarColor(R.color.black);
     }
@@ -83,22 +83,49 @@ public class MessageFragment extends BaseVolleyFragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        rootView = inflater.inflate(R.layout.fragment_message, container, false);
+
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setupToolbar(false, R.string.message);
         init();
         getMessage();
-        return rootView;
     }
 
     @Override
     protected void loadViews() {
         super.loadViews();
-        messageListView = (ListView)rootView.findViewById(R.id.list_message);
-        messageRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.refresh_message);
+        messageListView = (ListView)rootView.findViewById(R.id.swipe_target);
+        swipeToLoadLayout = (SwipeToLoadLayout)rootView.findViewById(R.id.swipeToLoadLayout);
 
         messageAdapter = new QuickAdapter<Message>(getActivity(), R.layout.item_list_message) {
             @Override
             protected void convert(BaseAdapterHelper helper, Message item) {
+                helper.setText(R.id.text_name, item.getRolename());
 
+                String msg = "";
+                switch (item.getType()){
+                    case 0:
+                        msg = String.format("评论了你的图片");
+                        break;
+                    case 1:
+                        msg = String.format("攒了你的图片");
+                        break;
+                    case 2:
+                        msg = String.format("取消了你的攒");
+                        break;
+                    case 3:
+                        msg = String.format("回复了你");
+                        break;
+                }
+                helper.setText(R.id.text_message, msg);
+
+                Date date = DateUtils.parse(item.getCtime());
+                String timeStr = date.getTime() + "";
+                helper.setText(R.id.text_time, DateUtils.getStandardDate(timeStr));
             }
         };
 
@@ -108,7 +135,8 @@ public class MessageFragment extends BaseVolleyFragment implements View.OnClickL
     @Override
     protected void setupListeners() {
         super.setupListeners();
-
+        swipeToLoadLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnLoadMoreListener(this);
     }
 
     @Override
@@ -148,18 +176,26 @@ public class MessageFragment extends BaseVolleyFragment implements View.OnClickL
         super.onResponse(response, tag);
 
         if(TAG_API_GET_MESSAGE.equals(tag)){
+            swipeToLoadLayout.setRefreshing(false);
+            swipeToLoadLayout.setLoadingMore(false);
+
             JSONObject jsonObject = JsonUtil.getJSONObject(response.getJsonStr());
 
             GsonBuilder gsonBuilder = new GsonBuilder();
             gsonBuilder.setDateFormat("yyyy-MM-dd hh:mm:ss");
             Gson gson = gsonBuilder.create();
 
-            Type listType = new TypeToken<List<HiActivity>>() {}.getType();
+            Type listType = new TypeToken<List<Message>>() {}.getType();
             List<Message> messages  = gson.fromJson(JsonUtil.getJSONArray(jsonObject, "list").toString(), listType);
 
             if(messages != null){
-                messageAdapter.addAll(messages);
-                messageAdapter.notifyDataSetChanged();
+                if(swipeToLoadLayout.isRefreshing()){
+                    messageAdapter.clear();
+                    messageAdapter.addAll(messages);
+                }else if(swipeToLoadLayout.isLoadingMore()){
+                    messageAdapter.addAll(messages);
+                }
+
             }
         }
     }
@@ -167,7 +203,19 @@ public class MessageFragment extends BaseVolleyFragment implements View.OnClickL
     @Override
     public void onErrorResponse(VolleyError error, String tag) {
         super.onErrorResponse(error, tag);
+        swipeToLoadLayout.setRefreshing(false);
+        swipeToLoadLayout.setLoadingMore(false);
     }
 
 
+    @Override
+    public void onRefresh() {
+        getMessage();
+    }
+
+    @Override
+    public void onLoadMore() {
+        getMessage();
+
+    }
 }

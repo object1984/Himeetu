@@ -64,10 +64,13 @@ public class PhotoMainActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.btn_close:
                 exit();
+                break;
             case R.id.btn_photo_take:
                 toPhotoTake();
+                break;
             case R.id.btn_photo_album:
                 exit();
+                break;
         }
     }
 

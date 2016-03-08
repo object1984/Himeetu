@@ -88,4 +88,10 @@
 
     <!--搜索-->
     <string name="search">搜索</string>
+
+
+    <!-- 加载更多-->
+    <string name="loading_more">加载更多...</string>
+    <string name="content_empty">内容为空</string>
+    <string name="get_more_when_lose">加载失败...</string>
 </resources>

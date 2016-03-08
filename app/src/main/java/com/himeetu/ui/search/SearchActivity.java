@@ -43,6 +43,7 @@ public class SearchActivity extends BaseVolleyActivity implements View.OnClickLi
     private static final String TAG_API_SEARCH_ACTIVITY = "TAG_API_SEARCH_ACTIVITY";
 
     private ViewGroup resultView;
+    private View normalView;
     private String param = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +58,8 @@ public class SearchActivity extends BaseVolleyActivity implements View.OnClickLi
         super.loadViews();
 
         resultView = (ViewGroup)findViewById(R.id.layout_result);
+        normalView = findViewById(R.id.layout_normal);
 
-//        View talkTitleView = View.inflate(this, R.layout.item_search_title, null);
-//        TextView talkTextView = (TextView) talkTitleView.findViewById(R.id.text_title);
-//        talkTextView.setText("动态");
-//        resultView.addView(talkTitleView);
-//        resultView.addView(View.inflate(this, R.layout.item_search_talk, null));
-//        resultView.addView(View.inflate(this, R.layout.item_search_talk, null));
-//        resultView.addView(View.inflate(this, R.layout.item_search_talk, null));
-//        resultView.addView(View.inflate(this, R.layout.item_search_more, null));
-//
-//
-
-//        resultView.addView(View.inflate(this, R.layout.item_search_activity, null));
-//        resultView.addView(View.inflate(this, R.layout.item_search_activity, null));
-//        resultView.addView(View.inflate(this, R.layout.item_search_activity, null));
-//        resultView.addView(View.inflate(this, R.layout.item_search_more, null));
     }
 
     @Override
@@ -114,6 +101,7 @@ public class SearchActivity extends BaseVolleyActivity implements View.OnClickLi
     }
 
     private void search(String param){
+        normalView.setVisibility(View.GONE);
         resultView.removeAllViews();
         searchUser(param);
         searchActivity(param);

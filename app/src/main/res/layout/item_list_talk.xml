@@ -73,6 +73,8 @@
         android:id="@+id/img_talk"
         android:src="@drawable/image1"
         android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:maxHeight="200dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

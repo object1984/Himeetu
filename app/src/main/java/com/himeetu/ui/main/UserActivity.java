@@ -25,7 +25,7 @@ public class UserActivity extends BaseActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         String uid = getIntent().getStringExtra("uid");
-        MeFragment fragment = MeFragment.newInstance("", "", uid);
+        MeFragment fragment = MeFragment.newInstance(MeFragment.TYPE_USER_SELF, uid);
         transaction.add(R.id.fragment, fragment);
         transaction.commit();
 

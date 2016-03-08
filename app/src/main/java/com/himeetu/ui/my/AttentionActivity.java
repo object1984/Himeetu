@@ -22,6 +22,7 @@ import com.himeetu.model.GsonResult;
 import com.himeetu.model.User;
 import com.himeetu.model.UserImg;
 import com.himeetu.model.service.UserService;
+import com.himeetu.network.dic.Argument;
 import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.main.MeFragment;
@@ -58,7 +59,7 @@ public class AttentionActivity extends BaseVolleyActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attention);
 
-        type = (MeFragment.AttentionType) getIntent().getSerializableExtra(MeFragment.TYPE);
+        type = (MeFragment.AttentionType) getIntent().getSerializableExtra(Argument.ATTENTION_TYPE);
 
         initToolBar();
 
@@ -66,7 +67,7 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         initData();
 
-        addFriend("12");
+//        addFriend("12");
 //        addFriend("14");
 //        addFriend("15");
 

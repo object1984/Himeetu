@@ -1,5 +1,6 @@
 package com.himeetu.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.himeetu.R;
 import com.himeetu.app.Constants;
+import com.himeetu.app.NavHelper;
 import com.himeetu.model.Recommend;
 import com.himeetu.util.LogUtil;
 import com.squareup.picasso.Picasso;
@@ -22,7 +24,7 @@ import java.util.List;
  * Created by object1984 on 15/11/28.
  */
 public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final Context mContext;
+    private static Context mContext;
     private final LayoutInflater mLayoutInflater;
     private List<Recommend> mRecommendItems = new ArrayList<Recommend>();
 
@@ -46,6 +48,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         Picasso.with(mContext).load(item.getImgPath()).placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into(((RecommendViewHolder) holder).mIconImageView);
+
+        holder.itemView.setTag(item);
     }
 
     @Override
@@ -57,7 +61,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static class RecommendViewHolder extends RecyclerView.ViewHolder {
         TextView mTitleTextView;
         ImageView mIconImageView;
-        RecommendViewHolder(View view) {
+        RecommendViewHolder(final View view) {
             super(view);
             mTitleTextView = (TextView)view.findViewById(R.id.text_recommend);
             mIconImageView = (ImageView)view.findViewById(R.id.img_recommend);
@@ -65,6 +69,15 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View v) {
                     LogUtil.d("NormalViewHolder", "onClick--> position = " + getPosition());
+
+                    Recommend item = (Recommend)view.getTag();
+
+                    switch (item.getType()){
+                        case 0:
+                            int uid = item.getDataId();
+                            NavHelper.toUserActivity((Activity) mContext, uid+"");
+                            break;
+                    }
                 }
             });
         }

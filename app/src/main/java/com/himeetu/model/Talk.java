@@ -3,6 +3,7 @@ package com.himeetu.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,7 +170,7 @@ public class Talk implements Serializable {
      * The rolename
      */
     public String getRolename() {
-        return rolename;
+        return URLDecoder.decode(this.rolename);
     }
 
     /**
