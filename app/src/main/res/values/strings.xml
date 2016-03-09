@@ -94,4 +94,6 @@
     <string name="loading_more">加载更多...</string>
     <string name="content_empty">内容为空</string>
     <string name="get_more_when_lose">加载失败...</string>
+    <string name="not_more">没有更多数据</string>
+
 </resources>

@@ -2,33 +2,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <include
         android:id="@+id/layout_search"
         layout="@layout/layout_search_home" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/layout_refresh"
-            android:layout_below="@+id/layout_search"
+    <com.aspsine.swipetoloadlayout.SwipeToLoadLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipeToLoadLayout"
+        android:layout_below="@id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:swipe_style="classic">
+
+        <include
+            android:id="@id/swipe_refresh_header"
+            layout="@layout/layout_twitter_header" />
+
+
+        <ListView
+            android:id="@+id/swipe_target"
             android:layout_width="match_parent"
-            android:descendantFocusability="blocksDescendants"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:divider="#C8C8C8"
+            android:dividerHeight="1px"
+            android:visibility="visible"
+            tools:listheader="@layout/header_home"
+            tools:listitem="@layout/item_list_talk" />
 
-                <ListView
-                    android:divider="#C8C8C8"
-                    android:dividerHeight="1px"
-                    android:id="@+id/list_event"
-                    android:visibility="visible"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listheader="@layout/header_home"
-                    tools:listitem="@layout/item_list_talk" />
+        <include
+            android:id="@id/swipe_load_more_footer"
+            layout="@layout/layout_classic_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/main_bottom_bar_height" />
+    </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
 
-                <include  layout="@layout/layout_empty_common" android:id="@+id/empty" android:layout_below="@+id/layout_refresh" android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="visible"/>
+    <include
+        android:id="@+id/empty"
+        layout="@layout/layout_empty_common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/swipeToLoadLayout"
+        android:visibility="visible" />
 
-
-        </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

@@ -1,11 +1,8 @@
 package com.himeetu.ui.my;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -14,7 +11,6 @@ import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
 import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.google.gson.Gson;
-import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
@@ -22,24 +18,16 @@ import com.himeetu.app.Api;
 import com.himeetu.app.Constants;
 import com.himeetu.model.Friend;
 import com.himeetu.model.GsonResult;
-import com.himeetu.model.User;
-import com.himeetu.model.UserImg;
 import com.himeetu.model.service.UserService;
 import com.himeetu.network.dic.Argument;
-import com.himeetu.ui.base.BaseActivity;
 import com.himeetu.ui.base.BaseVolleyActivity;
 import com.himeetu.ui.main.MeFragment;
 import com.himeetu.util.RoundedTransformation;
 import com.himeetu.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 关注/粉丝 页面    获取好友列表 ＝＝ 我的关注
@@ -54,7 +42,7 @@ public class AttentionActivity extends BaseVolleyActivity implements OnRefreshLi
     private final String TAG_GET_FANS_LIST = "TAG_GET_FANS_LIST";
     private QuickAdapter adapter;
     private List<Friend.list> friends = new ArrayList<>();
-    private int start_fans = 0, start_attention = 0;
+    private int start_fans = 1, start_attention = 1;
     private int limit_fans = 15, limit_attention = 15;
     private SwipeToLoadLayout swipeToLoadLayout;
 
@@ -114,9 +102,7 @@ public class AttentionActivity extends BaseVolleyActivity implements OnRefreshLi
             Friend friend = new Gson().fromJson(response.getJsonStr(), Friend.class);
 
             if (friend == null || friend.getList() == null || friend.getList().size() == 0) {
-                if (friends != null) {
-                    friends.clear();
-                }
+                ToastUtil.show(R.string.not_more);
             }
 
             if (type == MeFragment.AttentionType.ATTENTION.FANS) {

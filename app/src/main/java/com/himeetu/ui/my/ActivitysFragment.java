@@ -62,7 +62,7 @@ public class ActivitysFragment extends BaseVolleyFragment implements OnRefreshLi
     private FamiliarRecyclerView recyclerView;
     private final String TAG_GET_SELF = "TAG_GET_SELF";
     private final String TAG_GET_FRIENDS_IMG = "TAG_GET_FRIENDS_IMG";
-    private int start_self = 0, start_friendimg = 0;
+    private int start_self = 1, start_friendimg = 1;
     private int limit_self = 10, limit__friendimg = 10;
     private List<ListItem> lists = new ArrayList<>();
     private List<FriendImgs.FriendImg> imgs = new ArrayList<>();
