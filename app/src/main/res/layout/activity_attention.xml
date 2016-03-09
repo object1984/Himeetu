@@ -9,14 +9,33 @@
 
     <include layout="@layout/toolbar_white_common_back" />
 
-    <ListView
-        android:id="@+id/listView"
+    <com.aspsine.swipetoloadlayout.SwipeToLoadLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipeToLoadLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/divider_left75"
-        android:dividerHeight="0.5dp"
-        tools:listitem="@layout/item_list_attention">
+        app:swipe_style="classic">
 
-    </ListView>
+        <include
+            android:id="@id/swipe_refresh_header"
+            layout="@layout/layout_twitter_header" />
 
+        <ListView
+            android:id="@+id/swipe_target"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/divider_left75"
+            android:dividerHeight="0.5dp"
+            tools:listitem="@layout/item_list_attention">
+
+        </ListView>
+
+        <include
+            android:id="@id/swipe_load_more_footer"
+            layout="@layout/layout_classic_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/main_bottom_bar_height" />
+    </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
 </LinearLayout>

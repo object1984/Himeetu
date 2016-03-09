@@ -55,8 +55,8 @@ public class Api {
         MEETApplication.addRequest(ApiRequests.getSelf(statr,limit, listener, errorListener), tag);
     }
 
-    public static void getFriendsList(String tag, Response.Listener listener, Response.ErrorListener errorListener){
-        MEETApplication.addRequest(ApiRequests.getFriendsList( listener, errorListener), tag);
+    public static void getFriendsList(String tag, int statr,int limit,int uid, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getFriendsList(uid,statr,limit, listener, errorListener), tag);
     }
 
     public static void getFriendsImg(String tag, int start,int limit ,Response.Listener listener, Response.ErrorListener errorListener){

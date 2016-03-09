@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.google.gson.Gson;
 import com.himeetu.BuildConfig;
 import com.himeetu.R;
@@ -42,7 +45,7 @@ import java.util.Map;
  * 关注/粉丝 页面    获取好友列表 ＝＝ 我的关注
  * 个人动态  11  获取全部好友最新发表的图片
  */
-public class AttentionActivity extends BaseVolleyActivity {
+public class AttentionActivity extends BaseVolleyActivity implements OnRefreshListener, OnLoadMoreListener {
     private MeFragment.AttentionType type;
     private ListView mListView;
     private final String TAG_GET_FRIENDS_LIST = "TAG_GET_FRIENDS_LIST";
@@ -50,9 +53,10 @@ public class AttentionActivity extends BaseVolleyActivity {
     private final String TAG_DEL_FRIEND = "TAG_DEL_FRIEND";
     private final String TAG_GET_FANS_LIST = "TAG_GET_FANS_LIST";
     private QuickAdapter adapter;
-    private List<Friend.list> friends;
-    private int start = 0;
-    private int limit = 15;
+    private List<Friend.list> friends = new ArrayList<>();
+    private int start_fans = 0, start_attention = 0;
+    private int limit_fans = 15, limit_attention = 15;
+    private SwipeToLoadLayout swipeToLoadLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,7 @@ public class AttentionActivity extends BaseVolleyActivity {
 
         init();
 
-        initData();
+        onRefresh();
 
 //        addFriend("12");
 //        addFriend("14");
@@ -77,8 +81,12 @@ public class AttentionActivity extends BaseVolleyActivity {
     @Override
     protected void loadViews() {
         super.loadViews();
-        mListView = (ListView) findViewById(R.id.listView);
+        mListView = (ListView) findViewById(R.id.swipe_target);
 
+        swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
+
+        swipeToLoadLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnLoadMoreListener(this);
     }
 
     @Override
@@ -99,7 +107,8 @@ public class AttentionActivity extends BaseVolleyActivity {
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
-
+        swipeToLoadLayout.setRefreshing(false);
+        swipeToLoadLayout.setLoadingMore(false);
         if (tag == TAG_GET_FRIENDS_LIST || tag == TAG_GET_FANS_LIST) {  //我的关注
 
             Friend friend = new Gson().fromJson(response.getJsonStr(), Friend.class);
@@ -108,11 +117,28 @@ public class AttentionActivity extends BaseVolleyActivity {
                 if (friends != null) {
                     friends.clear();
                 }
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
+            }
+
+            if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+                if (start_fans == 0) {  //  ==0 表示 刷新
+                    if (friends != null) {
+                        friends.clear();
+                    }
+                }
+            } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
+
+                if (start_attention == 0) {  //  ==0 表示 刷新
+                    if (friends != null) {
+                        friends.clear();
+                    }
                 }
             }
-            friends = friend.getList();
+
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+
+            friends.addAll(friend.getList());
             setListData();
 
         } else if (AttentionActivity.TAG_ADD_FRIEND.equals(tag) || TAG_DEL_FRIEND.equals(tag)) {
@@ -121,9 +147,9 @@ public class AttentionActivity extends BaseVolleyActivity {
 
                 ToastUtil.show(R.string.success);
 
-                initData();
+                onRefresh();
             } else {
-                if(response == null || TextUtils.isEmpty(response.getMsg())){
+                if (response == null || TextUtils.isEmpty(response.getMsg())) {
                     return;
                 }
                 ToastUtil.show(response.getMsg());
@@ -145,27 +171,13 @@ public class AttentionActivity extends BaseVolleyActivity {
         setToolBarColor(getResources().getColor(R.color.white));
     }
 
-    private void initData() {
-
-        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
-
-            getFansList();
-        } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
-
-            getFriendsList();
-        }
-
-    }
-
 
     private void getFriendsList() {
-
-        Api.getFriendsList(TAG_GET_FRIENDS_LIST, this, this);
-
+        Api.getFriendsList(TAG_GET_FRIENDS_LIST, start_attention, limit_attention, UserService.get().getUid(), this, this);
     }
 
     private void getFansList() {
-        Api.getFansList(TAG_GET_FANS_LIST, UserService.get().getUid() + "", start, limit, this, this);
+        Api.getFansList(TAG_GET_FANS_LIST, UserService.get().getUid() + "", start_fans, limit_fans, this, this);
     }
 
     private void addFriend(String friendId) {
@@ -189,7 +201,7 @@ public class AttentionActivity extends BaseVolleyActivity {
 
                 ImageView headImageView = helper.getView(R.id.im_head);
 
-                Picasso.with(context).load(Constants.HEAD_IMG_BASE+item.getPortrait()).placeholder(R.drawable.img_avatar_default)
+                Picasso.with(context).load(Constants.HEAD_IMG_BASE + item.getPortrait()).placeholder(R.drawable.img_avatar_default)
                         .error(R.drawable.img_avatar_default).transform(new RoundedTransformation(100, 0)).fit().into(headImageView);
 
                 final int position = helper.getPosition();
@@ -224,5 +236,27 @@ public class AttentionActivity extends BaseVolleyActivity {
         mListView.setAdapter(adapter);
 
 
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+            start_fans++;
+            getFansList();
+        } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
+            start_attention++;
+            getFriendsList();
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        if (type == MeFragment.AttentionType.ATTENTION.FANS) {
+            start_fans = 0;
+            getFansList();
+        } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
+            start_attention = 0;
+            getFriendsList();
+        }
     }
 }

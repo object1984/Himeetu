@@ -3,6 +3,9 @@ package com.himeetu.model;
 import java.util.List;
 
 /**
+ *
+ * 之前使用的朋友图片 实体类 ,暂时 不使用,接口修改为 新的实体类 friendsimages.java
+ *
  * Created by lanzhihong on 2016/1/5.
  */
 public class FriendImgs {

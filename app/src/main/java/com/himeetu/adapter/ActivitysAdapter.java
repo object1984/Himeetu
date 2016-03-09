@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.himeetu.R;
+import com.himeetu.app.MEETApplication;
 import com.himeetu.model.ListItem;
 import com.himeetu.ui.my.ActivitysFragment;
 import com.himeetu.util.DateUtils;
@@ -46,7 +47,9 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
         }
 
         LogUtil.d("ActivitysAdapter", holder.mItem.getImgPath());
-        Picasso.with(mContext).load(holder.mItem.getImgPath()).placeholder(R.drawable.img_default)
+
+        Picasso.with(mContext).load(holder.mItem.getImgPath())
+                .placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into( holder.mImageView);
 //        holder.mIdView.setText(mValues.get(position).id);
 //        holder.mImageView.setText(mValues.get(position).content);

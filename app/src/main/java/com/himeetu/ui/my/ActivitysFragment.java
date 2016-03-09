@@ -13,15 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.VolleyError;
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.google.gson.Gson;
 import com.himeetu.BuildConfig;
 import com.himeetu.R;
 import com.himeetu.adapter.ActivitysAdapter;
 import com.himeetu.app.Api;
 import com.himeetu.model.FriendImgs;
+import com.himeetu.model.FriendsImages;
 import com.himeetu.model.GsonResult;
 import com.himeetu.model.ListItem;
 import com.himeetu.model.User;
+import com.himeetu.model.UserImg;
 import com.himeetu.model.service.Activitys;
 import com.himeetu.ui.base.BaseFragment;
 import com.himeetu.ui.base.BaseVolleyFragment;
@@ -43,7 +48,7 @@ import cn.iwgang.familiarrecyclerview.FamiliarRecyclerView;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ActivitysFragment extends BaseVolleyFragment {
+public class ActivitysFragment extends BaseVolleyFragment implements OnRefreshListener, OnLoadMoreListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -57,18 +62,21 @@ public class ActivitysFragment extends BaseVolleyFragment {
     private FamiliarRecyclerView recyclerView;
     private final String TAG_GET_SELF = "TAG_GET_SELF";
     private final String TAG_GET_FRIENDS_IMG = "TAG_GET_FRIENDS_IMG";
-    private int start = 0;
-    private int limit = 10;
+    private int start_self = 0, start_friendimg = 0;
+    private int limit_self = 10, limit__friendimg = 10;
     private List<ListItem> lists = new ArrayList<>();
     private List<FriendImgs.FriendImg> imgs = new ArrayList<>();
     private ActivitysAdapter adapter;
+    private SwipeToLoadLayout swipeToLoadLayout;
 
     private View emptyView;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public ActivitysFragment() {
+
     }
 
     // TODO: Customize parameter initialization
@@ -92,28 +100,10 @@ public class ActivitysFragment extends BaseVolleyFragment {
             mType = getArguments().getInt(TYPE);
         }
 
-        initData();
+        onRefresh();
 
     }
 
-    private void initData() {
-
-        switch (mType) {
-
-            case TYPE_CYHD:
-
-                getSelf();
-
-                break;
-
-            case TYPE_GRDT:
-
-                getFriendsImg();
-
-                break;
-
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,7 +111,11 @@ public class ActivitysFragment extends BaseVolleyFragment {
         View view = inflater.inflate(R.layout.item_list_activitys, container, false);
         emptyView = inflater.inflate(R.layout.layout_empty_common, null);
 
-        recyclerView = (FamiliarRecyclerView) view.findViewById(R.id.list);
+        recyclerView = (FamiliarRecyclerView) view.findViewById(R.id.swipe_target);
+        swipeToLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.swipeToLoadLayout);
+
+        swipeToLoadLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnLoadMoreListener(this);
 
         // Set the adapter
         Context context = view.getContext();
@@ -149,18 +143,47 @@ public class ActivitysFragment extends BaseVolleyFragment {
         super.onDetach();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onLoadMore() {
+        switch (mType) {
+
+            case TYPE_CYHD:
+
+                start_self++;
+                getSelf();
+
+                break;
+
+            case TYPE_GRDT:
+                start_friendimg++;
+                getFriendsImg();
+
+                break;
+
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        switch (mType) {
+
+            case TYPE_CYHD:
+
+                start_self = 0;
+                getSelf();
+
+                break;
+
+            case TYPE_GRDT:
+                start_friendimg = 0;
+                getFriendsImg();
+
+                break;
+
+        }
+    }
+
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(ListItem item);
     }
 
@@ -168,40 +191,48 @@ public class ActivitysFragment extends BaseVolleyFragment {
      * 参与的活动
      */
     private void getSelf() {
-        Api.getSelf(TAG_GET_SELF, start, limit, this, this);
+        Api.getSelf(TAG_GET_SELF, start_self, limit_self, this, this);
     }
 
     private void getFriendsImg() {
-        Api.getFriendsImg(TAG_GET_FRIENDS_IMG, start, limit, this, this);
-
+        Api.getFriendsImg(TAG_GET_FRIENDS_IMG, start_friendimg, limit__friendimg, this, this);
     }
 
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
+        swipeToLoadLayout.setRefreshing(false);
+        swipeToLoadLayout.setLoadingMore(false);
 
-//        if (TAG_GET_SELF.equals(tag)) {
+        if (BuildConfig.DEBUG)
+            Log.d("ActivitysFragment", "TAG_GET_SELF===response:" + response.getJsonStr());
 
-        if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
-
-        if(TAG_GET_SELF.equals(tag))  {
+        if (TAG_GET_SELF.equals(tag)) {
             if (response.getCode() == 0) {
 
-    //                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
+                //                    Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
                 Activitys activitys = new Gson().fromJson(response.getJsonStr(), Activitys.class);
 
                 List<Activitys.Activity> activityList = activitys.getActivitys();
+
+                if (activityList != null && activityList.size() > 0) {
+                    if (start_self == 0) {  //  ==0 表示 刷新
+                        lists.clear();
+                    }
+                }
+
                 for (Activitys.Activity activity : activityList) {
                     ListItem item = new ListItem();
 
-                    if(!TextUtils.isEmpty(activity.getImg())){
+                    if (!TextUtils.isEmpty(activity.getImg())) {
                         item.setImgPath(activity.getImg());
                     }
 
                     item.setTime(activity.getStarttime());
-    //                                + "--" + activity.getEndtime());
+                    //                                + "--" + activity.getEndtime());
                     lists.add(item);
                 }
+
                 adapter.notifyDataSetChanged();
 
 
@@ -212,37 +243,61 @@ public class ActivitysFragment extends BaseVolleyFragment {
         }
 
 
-     if(TAG_GET_FRIENDS_IMG.equals(tag))  {
+        if (TAG_GET_FRIENDS_IMG.equals(tag)) {
 
-        if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
-        if (response.getCode() == 0) {
-            FriendImgs friends = new Gson().fromJson(response.getJsonStr(), FriendImgs.class);
+            if (BuildConfig.DEBUG) Log.d("ActivitysFragment", "response:" + response.getJsonStr());
+            if (response.getCode() == 0) {
 
-            if(friends == null || friends.getFriendImgs() == null){
-                return;
-            }
+                FriendsImages friendsImages = new Gson().fromJson(response.getJsonStr(), FriendsImages.class);
 
-            imgs.addAll(friends.getFriendImgs());
-
-            for (FriendImgs.FriendImg img : imgs) {
-                ListItem item = new ListItem();
-
-                if(!TextUtils.isEmpty(img.getImg_path())){
-                    String imgPath = img.getImg_path().replace("sysimg", "img");
-                    item.setImgPath(imgPath);
+                if (friendsImages == null || friendsImages.getList() == null) {
+                    return;
                 }
 
-                item.setTime(img.getCtime());
-                lists.add(item);
+                List<FriendsImages.ListEntity> images = friendsImages.getList();
+
+                    if (start_friendimg == 0) {  //  ==0 表示 刷新
+                        lists.clear();
+                    }
+
+                for (FriendsImages.ListEntity image : images) {
+
+                    ListItem item = new ListItem();
+
+                    if (!TextUtils.isEmpty(image.getImg_path())) {
+                        item.setImgPath(image.getImg_path());
+                    }
+
+                    item.setTime(image.getCtime());
+                    lists.add(item);
+                }
+
+//            FriendImgs friends = new Gson().fromJson(response.getJsonStr(), FriendImgs.class);
+//            if(friends == null || friends.getFriendImgs() == null){
+//                return;
+//            }
+//
+//            imgs.addAll(friends.getFriendImgs());
+//
+//            for (FriendImgs.FriendImg img : imgs) {
+//                ListItem item = new ListItem();
+//
+//                if(!TextUtils.isEmpty(img.getImg_path())){
+//                    String imgPath = img.getImg_path().replace("sysimg", "img");
+//                    item.setImgPath(imgPath);
+//                }
+//
+//                item.setTime(img.getCtime());
+//                lists.add(item);
+//            }
+                adapter.notifyDataSetChanged();
+            } else {
+
+                ToastUtil.show(response.getMsg());
             }
-            adapter.notifyDataSetChanged();
-        } else {
-
-            ToastUtil.show(response.getMsg());
         }
-    }
 
-}
+    }
 
     @Override
     public void onErrorResponse(VolleyError error, String tag) {

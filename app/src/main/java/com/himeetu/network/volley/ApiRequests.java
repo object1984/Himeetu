@@ -133,10 +133,10 @@ public class ApiRequests {
         return doGet(url, listener, errorListener);
     }
 
-    public static GsonGetRequest<GsonResult> getFriendsList(
+    public static GsonGetRequest<GsonResult> getFriendsList(@NonNull int uid,@NonNull int start, @NonNull int limit,
                                                            @NonNull final Response.Listener<GsonResult> listener,
                                                            @NonNull final Response.ErrorListener errorListener) {
-        final String url = String.format(UrlPatten.URL_GET_FRIENES_LIST);
+        final String url = String.format(UrlPatten.URL_GET_FRIENES_LIST,start,limit,uid);
 
         return doGet(url, listener, errorListener);
     }

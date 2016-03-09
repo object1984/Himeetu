@@ -108,6 +108,8 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
         if (getArguments() != null) {
             userType = getArguments().getString(ARG_TYPE);
             uid = getArguments().getString("uid");
+        }else{
+            userType = TextUtils.isEmpty(uid)?TYPE_USER_SELF:TYPE_USER_OTHER;
         }
 
         EventBus.getDefault().register(this);
@@ -215,6 +217,7 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
             getUserData(uid);
 
             otherUserView(false);
+
         } else {
             user = UserService.get();
 
