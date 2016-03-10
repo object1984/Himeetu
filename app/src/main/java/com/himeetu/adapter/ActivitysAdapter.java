@@ -51,6 +51,7 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
         Picasso.with(mContext).load(holder.mItem.getImgPath())
                 .placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into( holder.mImageView);
+
 //        holder.mIdView.setText(mValues.get(position).id);
 //        holder.mImageView.setText(mValues.get(position).content);
 
