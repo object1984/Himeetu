@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -46,7 +49,7 @@ import java.util.List;
  * Created by zhangshuaiqi on 2015/12/19.
  * 话题详情页
  */
-public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnClickListener, AdapterView.OnItemClickListener,OnRefreshListener, OnLoadMoreListener {
     private final String TAG_API_TOPICDETAILS = "TAG_API_TOPICDETAILS";//获取话题详情
     private final String TAG_API_TOPICDETAILS_FOLLOW = "TAG_API_TOPICDETAILS_FOLLOW";//话题详情关注
     private final String TAG_API_TOPICDETAILS_COMMENT = "TAG_API_TOPICDETAILS_COMMENT";//发表评论(二级评论)
@@ -60,7 +63,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     private TextView tv_details_praise; //赞数量
     private EditText edit_send_comments;//评论内容
     private Button bnt_send_comments;//发表
-    private SwipeRefreshLayout swipeRefreshLayout;//刷新
+    private SwipeToLoadLayout swipeToLoadLayout; //刷新
     private ListView lv_details_topic;//列表
     private QuickAdapter<TopicComments.TopicCommentsItem> quickAdapter;
     private int pageSize = 10;//每页要展示条数
@@ -81,7 +84,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     protected void loadViews() {
         super.loadViews();
         setupToolbar(true, 0);
-        lv_details_topic = (ListView) findViewById(R.id.lv_details_topic);
+        lv_details_topic = (ListView) findViewById(R.id.swipe_target);
         LayoutInflater inflater = LayoutInflater.from(this);
         View headerView = inflater.inflate(R.layout.item_list_header_topic, lv_details_topic, false);
         lv_details_topic.addHeaderView(headerView);
@@ -94,6 +97,9 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         tv_details_praise = (TextView) headerView.findViewById(R.id.tv_details_praise);
         edit_send_comments = (EditText) findViewById(R.id.edit_send_comments);
         bnt_send_comments = (Button) findViewById(R.id.bnt_send_comments);
+        swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
+        swipeToLoadLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnLoadMoreListener(this);
     }
 
     /**
@@ -139,47 +145,6 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
             }
         };
         lv_details_topic.setAdapter(quickAdapter);
-        lv_details_topic.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                switch (scrollState) {
-                    // 当不滚动时
-                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                        // 判断滚动到底部
-                        if (lv_details_topic.getLastVisiblePosition() == (lv_details_topic.getCount() - 1)) {
-                            if (pageTotal > pageIndex) {//加载下一页
-                                pageIndex++;
-                                getCommentList();
-                            } else {
-                                ToastUtil.show("没有更多！");
-                            }
-                        }
-                        break;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-        //刷新
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_refresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        swipeRefreshLayout.setRefreshing(false);
-                        pageIndex = 1;
-                        quickAdapter.clear();//清空列表
-                        getCommentList();
-                    }
-                }, 1000);
-
-            }
-        });
         //设置赞心图标
         Drawable drawable = getResources().getDrawable(R.drawable.ic_home_zan);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
@@ -205,8 +170,10 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     @Override
     public void onResponse(GsonResult response, String tag) {
         super.onResponse(response, tag);
+        //停止下拉刷新
+        swipeToLoadLayout.setRefreshing(false);
+        swipeToLoadLayout.setLoadingMore(false);
         if (TAG_API_TOPICDETAILS.equals(tag)) {//获取评论列表
-            swipeRefreshLayout.setRefreshing(false);//停止下拉刷新
             int code = response.getCode();
             switch (code) {
                 case 0:
@@ -257,8 +224,9 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     @Override
     public void onErrorResponse(VolleyError error, String tag) {
         super.onErrorResponse(error, tag);
+        swipeToLoadLayout.setRefreshing(false);
+        swipeToLoadLayout.setLoadingMore(false);//停止刷新
         if (TAG_API_TOPICDETAILS.equals(tag)) {
-            swipeRefreshLayout.setRefreshing(false);//停止下拉刷新
             ToastUtil.show("获取失败！");
         } else if (TAG_API_TOPICDETAILS_FOLLOW.equals(tag)) {//关注
             ToastUtil.show("关注失败！");
@@ -288,5 +256,23 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (pageTotal > pageIndex) {//加载下一页
+            pageIndex++;
+            getCommentList();
+        } else {
+            swipeToLoadLayout.setLoadingMore(false);//停止刷新
+            ToastUtil.show("没有更多！");
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        pageIndex = 1;
+        quickAdapter.clear();//清空列表
+        getCommentList();
     }
 }
