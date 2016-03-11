@@ -52,6 +52,7 @@ public class ActivitysAdapter extends RecyclerView.Adapter<ActivitysAdapter.View
                 .error(R.drawable.img_default)
                 .placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into( holder.mImageView);
+
 //        holder.mIdView.setText(mValues.get(position).id);
 //        holder.mImageView.setText(mValues.get(position).content);
 

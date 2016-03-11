@@ -4,23 +4,37 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#F5F5F5"
-                 android:fitsSystemWindows="true"
+              android:fitsSystemWindows="true"
               android:orientation="vertical">
     <!-- title -->
     <include layout="@layout/toolbar_white_common_back"/>
     <!-- refresh list -->
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/layout_refresh"
+    <com.aspsine.swipetoloadlayout.SwipeToLoadLayout
+        android:id="@+id/swipeToLoadLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:descendantFocusability="blocksDescendants">
+        android:layout_height="match_parent"
+        app:swipe_style="classic">
+
+        <include
+            android:id="@id/swipe_refresh_header"
+            layout="@layout/layout_twitter_header"/>
 
         <ListView
-            android:id="@+id/lv_topic_highlight"
+            android:id="@+id/swipe_target"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
             tools:listheader="@layout/item_list_header_topic_highlights"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+
+        <include
+            android:id="@id/swipe_load_more_footer"
+            layout="@layout/layout_classic_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/main_bottom_bar_height"/>
+    </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
 
 </LinearLayout>

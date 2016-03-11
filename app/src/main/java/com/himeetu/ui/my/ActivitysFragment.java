@@ -44,7 +44,7 @@ import cn.iwgang.familiarrecyclerview.FamiliarRecyclerView;
 /**
  * 我的界面 活动list
  * A fragment representing a list of Items.
- * <p/>
+ * <p>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
@@ -62,7 +62,7 @@ public class ActivitysFragment extends BaseVolleyFragment implements OnRefreshLi
     private FamiliarRecyclerView recyclerView;
     private final String TAG_GET_SELF = "TAG_GET_SELF";
     private final String TAG_GET_FRIENDS_IMG = "TAG_GET_FRIENDS_IMG";
-    private int start_self = 1, start_friendimg = 1;
+    private int start_self = 0, start_friendimg = 0;
     private int limit_self = 10, limit__friendimg = 10;
     private List<ListItem> lists = new ArrayList<>();
     private List<FriendImgs.FriendImg> imgs = new ArrayList<>();
@@ -149,13 +149,13 @@ public class ActivitysFragment extends BaseVolleyFragment implements OnRefreshLi
 
             case TYPE_CYHD:
 
-                start_self++;
+                start_self+=limit_self;
                 getSelf();
 
                 break;
 
             case TYPE_GRDT:
-                start_friendimg++;
+                start_friendimg+=limit__friendimg;
                 getFriendsImg();
 
                 break;
@@ -256,9 +256,9 @@ public class ActivitysFragment extends BaseVolleyFragment implements OnRefreshLi
 
                 List<FriendsImages.ListEntity> images = friendsImages.getList();
 
-                    if (start_friendimg == 0) {  //  ==0 表示 刷新
-                        lists.clear();
-                    }
+                if (start_friendimg == 0) {  //  ==0 表示 刷新
+                    lists.clear();
+                }
 
                 for (FriendsImages.ListEntity image : images) {
 

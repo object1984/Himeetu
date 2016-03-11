@@ -42,7 +42,7 @@ public class AttentionActivity extends BaseVolleyActivity implements OnRefreshLi
     private final String TAG_GET_FANS_LIST = "TAG_GET_FANS_LIST";
     private QuickAdapter adapter;
     private List<Friend.list> friends = new ArrayList<>();
-    private int start_fans = 1, start_attention = 1;
+    private int start_fans = 0, start_attention = 0;
     private int limit_fans = 15, limit_attention = 15;
     private SwipeToLoadLayout swipeToLoadLayout;
 
@@ -227,10 +227,10 @@ public class AttentionActivity extends BaseVolleyActivity implements OnRefreshLi
     @Override
     public void onLoadMore() {
         if (type == MeFragment.AttentionType.ATTENTION.FANS) {
-            start_fans++;
+            start_fans+=limit_fans;
             getFansList();
         } else if (type == MeFragment.AttentionType.ATTENTION.ATTENTION) {
-            start_attention++;
+            start_attention+=limit_attention;
             getFriendsList();
         }
     }

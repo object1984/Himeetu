@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.himeetu.R;
 import com.himeetu.adapter.BaseAdapterHelper;
 import com.himeetu.adapter.QuickAdapter;
@@ -19,9 +22,9 @@ import com.himeetu.util.ToastUtil;
  * The official event topic highlights
  * Created by zhangshuaiqi on 2016/1/19.
  */
-public class TopicHighlightsActivity extends BaseVolleyActivity {
+public class TopicHighlightsActivity extends BaseVolleyActivity implements OnRefreshListener, OnLoadMoreListener {
     private ListView lv_topic_highlight;
-    private SwipeRefreshLayout swipeRefreshLayout;//刷新
+    private SwipeToLoadLayout swipeToLoadLayout; //刷新
     private QuickAdapter<String> quickAdapter;
 
     @Override
@@ -37,10 +40,13 @@ public class TopicHighlightsActivity extends BaseVolleyActivity {
         super.loadViews();
         setupToolbar(true, 0);
         setToolbarTitle("I Miss You 之夜");
-        lv_topic_highlight = (ListView) findViewById(R.id.lv_topic_highlight);
+        lv_topic_highlight = (ListView) findViewById(R.id.swipe_target);
         LayoutInflater inflater = LayoutInflater.from(this);
         View headerView = inflater.inflate(R.layout.item_list_header_topic_highlights, lv_topic_highlight, false);
         lv_topic_highlight.addHeaderView(headerView);
+        swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
+        swipeToLoadLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnLoadMoreListener(this);
 
     }
 
@@ -84,24 +90,23 @@ public class TopicHighlightsActivity extends BaseVolleyActivity {
 
             }
         });
-        //刷新
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_refresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
-
-            }
-        });
     }
 
     @Override
     protected void setupListeners() {
         super.setupListeners();
+    }
+
+    @Override
+    public void onLoadMore() {
+        //停止刷新
+        swipeToLoadLayout.setLoadingMore(false);
+
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeToLoadLayout.setRefreshing(false);
+
     }
 }

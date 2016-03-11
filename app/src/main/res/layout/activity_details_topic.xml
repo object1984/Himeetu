@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
     <!--标题栏-->
     <include
-        layout="@layout/toolbar_white_activity_back" />
+        layout="@layout/toolbar_white_activity_back"/>
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/layout_refresh"
+    <com.aspsine.swipetoloadlayout.SwipeToLoadLayout
+        android:id="@+id/swipeToLoadLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/layout_send"
         android:layout_below="@+id/toolbar"
-        android:descendantFocusability="blocksDescendants">
+        app:swipe_style="classic">
+
+        <include
+            android:id="@id/swipe_refresh_header"
+            layout="@layout/layout_twitter_header"/>
 
         <ListView
-            android:id="@+id/lv_details_topic"
+            android:id="@+id/swipe_target"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
-            tools:listheader="@layout/item_list_header_topic" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            tools:listheader="@layout/item_list_header_topic"/>
+
+        <include
+            android:id="@id/swipe_load_more_footer"
+            layout="@layout/layout_classic_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/main_bottom_bar_height"/>
+    </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
     <!--评论-->
     <LinearLayout
         android:id="@+id/layout_send"
@@ -44,7 +58,7 @@
             android:background="@drawable/bg_edit_rounded_frame"
             android:hint="@string/home_detail_edit_hint"
             android:padding="10dp"
-            android:textSize="@dimen/font_normal" />
+            android:textSize="@dimen/font_normal"/>
 
         <Button
             android:id="@+id/bnt_send_comments"
@@ -52,6 +66,6 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="@string/home_detail_send_hint"
-            android:textSize="@dimen/font_normal" />
+            android:textSize="@dimen/font_normal"/>
     </LinearLayout>
 </RelativeLayout>
