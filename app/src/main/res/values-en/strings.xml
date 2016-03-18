@@ -1,17 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- 登陆 -->
-    <string name="login_register"><u>register Hi Meet</u></string>
-    <string name="login_forget_password"><u>forget password</u></string>
-    <string name="register_username_hint">请输入您的邮箱或者手机号</string>
-    <string name="register_username_notice">一经填写不可修改</string>
-    <string name="register_password_hint">请设置你的登录密码</string>
-    <string name="register_password_notice"><![CDATA[请至少输入6个数字、字母和符号（如！和&）组合的密码。]]></string>
-    <string name="login_has_account">已有账号了吗？</string>
-    <string name="login_username_hint">请输入你的邮箱或手机号</string>
-    <string name="login_password_hint">请输入密码</string>
-    <string name="hint_register_nickname">使用名字可以让朋友更轻松找到你</string>
-    <string name="register_hint_nickname" />
-    <string name="register_notice_birthday">你稍后可以在设置中更改</string>
+        <string name="app_name">HiMeet</string>
+        <!-- 登陆 -->
+        <string name="login_register"><u>Register Hi Meet account</u></string>
+        <string name="login_forget_password"><u>Forget password</u></string>
+        <string name="register_username_hint"> Please enter your email or phone number</string>
+        <string name="register_username_notice">一经填写不可修改</string>
+        <string name="register_password_hint">Set your login password</string>
+        <string name="register_password_notice"><![CDATA[请至少输入6个数字、字母和符号（如！和&）组合的密码。]]></string>
+        <string name="login_has_account">已有账号了吗？</string>
+
+        <!-- 注册 -->
+        <string name="register">Register</string>
+        <string name="your_country">Your country</string>
+        <string name="your_identity">Your identity</string>
+        <string name="find_password">Retrieve password</string>
+        <string name="male">male</string>
+        <string name="female">female</string>
+
+        <string name="register_text_1">Registration means that agree with</string>
+        <string name="register_text_2">and know</string>
+        <string name="register_text_3">including</string>
+        <string name="register_text_4">You may receive SMS from Hi Meet,</string>
+        <string name="register_text_5">and you can unsubscribe at any time.</string>
+        <string name="register_invitation_text_1"><u>our clauses</u>，</string>
+        <string name="register_invitation_text_2"><u>Privacy policy</u>，</string>
+        <string name="register_invitation_text_3"><u>the using policy of Cookie</u>。</string>
+
+        <string name="register_input_invitation">Entry invitation code</string>
+        <string name="register_next">Next</string>
+        <string name="register_start">Starting</string>
+        <string name="register_has_account">Have account already？</string>
+
+        <string name="notice_name_blank">用户名不能为空</string>
+        <string name="notice_name_format">用户名错误</string>
+
+        <string name="notice_password_blank">密码不能为空</string>
+
+        <string name="notice_password_length">密码长度需为6~20位</string>
+        <string name="notice_password_rule">密码必须包括数字和字母</string>
+        <string name="notice_password_confirm_error">两次输入的密码不同</string>
+
+        <string name="notice_validate_code_blank">请输入验证码</string>
+        <string name="notice_validate_code_error">验证码不正确</string>
+
+        <string name="no_more">已无更多</string>
+        <string name="login_username_hint">Please enter your email or phone number</string>
+        <string name="login_password_hint">Please enter the password</string>
+        <string name="register_notice_nickname">使用名字可以让朋友更轻松找到你</string>
+        <string name="register_hint_nickname">请输入你的名字，限20个字符</string>
+        <string name="register_notice_birthday">你稍后可以在设置中更改</string>
+        <string name="register_notice_safe">填写安全问题可以帮助您找回密码</string>
+        <string name="logout">Logout</string>
+        <string name="cancel">cancel</string>
+        <string name="edit_user_data">Edit details</string>
+        <string name="complete">Done</string>
+        <string name="set_password">Set password</string>
+        <string name="setting">Account settings</string>
+        <string name="commit">Sent</string>
+        <string name="invitation">Invitation code</string>
+        <string name="share">Share on</string>
+        <string name="consider_me">Followers</string>
+        <string name="me_consider">My follow</string>
+        <string name="from_the_album_to_choose">Album</string>
+        <string name="take_photos">Take photo</string>
+
+        <!--详情-->
+        <string name="home_detail_title">State of photos</string>
+        <string name="home_detail_praise">345,678,900赞</string>
+        <string name="home_detail_send_hint">Publish</string>
+        <string name="home_detail_edit_hint">Add comments...</string>
+
+
+        <string name="pwd_not_null">密码不能为空！</string>
+        <string name="pwd_confrim_error">两次密码输入不同！</string>
+        <string name="success">成功！</string>
+        <string name="edit">编辑</string>
+
+
+        <!--主页-->
+        <string name="message">State</string>
+
+
+        <!--拍照-->
+        <string name="photo_take">拍照</string>
+
+
+        <!--分享至-->
+        <string name="share_to">分享至</string>
+
+        <string name="network_check_error">网络不给力\n点击屏幕重试</string>
+        <!--搜索-->
+        <string name="search">Search</string>
+
+
+        <!-- 加载更多-->
+        <string name="loading_more">加载更多...</string>
+        <string name="content_empty">内容为空</string>
+        <string name="get_more_when_lose">加载失败...</string>
+        <string name="not_more">没有更多数据</string>
+
+
+    <string name="login">Login</string>
 </resources>

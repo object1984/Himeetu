@@ -109,7 +109,7 @@
 
             <Button
                 android:id="@+id/btn_login"
-                android:text="登录"
+                android:text="@string/login"
                 android:textSize="@dimen/font_normal"
                 android:textColor="@color/white"
                 android:background="@drawable/selector_btn_purple"

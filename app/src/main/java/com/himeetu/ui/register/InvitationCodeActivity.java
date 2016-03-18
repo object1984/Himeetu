@@ -24,6 +24,8 @@ import com.himeetu.util.LogUtil;
 import com.himeetu.util.SoftKeyboardStateHelper;
 import com.himeetu.util.ToastUtil;
 
+import java.util.Locale;
+
 /**
  * Created by object1984 on 15/12/14.
  */
@@ -37,7 +39,12 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invitation_code);
+        if (isZh()) {
+            setContentView(R.layout.activity_invitation_code);
+        }else {
+            setContentView(R.layout.activity_invitation_code_en);
+        }
+
         setStatusBarColor(R.color.black);
         init();
 
@@ -172,5 +179,14 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
     @Override
     public void onSoftKeyboardClosed() {
         ToastUtil.show("关闭");
+    }
+
+    private boolean isZh() {
+        Locale locale = getResources().getConfiguration().locale;
+        String language = locale.getLanguage();
+        if (language.endsWith("zh"))
+            return true;
+        else
+            return false;
     }
 }

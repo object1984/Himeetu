@@ -4,6 +4,7 @@ package com.himeetu.model;
  * Created by object1984 on 15/12/2.
  */
 public class Country {
+    private String id;
     private String enName;
     private String cnName;
 
@@ -11,7 +12,8 @@ public class Country {
     private boolean isSelected;
 
 
-    public Country(String enName, String cnName) {
+    public Country(String id, String enName, String cnName) {
+        this.id = id;
         this.enName = enName;
         this.cnName = cnName;
         this.sortLetters = enName.substring(0,1);
@@ -47,5 +49,13 @@ public class Country {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

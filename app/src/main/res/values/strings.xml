@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">HiMeet</string>
-    <string name="action_settings">Settings</string>
-
-
     <!-- 登陆 -->
     <string name="login_register"><u>注册 Hi Meet 账号</u></string>
     <string name="login_forget_password"><u>忘记密码</u></string>
@@ -17,7 +14,14 @@
     <string name="your_country">你的国家</string>
     <string name="your_identity">你的身份</string>
     <string name="find_password">找回密码</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
 
+    <string name="register_text_1">注册即表明你同意我们的</string>
+    <string name="register_text_2">且已通读</string>
+    <string name="register_text_3">包括</string>
+    <string name="register_text_4">你可能会收到来自Hi Meet 的短信通知，</string>
+    <string name="register_text_5">并可随时退订。</string>
     <string name="register_invitation_text_1"><u>Hi Meet 条款</u>，</string>
     <string name="register_invitation_text_2"><u>隐私政策</u>，</string>
     <string name="register_invitation_text_3"><u>Cookie 使用政策</u>。</string>
@@ -95,5 +99,6 @@
     <string name="content_empty">内容为空</string>
     <string name="get_more_when_lose">加载失败...</string>
     <string name="not_more">没有更多数据</string>
+    <string name="login">登录</string>
 
 </resources>

@@ -112,8 +112,8 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
         birthdayTimePickerView.setRange(1920, 2020);
         birthdayTimePickerView.setTime(new Date());
 
-        sexItems.add("男");
-        sexItems.add("女");
+        sexItems.add(getString(R.string.male));
+        sexItems.add(getString(R.string.female));
 
         sexPickerView = new OptionsPickerView(this);
 
@@ -151,7 +151,7 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
        int countryCode = getIntent().getIntExtra(Argument.COUNTRY_CODE, 0);
 
         String nickName = nicknameEditText.getText().toString().trim();
-        int sex = sexTextView.getText().toString().trim().equals("男") ? 0 : 1;
+        int sex = sexTextView.getText().toString().trim().equals(getString(R.string.male)) ? 0 : 1;
         String birthday = birthdayTextView.getText().toString().trim();
         String safeCode = safeQuestionEditText.getText().toString().trim() + safeAnswerEditText.getText().toString().trim();
 
