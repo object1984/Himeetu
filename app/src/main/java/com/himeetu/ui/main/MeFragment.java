@@ -338,8 +338,8 @@ public class MeFragment extends BaseVolleyFragment implements View.OnClickListen
                 String friends_num = JsonUtil.getString(jsonObject, "friend_num");
                 String fans_num = JsonUtil.getString(jsonObject, "fans_num");
 
-                tvAttention.setText(String.format("关注 %s", friends_num));
-                tvFans.setText(String.format("粉丝 %s", fans_num));
+                tvAttention.setText(String.format("%s %s", getString(R.string.user_my_follow), friends_num));
+                tvFans.setText(String.format("%s %s", getString(R.string.user_my_followers), fans_num));
 
             } else {
                 ToastUtil.show(response.getMsg());

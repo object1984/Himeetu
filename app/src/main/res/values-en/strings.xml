@@ -103,4 +103,24 @@
 
 
     <string name="login">Login</string>
+
+
+        <string name="user_state">Personal state</string>
+        <string name="user_engage">Engage</string>
+        <string name="user_all_states">All states</string>
+    <string name="user_my_follow">My follow</string>
+    <string name="user_my_followers">Followers</string>
+    <string name="user_not_follow">Follow</string>
+    <string name="user_is_followed">Followed</string>
+
+
+    <string name="title_popular_activities">Popular activities</string>
+
+    <string name="search_more">Searching for more </string>
+    <string name="search_state">State</string>
+    <string name="search_user">User</string>
+    <string name="search_activity">Activity</string>
+    <string name="search_hint">Search</string>
+    <string name="search_cancel">Cancel</string>
+    <string name="search_see_more">See more</string>
 </resources>

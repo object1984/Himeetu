@@ -101,4 +101,21 @@
     <string name="not_more">没有更多数据</string>
     <string name="login">登录</string>
 
+    <!-- 个人页面 -->
+    <string name="user_state">个人动态</string>
+    <string name="user_engage">参与活动</string>
+    <string name="user_all_states">全部动态</string>
+    <string name="user_my_follow">关注</string>
+    <string name="user_my_followers">粉丝</string>
+    <string name="user_not_follow">关注</string>
+    <string name="user_is_followed">已关注</string>
+    <string name="title_popular_activities">精彩活动</string>
+    <string name="search_more">搜索更多内容</string>
+    <string name="search_state">动态</string>
+    <string name="search_user">用户</string>
+    <string name="search_activity">活动</string>
+    <string name="search_hint">搜索</string>
+    <string name="search_cancel">取消</string>
+    <string name="search_see_more">查看更多</string>
+
 </resources>

@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_logo"
                 android:layout_centerHorizontal="true"
-                android:text="关注 0"
+                android:text="@string/user_my_follow"
                 android:textColor="@color/white"
                 android:textSize="13dp" />
 
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_logo"
                 android:layout_centerHorizontal="true"
-                android:text="粉丝 0"
+                android:text="@string/user_my_followers"
                 android:textColor="@color/white"
                 android:textSize="13dp" />
 
@@ -111,7 +111,7 @@
             android:id="@+id/tv_atten"
             android:layout_width="55dp"
             android:layout_height="25dp"
-            android:text="关注"
+            android:text="@string/user_not_follow"
             android:textSize="14sp"
             android:gravity="center"
             android:layout_below="@id/layout"
@@ -139,7 +139,7 @@
             <RadioButton
                 android:id="@+id/tab1"
                 style="@style/custom_tab"
-                android:text="个人动态" />
+                android:text="@string/user_state" />
 
             <View
                 android:layout_width="0.5dp"
@@ -149,7 +149,7 @@
             <RadioButton
                 android:id="@+id/tab2"
                 style="@style/custom_tab"
-                android:text="参与活动" />
+                android:text="@string/user_engage" />
 
             <View
                 android:layout_width="0.5dp"
@@ -159,7 +159,7 @@
             <RadioButton
                 android:id="@+id/tab3"
                 style="@style/custom_tab"
-                android:text="全部动态" />
+                android:text="@string/user_all_states" />
 
         </RadioGroup>
 

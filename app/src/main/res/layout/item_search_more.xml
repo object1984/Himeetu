@@ -6,7 +6,7 @@
     <TextView
         android:paddingLeft="15dp"
         android:id="@+id/text_more"
-        android:text="查看更多"
+        android:text="@string/search_see_more"
         android:drawablePadding="7dp"
         android:layout_centerVertical="true"
         android:drawableLeft="@drawable/ic_search_search"

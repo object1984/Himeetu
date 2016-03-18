@@ -146,7 +146,7 @@ public class SearchActivity extends BaseVolleyActivity implements View.OnClickLi
             if(users != null){
                 View userTitleView = View.inflate(this, R.layout.item_search_title, null);
                 TextView userTextView = (TextView) userTitleView.findViewById(R.id.text_title);
-                userTextView.setText("用户");
+                userTextView.setText(getString(R.string.search_user));
                 resultView.addView(userTitleView);
 
                 for(int i=0; i<users.size(); i++){
@@ -209,7 +209,7 @@ public class SearchActivity extends BaseVolleyActivity implements View.OnClickLi
             if(activities != null){
                 View activityTitleView = View.inflate(this, R.layout.item_search_title, null);
                 TextView activityTextView = (TextView) activityTitleView.findViewById(R.id.text_title);
-                activityTextView.setText("活动");
+                activityTextView.setText(getString(R.string.search_activity));
                 resultView.addView(activityTitleView);
 
                 for(int i=0; i<activities.size(); i++){
@@ -252,7 +252,7 @@ public class SearchActivity extends BaseVolleyActivity implements View.OnClickLi
             if(talks != null){
                 View userTitleView = View.inflate(this, R.layout.item_search_title, null);
                 TextView userTitleTextView = (TextView) userTitleView.findViewById(R.id.text_title);
-                userTitleTextView.setText("动态");
+                userTitleTextView.setText(getString(R.string.search_state));
                 resultView.addView(userTitleView);
 
                 for(int i=0; i<talks.size(); i++){

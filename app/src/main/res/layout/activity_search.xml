@@ -18,7 +18,7 @@
         android:gravity="center"
         android:layout_height="wrap_content">
         <TextView
-            android:text="搜索更多内容"
+            android:text="@string/search_more"
             style="@style/Hi.Text.Big.Grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -42,7 +42,7 @@
                 android:drawableTop="@drawable/ic_search_talk"
                 android:drawablePadding="8dp"
                 android:gravity="center"
-                android:text="动态"
+                android:text="@string/search_state"
                 android:layout_height="wrap_content" />
             <TextView
                 android:padding="5dp"
@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:drawablePadding="8dp"
                 android:gravity="center"
-                android:text="用户"
+                android:text="@string/search_user"
                 android:layout_height="wrap_content" />
             <TextView
                 android:padding="5dp"
@@ -62,7 +62,7 @@
                 android:drawablePadding="8dp"
                 android:gravity="center"
                 android:layout_width="0dp"
-                android:text="活动"
+                android:text="@string/search_activity"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
