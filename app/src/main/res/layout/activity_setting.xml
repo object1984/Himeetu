@@ -15,7 +15,7 @@
         android:background="@color/transparent"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:text="查找好友"
+        android:text="@string/find_friend"
         android:textSize="15sp" />
 
     <RelativeLayout
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="查找facebook好友"
+            android:text="@string/find_friend_facebook"
             android:textColor="#1e1e1e"
             android:textSize="16sp" />
 
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="查找微信好友"
+            android:text="@string/find_friend_weixin"
             android:textColor="#1e1e1e"
             android:textSize="16sp" />
 
@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="查找联系人好友"
+            android:text="@string/find_friend_contact"
             android:textColor="#1e1e1e"
             android:textSize="16sp" />
 
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="邀请好友"
+            android:text="@string/invite_friend"
             android:textColor="#1e1e1e"
             android:textSize="16sp" />
 
@@ -136,7 +136,7 @@
         android:background="@color/transparent"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:text="账户"
+        android:text="@string/setting_account"
         android:textSize="15sp" />
 
     <RelativeLayout
@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="编辑资料"
+            android:text="@string/setting_edit_details"
             android:textColor="#1e1e1e"
             android:textSize="16sp" />
 
@@ -179,7 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="更改密码"
+            android:text="@string/setting_change_password"
             android:textColor="#1e1e1e"
             android:textSize="16sp" />
 
@@ -208,7 +208,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="清理缓存"
+            android:text="@string/setting_clear_cache"
             android:textColor="#1e1e1e"
             android:textSize="16sp" />
 
@@ -233,7 +233,7 @@
         android:layout_height="50dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="退出登录"
+        android:text="@string/setting_logout"
         android:textColor="#1e1e1e"
         android:textSize="18sp" />
 

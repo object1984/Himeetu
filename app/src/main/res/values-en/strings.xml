@@ -5,11 +5,11 @@
         <!-- 登陆 -->
         <string name="login_register"><u>Register Hi Meet account</u></string>
         <string name="login_forget_password"><u>Forget password</u></string>
-        <string name="register_username_hint"> Please enter your email or phone number</string>
-        <string name="register_username_notice">一经填写不可修改</string>
+        <string name="register_username_hint">Enter your email or phone number</string>
+        <string name="register_username_notice">Once filled, non-amended</string>
         <string name="register_password_hint">Set your login password</string>
-        <string name="register_password_notice"><![CDATA[请至少输入6个数字、字母和符号（如！和&）组合的密码。]]></string>
-        <string name="login_has_account">已有账号了吗？</string>
+        <string name="register_password_notice"><![CDATA[Please enter a password for at least 6 digits letters and symbols.]]></string>
+        <string name="login_has_account">Have account already？</string>
 
         <!-- 注册 -->
         <string name="register">Register</string>
@@ -45,13 +45,13 @@
         <string name="notice_validate_code_blank">请输入验证码</string>
         <string name="notice_validate_code_error">验证码不正确</string>
 
-        <string name="no_more">已无更多</string>
+        <string name="no_more">no_more</string>
         <string name="login_username_hint">Please enter your email or phone number</string>
         <string name="login_password_hint">Please enter the password</string>
-        <string name="register_notice_nickname">使用名字可以让朋友更轻松找到你</string>
-        <string name="register_hint_nickname">请输入你的名字，限20个字符</string>
-        <string name="register_notice_birthday">你稍后可以在设置中更改</string>
-        <string name="register_notice_safe">填写安全问题可以帮助您找回密码</string>
+        <string name="register_notice_nickname">Using the name can make your friends find you easier</string>
+        <string name="register_hint_nickname">Enter name with 20 characters.</string>
+        <string name="register_notice_birthday">You can change it later in the settings.</string>
+        <string name="register_notice_safe">Filled security question can help you get your password back</string>
         <string name="logout">Logout</string>
         <string name="cancel">cancel</string>
         <string name="edit_user_data">Edit details</string>
@@ -84,11 +84,12 @@
 
 
         <!--拍照-->
-        <string name="photo_take">拍照</string>
+        <string name="photo_take">Take photo</string>
 
 
         <!--分享至-->
-        <string name="share_to">分享至</string>
+        <string name="share_state">Share State</string>
+        <string name="share_to">Share on</string>
 
         <string name="network_check_error">网络不给力\n点击屏幕重试</string>
         <!--搜索-->
@@ -123,4 +124,29 @@
     <string name="search_hint">Search</string>
     <string name="search_cancel">Cancel</string>
     <string name="search_see_more">See more</string>
+
+    <string name="user_birthday">Birthday:</string>
+    <string name="user_sexual">Sexual:</string>
+    <string name="user_phone_number">Phone number:</string>
+    <string name="edit_head">Edit photo</string>
+
+    <string name="user_nickname">Nickname:</string>
+    <string name="user_security_question">Security question:</string>
+    <string name="user_question_answer_hint">Please enter your answer</string>
+    <string name="share_weixin">weixin</string>
+    <string name="share_weibo">weibo</string>
+    <string name="click_add_topic">＃Say something</string>
+    <string name="share_call_user">Mention</string>
+    <string name="share_photo_hint">Photo descripition</string>
+
+    <string name="find_friend">Find friends</string>
+    <string name="find_friend_facebook">Find friends from Facebook</string>
+    <string name="find_friend_weixin">Find friends from Weixin</string>
+    <string name="find_friend_contact">Find friends from Contact</string>
+    <string name="invite_friend">Invite</string>
+    <string name="setting_account">Account</string>
+    <string name="setting_edit_details">Edit details</string>
+    <string name="setting_change_password">Change password</string>
+    <string name="setting_clear_cache">Clear cache</string>
+    <string name="setting_logout">Log out</string>
 </resources>

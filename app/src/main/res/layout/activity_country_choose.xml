@@ -42,7 +42,7 @@
                 android:id="@+id/sidrbar"
                 android:layout_width="30.0dip"
                 android:layout_height="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.8"
                 />
         </LinearLayout>
         <Button

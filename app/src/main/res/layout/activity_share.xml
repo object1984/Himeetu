@@ -36,7 +36,7 @@
            android:textColor="@color/text_black"
            android:textColorHint="@color/text_hint_grey"
            android:text=""
-           android:hint="请输入"
+           android:hint="@string/share_photo_hint"
            android:id="@+id/text_content"
            android:layout_toRightOf="@+id/img_add"
            android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         android:layout_height="45dp">
        <TextView
            style="@style/Hi.Text.Normal.Dark"
-           android:text="圈人"
+           android:text="@string/share_call_user"
            android:gravity="center"
            android:layout_weight="1"
            android:layout_width="0dp"
@@ -67,7 +67,7 @@
         <TextView
             android:gravity="center"
             style="@style/Hi.Text.Normal.Grey"
-            android:text="＃点击添加话题"
+            android:text="@string/click_add_topic"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent" />
@@ -172,7 +172,7 @@
                 android:layout_toRightOf="@+id/img_weixin"
                 android:layout_centerVertical="true"
                 style="@style/Hi.Text.Normal.Dark"
-                android:text="微信"
+                android:text="@string/share_weixin"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -202,7 +202,7 @@
                 android:layout_toRightOf="@+id/img_weibo"
                 android:layout_centerVertical="true"
                 style="@style/Hi.Text.Normal.Dark"
-                android:text="新浪微博"
+                android:text="@string/share_weibo"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -213,7 +213,7 @@
         android:textColor="@color/text_write"
         android:textSize="@dimen/font_normal"
         android:layout_alignParentBottom="true"
-        android:text="分享状态"
+        android:text="@string/share_state"
         android:background="@drawable/selector_btn_purple"
         android:layout_width="match_parent"
         android:layout_height="40dp" />

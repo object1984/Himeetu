@@ -26,7 +26,7 @@
           >
 
             <TextView
-                android:text="昵称: "
+                android:text="@string/user_nickname"
                 style="@style/Hi.Text.Normal.Dark"/>
             <EditText
                 android:id="@+id/edit_nickname"
@@ -75,7 +75,7 @@
             android:paddingRight="13dp"
             android:layout_marginBottom="15dp">
             <TextView
-                android:text="性别: "
+                android:text="@string/user_sexual"
                 style="@style/Hi.Text.Normal.Dark"/>
             <TextView
                 android:id="@+id/text_sex"
@@ -90,8 +90,7 @@
                 android:nextFocusDown="@+id/edit_password"
                 android:maxLength="14"
                 android:focusable="true"
-                android:text="男"
-                android:hint="@string/register_username_hint"
+                android:text=""
                 android:textColorHint="@color/text_grey"
                 android:layout_height="match_parent" />
 
@@ -104,7 +103,7 @@
             android:paddingRight="13dp"
             >
             <TextView
-                android:text="生日: "
+                android:text="@string/user_birthday"
                 style="@style/Hi.Text.Normal.Dark"/>
             <TextView
                 android:id="@+id/text_birthday"
@@ -137,7 +136,7 @@
             android:paddingLeft="13dp"
             android:layout_marginBottom="4dp">
             <TextView
-                android:text="安全问题: "
+                android:text="@string/user_security_question"
                 style="@style/Hi.Text.Normal.Dark"/>
             <EditText
                 android:id="@+id/edit_safe_question"
@@ -150,7 +149,6 @@
                 android:nextFocusDown="@+id/btn_login"
                 android:inputType="textPassword"
                 android:layout_weight="1"
-                android:hint="@string/register_password_hint"
                 android:textColorHint="@color/text_grey"
                 android:layout_height="match_parent" >
                 </EditText>
@@ -171,7 +169,7 @@
                 android:nextFocusDown="@+id/btn_login"
                 android:inputType="textPassword"
                 android:layout_weight="1"
-                android:hint="请输入你的回答"
+                android:hint="@string/user_question_answer_hint"
                 android:textColorHint="@color/text_grey"
                 android:layout_height="match_parent" >
             </EditText>
@@ -190,7 +188,7 @@
             <Button
                android:layout_centerInParent="true"
                 android:id="@+id/btn_next"
-                android:text="下一步"
+                android:text="@string/register_next"
                 android:enabled="false"
                 android:textSize="@dimen/font_normal"
                 android:textColor="@color/white"
