@@ -44,6 +44,7 @@ import com.himeetu.ui.base.CommonWebActivity;
 import com.himeetu.ui.login.LoginActivity;
 import com.himeetu.util.DateUtils;
 import com.himeetu.util.JsonUtil;
+import com.himeetu.util.LogUtil;
 import com.himeetu.util.RoundedTransformation;
 import com.himeetu.util.ToastUtil;
 import com.himeetu.view.ADViewPager;
@@ -54,6 +55,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -349,6 +351,12 @@ public class HomeFragment extends BaseVolleyFragment implements View.OnClickList
         swipeToLoadLayout.setLoadingMore(false);
         if (!isLogin) {
             return;
+        }
+
+        try {
+            LogUtil.d("ECODE", URLDecoder.decode("&#x6d4b&#x6e29&#x9722", "utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
         if (TAG_API_GET_TOP_RECOMMEND.equals(tag)) {

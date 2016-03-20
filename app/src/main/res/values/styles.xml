@@ -71,6 +71,11 @@
 
         <item name="android:textColor">@color/text_grey</item>
     </style>
+
+    <style name="Hi.Text.Small.Black"  parent="Hi.Text.Small">
+
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="Hi.Text.Normal" >
         <item name="android:textSize">@dimen/font_normal</item>
         </style>

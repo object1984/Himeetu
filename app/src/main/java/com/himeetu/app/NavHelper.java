@@ -18,7 +18,7 @@ import com.himeetu.ui.photo.ImageShowActivity;
 import com.himeetu.ui.search.SearchMoreUserActivity;
 import com.himeetu.ui.main.UserActivity;
 import com.himeetu.ui.search.SearchActivity;
-import com.himeetu.ui.main.ShareActivity;
+import com.himeetu.ui.share.ShareActivity;
 import com.himeetu.ui.main.TopicDetailsActivity;
 import com.himeetu.ui.main.TopicHighlightsActivity;
 import com.himeetu.ui.my.AttentionActivity;
@@ -33,6 +33,7 @@ import com.himeetu.ui.setup.EditPassWordActivity;
 import com.himeetu.ui.setup.EditUserDetailActivity;
 import com.himeetu.ui.setup.InviteFriendsActivity;
 import com.himeetu.ui.setup.SettingsActivity;
+import com.himeetu.ui.share.TalkListActivity;
 
 
 public class NavHelper {
@@ -71,7 +72,7 @@ public class NavHelper {
         intent.setClass(activity, CountryChooseActivity.class);
         activity.startActivity(intent);
     }
-    public static void toIdentityPage(Activity activity, String username, String password, int countryCode) {
+    public static void toIdentityPage(Activity activity, String username, String password, String countryCode) {
         Intent intent = new Intent();
         intent.putExtra(Argument.USERNAME, username);
         intent.putExtra(Argument.PASSWORD, password);
@@ -135,6 +136,18 @@ public class NavHelper {
         intent.setClass(activity, TopicHighlightsActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
+    }
+
+    /**
+     * 转去话题列表选择一个话题
+     * @param activity
+     */
+    public static void toChooseTalk(Activity activity){
+        Intent intent = new Intent();
+        intent.setClass(activity, TalkListActivity.class);
+        activity.startActivityForResult(intent, 20);
+        forwardAnim(activity);
+
     }
 
     public static void toTopicDetailsPage(Activity activity){

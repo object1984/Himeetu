@@ -10,8 +10,6 @@
     <com.tencent.smtt.sdk.WebView
         android:scrollbars="none"
 	     android:id="@+id/web_view"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
         android:layout_below="@+id/toolbar"
 	     android:layout_width="match_parent"
 	     android:layout_height="match_parent"

@@ -134,7 +134,7 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
     }
 
     private void start(){
-        startButton.setText("正在验证...");
+        startButton.setText(R.string.register_verifying);
         String code = invitationEditText.getText().toString();
         checkInvitationCode(code);
     }
@@ -164,7 +164,7 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
         LogUtil.d(TAG, "onResponse.TAG=" + tag);
 
         if(gsonResult.getCode() == 1){
-            ToastUtil.show("邀请码无效");
+            ToastUtil.show(getString(R.string.register_invitation_code_error));
             startButton.setText(R.string.register_start);
         }else if(gsonResult.getCode() == 0){
             NavHelper.toRegisterPage(this);
@@ -173,12 +173,12 @@ public class InvitationCodeActivity extends BaseVolleyActivity implements TextWa
 
     @Override
     public void onSoftKeyboardOpened(int keyboardHeightInPx) {
-        ToastUtil.show("打开");
+//        ToastUtil.show("打开");
     }
 
     @Override
     public void onSoftKeyboardClosed() {
-        ToastUtil.show("关闭");
+//        ToastUtil.show("关闭");
     }
 
     private boolean isZh() {

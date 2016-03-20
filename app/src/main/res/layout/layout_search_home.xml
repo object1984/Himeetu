@@ -19,7 +19,7 @@
                 android:id="@+id/text_search"
                 android:drawablePadding="5dp"
                 android:textColor="@color/text_write"
-                android:text="搜索"
+                android:text="@string/search"
                 android:textSize="@dimen/font_small"
                 android:drawableLeft="@drawable/ic_search"
                 android:gravity="center"

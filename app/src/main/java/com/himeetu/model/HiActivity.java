@@ -1,8 +1,11 @@
 package com.himeetu.model;
 
+import android.text.Html;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.net.URLDecoder;
 import java.util.Date;
 
 /**
@@ -31,7 +34,7 @@ public class HiActivity implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return Html.fromHtml(name).toString();
     }
 
     public void setName(String name) {
@@ -63,7 +66,7 @@ public class HiActivity implements Serializable {
     }
 
     public String getAddress() {
-        return address;
+       return  Html.fromHtml(address).toString();
     }
 
     public void setAddress(String address) {
@@ -71,7 +74,7 @@ public class HiActivity implements Serializable {
     }
 
     public String getDescription() {
-        return description;
+        return Html.fromHtml(description).toString();
     }
 
     public void setDescription(String description) {

@@ -28,6 +28,7 @@ import com.himeetu.util.ToastUtil;
 import com.himeetu.view.HiSurfaceView;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by object1984 on 15/12/21.
@@ -64,6 +65,8 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
     protected void setupListeners() {
         super.setupListeners();
         findViewById(R.id.btn_photo_take).setOnClickListener(this);
+        findViewById(R.id.toolbar_flash).setOnClickListener(this);
+        findViewById(R.id.toolbar_camera_toggle).setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +87,17 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
                     hiSurfaceView.takePicture();
                     NavHelper.toPhotoTakeResultPage(this);
                 break;
+            case R.id.toolbar_flash:
+                hiSurfaceView.toggleFlash();
+                break;
+            case R.id.toolbar_camera_toggle:
+                try {
+                    hiSurfaceView.changeCamera();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    ToastUtil.show("camera error");
+                }
+                break;
         }
     }
 
@@ -98,4 +112,6 @@ public class TakePhotoActivity extends BaseActivity implements View.OnClickListe
         super.onStop();
 
     }
+
+
 }

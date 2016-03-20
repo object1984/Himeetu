@@ -27,7 +27,7 @@ public class Api {
         MEETApplication.addRequest(ApiRequests.userLoginStep_2(key, uid, time, type,  listener, errorListener), tag);
     }
 
-    public static void userRegister(String tag, String username, String password, String email, String safeCode, String nickname,  String birthday, int countryCode, int sex, Response.Listener listener, Response.ErrorListener errorListener){
+    public static void userRegister(String tag, String username, String password, String email, String safeCode, String nickname,  String birthday, String countryCode, int sex, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.userRegister(username, password, safeCode, birthday, nickname, email, sex, countryCode,  listener, errorListener), tag);
     }
 
@@ -251,5 +251,17 @@ public class Api {
      */
     public static void searchTalk(String tag,  String talk, int start,int limit, Response.Listener listener, Response.ErrorListener errorListener){
         MEETApplication.addRequest(ApiRequests.searchTalk(talk, start, limit, listener, errorListener), tag);
+    }
+
+    /**
+     * 查询动态
+     * @param tag
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     */
+    public static void getTalks(String tag, int start,int limit, Response.Listener listener, Response.ErrorListener errorListener){
+        MEETApplication.addRequest(ApiRequests.getTalks(start, limit, listener, errorListener), tag);
     }
 }

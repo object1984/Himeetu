@@ -44,7 +44,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Recommend item = mRecommendItems.get(position);
-            ((RecommendViewHolder) holder).mTitleTextView.setText(item.getTitle());
+            ((RecommendViewHolder) holder).mTitleTextView.setText(item.getName());
 
         Picasso.with(mContext).load(item.getImgPath()).placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into(((RecommendViewHolder) holder).mIconImageView);

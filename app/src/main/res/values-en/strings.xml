@@ -149,4 +149,12 @@
     <string name="setting_change_password">Change password</string>
     <string name="setting_clear_cache">Clear cache</string>
     <string name="setting_logout">Log out</string>
+
+    <string name="talk_list">Talk list</string>
+
+    <string name="register_verifying">Verifying...</string>
+    <string name="register_invitation_code_error">Please enter the correct invitation code</string>
+    <string name="find_password_notice_1">Enter your nickname when you register.</string>
+    <string name="find_password_notice_2">Enter the question and answer when you register.</string>
+    <string name="home_recommend">Wonderful recommendation</string>
 </resources>

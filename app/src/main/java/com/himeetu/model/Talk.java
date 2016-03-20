@@ -1,5 +1,7 @@
 package com.himeetu.model;
 
+import android.text.Html;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -80,7 +82,7 @@ public class Talk implements Serializable {
      * The name
      */
     public String getName() {
-        return name;
+        return  Html.fromHtml(name).toString();
     }
 
     /**

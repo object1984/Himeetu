@@ -141,4 +141,11 @@
     <string name="setting_clear_cache">清理缓存</string>
     <string name="setting_logout">退出登录</string>
 
+    <string name="talk_list">话题列表</string>
+    <string name="register_verifying">正在验证...</string>
+    <string name="register_invitation_code_error">邀请码无效</string>
+
+    <string name="find_password_notice_1">输入你注册是填写的昵称</string>
+    <string name="find_password_notice_2">输入您注册时填写的问题和答案</string>
+    <string name="home_recommend">精彩推荐</string>
 </resources>

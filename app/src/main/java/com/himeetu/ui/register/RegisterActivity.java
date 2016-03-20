@@ -49,9 +49,8 @@ public class RegisterActivity extends BaseVolleyActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
-
         setContentView(R.layout.activity_register);
+        setStatusBarColor(R.color.black);
         setupToolbar(false, R.string.register);
         init();
     }

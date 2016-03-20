@@ -1,14 +1,18 @@
 package com.himeetu.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.opengl.GLException;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -32,8 +36,13 @@ public class HiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     private static final int SURFAVCE_HEIGHT = 1080;
     private static final int PICTURE_WIDTH = 1280;
     private static final int PICTURE_HEIGHT= 720;
+    private static final String TAG = "HiSurfaceView";
     private Camera camera = null;
     private SurfaceHolder surfaceHolder = null;
+
+    // 0表示后置，1表示前置
+    private int cameraPosition = 0;
+    private boolean isFlashOn = false;//当前打开的摄像头标记
 
     public HiSurfaceView(Context context) {
         super(context);
@@ -154,7 +163,9 @@ public class HiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap
                     .getHeight(), matrix, true);
 
-
+            if(cameraPosition == 1){
+                bitmap =  photo(bitmap);
+            }
             Date date = new Date();
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss"); // 格式化时间
             String filename = format.format(date) + ".jpg";
@@ -177,4 +188,124 @@ public class HiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    private Bitmap photo(Bitmap bitmap){
+            LogUtil.d(TAG, "rotate photo");
+            //旋转图片使其校正
+            return rotate(bitmap, 180, bitmap.getWidth(), bitmap.getHeight());
+    }
+
+    public static Bitmap rotate(Bitmap b, int degrees, int reqWidth, int reqHeight) {
+        if (degrees != 0 && b != null) {
+            Matrix m = new Matrix();
+            m.setRotate(degrees,
+                    (float) b.getWidth() / 2, (float) b.getHeight() / 2);
+            try {
+                Bitmap b2 = Bitmap.createBitmap(
+                        b, 0, 0, b.getWidth(), b.getHeight(), m, true);
+                if (b != b2) {
+                    b.recycle();
+                    b = b2;
+                }
+            } catch (OutOfMemoryError ex) {
+                // 建议大家如何出现了内存不足异常，最好return 原始的bitmap对象。.
+//                return  getSampledBitmap(filePath, reqWidth, reqHeight);
+            }
+        }
+        return b;
+    }
+
+    /**
+     * 释放mCamera
+     */
+    private void releaseCamera() {
+        if (camera != null) {
+            camera.setPreviewCallback(null);
+            camera.stopPreview();// 停掉原来摄像头的预览
+            camera.release();
+            camera = null;
+        }
+    }
+
+
+    /**
+     * 设置camera显示取景画面,并预览
+     * @param camera
+     */
+    private void setStartPreview(Camera camera,SurfaceHolder holder){
+        try {
+            camera.setPreviewDisplay(holder);
+            camera.startPreview();
+        } catch (IOException e) {
+            LogUtil.d(TAG, "Error starting camera preview: " + e.getMessage());
+        }
+    }
+
+    public void changeCamera() throws IOException {
+// 切换前后摄像头
+        int cameraCount = 0;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();// 得到摄像头的个数
+
+        for (int i = 0; i < cameraCount; i++) {
+            Camera.getCameraInfo(i, cameraInfo);// 得到每一个摄像头的信息
+            if (cameraPosition == 0) {
+                // 现在是后置，变更为前置
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    /**
+                     * 记得释放camera，方便其他应用调用
+                     */
+                    releaseCamera();
+                    // 打开当前选中的摄像头
+                    camera = Camera.open(i);
+                    camera.setDisplayOrientation(90);
+                    // 通过surfaceview显示取景画面
+                    setStartPreview(camera, surfaceHolder);
+                    cameraPosition = 1;
+                    break;
+                }
+            } else {
+                // 现在是前置， 变更为后置
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                    /**
+                     * 记得释放camera，方便其他应用调用
+                     */
+                    releaseCamera();
+                    camera = Camera.open(i);
+                    camera.setDisplayOrientation(90);
+                    setStartPreview(camera, surfaceHolder);
+                    cameraPosition = 0;
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public void toggleFlash(){
+        if(isFlashOn){
+            setFlashOff();
+        }else {
+            setFlashOn();
+        }
+    }
+
+    public void setFlashOn(){
+        Camera.Parameters   parameter = camera.getParameters();
+
+        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+
+        camera.setParameters(parameter);
+
+        isFlashOn = true;
+    }
+
+    public void setFlashOff(){
+        Camera.Parameters   parameter = camera.getParameters();
+
+        parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+
+        camera.setParameters(parameter);
+
+        isFlashOn = false;
+    }
 }

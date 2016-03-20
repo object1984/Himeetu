@@ -13,7 +13,7 @@ public class UrlPatten {
         public static final String URL_CHECK_INVITATION_CODE= URL_ACCOUNT_BASE +"/invite/check?invite=%s";
         public static final String URL_CHECK_USERNAME= URL_ACCOUNT_BASE +"/user/check?name=%s";
         public static final String URL_CHECK_NICKNAME= URL_ACCOUNT_BASE +"/role/check?rolename=%s";
-        public static final String URL_USER_REGISTER= URL_ACCOUNT_BASE +"/user/add?name=%s&password=%s&email=%s&safecode=%s&rolename=%s&nation=%d&birthday=%s&sex=%d";
+        public static final String URL_USER_REGISTER= URL_ACCOUNT_BASE +"/user/add?name=%s&password=%s&email=%s&safecode=%s&rolename=%s&nation=%s&birthday=%s&sex=%d";
         public static final String URL_USER_LOGIN_STEP_1= URL_ACCOUNT_BASE +"/user/login?name=%s&password=%s";
         public static final String URL_USER_LOGIN_STEP_2= URL_API_BASE +"/user/login?key=%s&uid=%d&time=%d&type=%d";
         public static final String URL_USER_SELF_INFO= URL_API_BASE +"/userdata/getselfdata";
@@ -80,4 +80,7 @@ public class UrlPatten {
 
     //查询动态
     public static final String URL_SEARCH_TALK = URL_API_BASE + "/photo/search?des=%s&start=%d&limit=%d";
+
+    //获取话题列表
+    public static final String URL_GET_TALK_LIST = URL_API_BASE + "/talking/getlist?start=%d&limit=%d";
 }

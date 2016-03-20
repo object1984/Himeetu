@@ -64,7 +64,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
 	
-		viewHolder.tvTitle.setText(String.format("%s  %s",this.list.get(position).getCnName(),  this.list.get(position).getEnName()));
+		viewHolder.tvTitle.setText(String.format("%s",this.list.get(position).getEnName()));
 
 		viewHolder.tvTitle.setSelected(mContent.isSelected());
 

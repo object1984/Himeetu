@@ -101,7 +101,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:screenOrientation="portrait"
-            android:name=".ui.main.ShareActivity"
+            android:name=".ui.share.ShareActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:screenOrientation="portrait"
@@ -150,6 +150,11 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".ui.photo.ImageShowActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.share.TalkListActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.login.LoginActivity"

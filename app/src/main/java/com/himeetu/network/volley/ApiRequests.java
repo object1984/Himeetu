@@ -75,7 +75,7 @@ public class ApiRequests {
                                                           @NonNull final String nickname,
                                                           @NonNull final String email,
                                                           @NonNull final int sex,
-                                                          @NonNull final int countryCode,
+                                                          @NonNull final String countryCode,
                                                           @NonNull final Response.Listener<GsonResult> listener,
                                                                                                     @NonNull final Response.ErrorListener errorListener) {
         final String url = String.format(UrlPatten.URL_USER_REGISTER, username, password, email, safeCode, nickname, countryCode, birthday, sex);
@@ -425,6 +425,24 @@ public class ApiRequests {
         final String url = String.format(UrlPatten.URL_SEARCH_TALK, talk, start, limit);
         return doGet(url, listener, errorListener);
     }
+
+    /**
+     * 获取话题列表
+     * @param start
+     * @param limit
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public static Request<?> getTalks(
+            @NonNull final int start,
+            @NonNull final int limit,
+            @NonNull final Response.Listener listener,
+            @NonNull final Response.ErrorListener errorListener){
+        final String url = String.format(UrlPatten.URL_GET_TALK_LIST, start, limit);
+        return doGet(url, listener, errorListener);
+    }
+
 
 
     public static GsonGetRequest<GsonResult> doGet(@NonNull final String url, @NonNull final Response.Listener<GsonResult> listener, @NonNull final Response.ErrorListener errorListener) {

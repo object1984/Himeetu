@@ -3,8 +3,8 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
     <com.himeetu.view.AutoScaleImageView
         android:id="@+id/img_ad"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/img_default"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="150dp" />
 </com.himeetu.view.AutoRelativeLayout>

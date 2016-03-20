@@ -191,6 +191,11 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
         View headerView = inflater.inflate(R.layout.header_list_favorite, mEndActivityListView, false);
         mCurrentSelectedHiActivityNameTextView = (TextView)headerView.findViewById(R.id.text_name);
+
+         View footerView = inflater.inflate(R.layout.item_list_footer_common, mEndActivityListView, false);
+
+        mEndActivityListView.addFooterView(footerView);
+
         mEndActivityListView.addHeaderView(headerView);
         mEndActivityListView.setAdapter(mHiActivityListAdapter);
         mEndActivityListView.setOnItemClickListener(this);

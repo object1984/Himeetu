@@ -1,8 +1,14 @@
 package com.himeetu.model;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.text.Html;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * Created by object1984 on 15/11/28.
@@ -12,21 +18,16 @@ public class Recommend implements Serializable {
     private int type;
     @SerializedName("dataid")
     private int dataId;
-    @SerializedName("name")
-    private String title;
+    private String name;
     @SerializedName("img")
     private String imgPath;
 
-    public Recommend(String title) {
-        this.title = title;
+    public String getName() {
+        return  Html.fromHtml(name).toString();
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImgPath() {

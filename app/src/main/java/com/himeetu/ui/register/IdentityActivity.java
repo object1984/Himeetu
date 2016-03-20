@@ -44,8 +44,8 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeTranslucent();
         setContentView(R.layout.activity_identity);
+        setStatusBarColor(R.color.black);
         setupToolbar(false, R.string.your_identity);
         init();
     }
@@ -148,7 +148,7 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
    private void  doRegister(){
        String username = getIntent().getStringExtra(Argument.USERNAME);
        String password = getIntent().getStringExtra(Argument.PASSWORD);
-       int countryCode = getIntent().getIntExtra(Argument.COUNTRY_CODE, 0);
+       String countryCode = getIntent().getStringExtra(Argument.COUNTRY_CODE);
 
         String nickName = nicknameEditText.getText().toString().trim();
         int sex = sexTextView.getText().toString().trim().equals(getString(R.string.male)) ? 0 : 1;
@@ -156,7 +156,7 @@ public class IdentityActivity extends BaseVolleyActivity implements View.OnClick
         String safeCode = safeQuestionEditText.getText().toString().trim() + safeAnswerEditText.getText().toString().trim();
 
        try {
-           Api.userRegister(TAG_API_USER_REGISTER, username, password, username,  URLEncoder.encode(safeCode, "utf-8"), nickName, birthday, countryCode, sex, this, this);
+           Api.userRegister(TAG_API_USER_REGISTER, username, password, username,  URLEncoder.encode(safeCode, "utf-8"), URLEncoder.encode(nickName, "utf-8"), birthday, countryCode, sex, this, this);
        } catch (UnsupportedEncodingException e) {
            e.printStackTrace();
        }
