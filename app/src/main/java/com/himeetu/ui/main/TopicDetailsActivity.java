@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,11 +50,12 @@ import java.util.List;
  * Created by zhangshuaiqi on 2015/12/19.
  * 话题详情页
  */
-public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnClickListener, AdapterView.OnItemClickListener,OnRefreshListener, OnLoadMoreListener {
+public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnClickListener, AdapterView.OnItemClickListener, OnRefreshListener, OnLoadMoreListener {
     private final String TAG_API_TOPICDETAILS = "TAG_API_TOPICDETAILS";//获取话题详情
     private final String TAG_API_TOPICDETAILS_FOLLOW = "TAG_API_TOPICDETAILS_FOLLOW";//话题详情关注
     private final String TAG_API_TOPICDETAILS_COMMENT = "TAG_API_TOPICDETAILS_COMMENT";//发表评论(二级评论)
     private final String TAG_API_COMMENT_PICTURE = "TAG_API_COMMENT_PICTURE";//评论用户的图片
+    private final String TAG_API_TOPICDETAILS_ZAN = "tag_api_topicdetails_zan";//点赞标签
     private RoundedImageView img_head_portrait;//用户头像
     private TextView tv_details_user_name;//用户名
     private TextView tv_details_publication_time;//发表时间
@@ -65,6 +67,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
     private Button bnt_send_comments;//发表
     private SwipeToLoadLayout swipeToLoadLayout; //刷新
     private ListView lv_details_topic;//列表
+    private ImageButton img_praise;//点赞button
     private QuickAdapter<TopicComments.TopicCommentsItem> quickAdapter;
     private int pageSize = 10;//每页要展示条数
     private int pageIndex = 1;//当前页码
@@ -97,6 +100,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         tv_details_praise = (TextView) headerView.findViewById(R.id.tv_details_praise);
         edit_send_comments = (EditText) findViewById(R.id.edit_send_comments);
         bnt_send_comments = (Button) findViewById(R.id.bnt_send_comments);
+        img_praise = (ImageButton) findViewById(R.id.img_praise);
         swipeToLoadLayout = (SwipeToLoadLayout) findViewById(R.id.swipeToLoadLayout);
         swipeToLoadLayout.setOnRefreshListener(this);
         swipeToLoadLayout.setOnLoadMoreListener(this);
@@ -110,6 +114,11 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         talk = (Talk) getIntent().getSerializableExtra(Argument.TALK);
         tv_details_user_name.setText(talk.getRolename());//用户名
         tv_details_praise.setText(String.format("%d 赞", talk.getLikenum()));//赞数量
+        if (talk.getIstouched() == -1) {//是否点过赞
+            img_praise.setSelected(false);
+        } else {
+            img_praise.setSelected(true);
+        }
         //发表时间
         Date date = DateUtils.parse(talk.getCtime());
         String timeStr = date.getTime() + "";
@@ -128,7 +137,8 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
             @Override
             public void onClick(View v) {
                 NavHelper.toImageShowActivity(TopicDetailsActivity.this, talk.getImgPath());
-            }});
+            }
+        });
         quickAdapter = new QuickAdapter<TopicComments.TopicCommentsItem>(this, R.layout.item_list_details_topic) {
             @Override
             protected void convert(BaseAdapterHelper helper, TopicComments.TopicCommentsItem item) {
@@ -165,6 +175,7 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
         lv_details_topic.setOnItemClickListener(this);
         tv_details_follow.setOnClickListener(this);
         bnt_send_comments.setOnClickListener(this);
+        img_praise.setOnClickListener(this);
     }
 
     @Override
@@ -218,6 +229,35 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
                     edit_send_comments.setText("");//清空
                     break;
             }
+        } else if (TAG_API_TOPICDETAILS_ZAN.equals(tag)) {//点赞
+            int code = response.getCode();
+            //Result： 0 表示成功，1 参数错误，2 未登录，3 权限不够，4 重复操作
+            switch (code) {
+                case 0:
+                    if (talk.getIstouched() == -1) {//是否点过赞
+                        talk.setIstouched(1);
+                        img_praise.setSelected(true);
+                        ToastUtil.show("点赞成功");
+                    } else {
+                        talk.setIstouched(-1);
+                        img_praise.setSelected(false);
+                        ToastUtil.show("取消点赞");
+                    }
+                    break;
+                case 1:
+                    ToastUtil.show("参数错误");
+                    break;
+                case 2:
+                    ToastUtil.show("未登录");
+                    break;
+                case 3:
+                    ToastUtil.show("权限不够");
+                    break;
+                case 4:
+                    ToastUtil.show("重复操作");
+                    break;
+            }
+
         }
     }
 
@@ -249,8 +289,25 @@ public class TopicDetailsActivity extends BaseVolleyActivity implements View.OnC
                 Api.commentPicture(TAG_API_COMMENT_PICTURE, talk.getImgid(), edit_send_comments.getText().toString().trim(), this, this);
 //                Api.commentNews(TAG_API_TOPICDETAILS_COMMENT, 8, edit_send_comments.getText().toString().trim(), this, this);//tid = 18
                 break;
+            case R.id.img_praise:
+                //点赞，取消点赞
+                if (talk.getIstouched() == -1) {
+                    setImgZan(talk.getImgid(), 1);
+                } else {
+                    setImgZan(talk.getImgid(), 0);
+                }
+                break;
         }
 
+    }
+
+    /**
+     * 点赞请求
+     *
+     * @param imgId
+     */
+    private void setImgZan(String imgId, int i) {
+        Api.setImgZAN(TAG_API_TOPICDETAILS_ZAN, imgId, i, this, this);
     }
 
     @Override

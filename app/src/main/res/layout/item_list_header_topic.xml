@@ -124,8 +124,8 @@
             android:id="@+id/img_praise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@drawable/ic_zan_n" />
+            android:background="@color/transparent"
+            android:src="@drawable/selector_home_zan" />
 
         <ImageButton
             android:id="@+id/img_comment"
