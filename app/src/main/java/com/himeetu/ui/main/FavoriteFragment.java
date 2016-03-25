@@ -30,6 +30,7 @@ import com.himeetu.model.HiActivity;
 import com.himeetu.ui.base.BaseVolleyFragment;
 import com.himeetu.util.DateUtils;
 import com.himeetu.util.JsonUtil;
+import com.himeetu.util.LogUtil;
 import com.himeetu.view.ClipViewPager;
 import com.himeetu.view.ScalePageTransformer;
 import com.squareup.picasso.Picasso;
@@ -100,7 +101,7 @@ public class FavoriteFragment extends BaseVolleyFragment implements View.OnClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        NavHelper.toActivityTalksPage(getActivity());
+        NavHelper.toActivityTalksPage(getActivity(), mHiActivityListAdapter.getItem(position-1));
     }
 
     public  class HIActivityAdapter extends PagerAdapter {

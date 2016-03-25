@@ -131,8 +131,9 @@ public class NavHelper {
         forwardAnim(activity);
     }
 
-    public static void toActivityTalksPage(Activity activity){
+    public static void toActivityTalksPage(Activity activity, HiActivity hiActivity){
         Intent intent = new Intent();
+        intent.putExtra(Argument.HIACTIVITY, hiActivity);
         intent.setClass(activity, TopicHighlightsActivity.class);
         activity.startActivity(intent);
         forwardAnim(activity);
